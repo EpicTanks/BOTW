@@ -171,12 +171,11 @@ public class CharacterSheet{
       for(int j = 0; j < 2; j++){
         if(inv.checkEmpty(i,j)){
           inv.add(q,i,j);
-          System.out.println("Added item!");         
+          System.out.println(name + " picked up the " + q.name);         
           return true;
         }        
       }
     }
-    System.out.println("NO SPACCEEEE");
     return false;
   }
   
