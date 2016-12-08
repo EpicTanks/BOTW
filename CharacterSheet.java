@@ -7,85 +7,157 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
 public class CharacterSheet{
- private String name;
- private int hp;
- private int mp;
- private int bp;
- private int str;
- private int spd;
- private int smrt;
- private int spch;
- private Inventory inv;
- private Armour armr;
- private String[] abilities = new String[2];
- 
- public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, String ab1, String ab2){
-   //Births a new character from the bowels of the machine god
-   this.name = name;
-   //set stats
-   this.mp = mp;
-   //yuo dont get a gune
-   this.bp = 0;
-   //set ability scores
-   this.str = str;
-   this.spd = spd;
-   this.spch = spch;
-   this.smrt = smrt;
-   this.hp = str*2;
-   //set starting abilities
-   abilities[0] = ab1;
-   abilities[1] = ab2;
-   //create the player's inventory
-   inv = new Inventory(name);
-   //no armr to start
- }
- 
- public CharacterSheet(String name){
-  this.name = name;
-   inv = new Inventory(name); 
- }
- 
- public void changeHP(int mod){
-  hp += mod;
- }
- 
- public void changeBP(int mod){
-   if(bp <= 0){
-     //reload the gune, setting bp to max once more.
-   }
-   else{
-   bp += mod;
-   }
- }
- 
- public void paint(Graphics2D g2d){
-  inv.paint(g2d); 
- }
- 
- public void useAbility(String a){
-   for(int k = 0; k < abilities.length; k++){
-     //ensure teh player has this ability
-     if (abilities[k] == a){
-      //get it ON 
-     }
-     else{
-      // newnewne 
-     }
-     
-   }
+  private String name;
+  private int hp;
+  private int mp;
+  private int bp;
+  private int str;
+  private int spd;
+  private int smrt;
+  private int spch;
+  private int partyOrder;
+  private Inventory inv;
+  private Armour armr;
+  public BufferedImage portrait = null;
+  public BufferedImage bg = null;
+  public BufferedImage abilBG = null;
+  private String[] abilities = new String[2];
+  private boolean invVis;
+  private boolean statVis;
+  
+  
+  public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
+    //Births a new character from the bowels of the machine god
+    this.name = name;
+    //set stats
+    this.mp = mp;
+    //yuo dont get a gune
+    this.bp = 0;
+    //set ability scores
+    this.str = str;
+    this.spd = spd;
+    this.spch = spch;
+    this.smrt = smrt;
+    this.hp = str*2;
+    //set starting abilities
+    abilities[0] = ab1;
+    abilities[1] = ab2;
+    //create the player's inventory
+    inv = new Inventory(this,192,partyOrder*74);
+    //no armr to start
+    loadImages(name);
+    partyOrder = po;
+  }
+  
+  //dumbed down creator
+  public CharacterSheet(String name, int po){
+    this.name = name;
+    partyOrder = po;
+    inv = new Inventory(this,192,partyOrder*74); 
+    loadImages(name);
+    this.hp = 5;
+    this.mp = 5;
+    this.bp = 5;
+  }
+  
+  public void loadImages(String n){    
+    try{
+      portrait = ImageIO.read(new File("images/portraits/" + n + ".png")); 
+      bg = ImageIO.read(new File("images/cSheet.png"));
+      abilBG = ImageIO.read(new File("images/cMenu.png"));
+    }
+    catch(IOException e){     
+    } 
+    invVis = false;
+  }
+  
+  public void changeHP(int mod){
+    hp += mod;
+  }
+  
+  public void changeBP(int mod){
+    if(bp <= 0){
+      //reload the gune, setting bp to max once more.
+    }
+    else{
+      bp += mod;
+    }
+  }
+  
+  public void click(int x, int y){
+    System.out.println("x,y: " + x + "," + y);
+    if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
+      if(invVis == true){
+       invVis = false; 
+      }
+      else{
+       invVis = true;             
+      }
       
- }
-    public void collect(Item i, int s){
-    inv.add(i,s); 
-   }
-    
-    public void use(int slot){
-      inv.use(slot,this);
+      
+    }
+    if(x > 75 && x < 105 && y > (partyOrder*75)+40 && y < (partyOrder*75)+70){
+           if(statVis == true){
+       statVis = false; 
+      }
+      else{
+      statVis = true;             
+      }
+       
     }
     
-    public void setArmour(Armour a){
-      armr = a;
+    if(invVis == true){
+     inv.click(x,y); 
     }
     
     
+  }
+  
+  public void paint(Graphics2D g2d){
+    
+    g2d.drawImage(bg, 0, partyOrder*74,null);
+    g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
+    g2d.setFont(new Font("Consolas",Font.PLAIN,15));
+      g2d.setColor(Color.white);
+      g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
+      g2d.drawString("MP: " + mp, 135, (partyOrder*74)+43);
+      g2d.drawString("BP: " + bp, 135, (partyOrder*74)+65);
+    
+    
+    if(invVis == true){
+      inv.paint(g2d);
+    }
+    if(statVis == true){
+      g2d.drawImage(abilBG, 192, partyOrder*74,null);
+    }
+     
+  }
+  
+  
+  public void useAbility(String a){
+    for(int k = 0; k < abilities.length; k++){
+      //ensure teh player has this ability
+      if (abilities[k] == a){
+        //get it ON 
+      }
+      else{
+        // newnewne 
+      }
+      
+    }
+    
+  }
+  public void collect(Item i, int s1, int s2){
+    inv.add(i,s1,s2); 
+  }
+  
+  public void use(int s1, int s2){
+    inv.use(s1, s2);
+  }
+  
+  public void setArmour(Armour a){
+    armr = a;
+  }
+  
+  
 }
