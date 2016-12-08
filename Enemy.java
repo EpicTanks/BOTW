@@ -139,7 +139,7 @@ public class Enemy extends DungeonObject {
     
     //return true if this enemy can see the given player
     private boolean canSee(PlayerParty p) {
-        if (getDistanceTo(p) <= SIGHT_RANGE) {
+        if (getDistanceTo(p) <= SIGHT_RANGE - 1) {
             return true;
         }
         return false;

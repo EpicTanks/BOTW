@@ -4,6 +4,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 import java.nio.*;
+import java.util.*;
 import java.util.ArrayList;
 
 public class Level {
@@ -91,10 +92,12 @@ public class Level {
     }
     
     public void deleteTreasureAt(int x, int y) {
-        for(TreasureBox t: treasureList) {
-            if (x == t.getX() && y == t.getY())
-                treasureList.remove(t);
-        }        
+        for (final Iterator iterator = treasureList.iterator(); iterator.hasNext(); ) {
+            TreasureBox target = (TreasureBox) iterator.next();
+            if (target.getX() == x && target.getY() == y) {
+                iterator.remove();
+            }
+        }
     }
     
     //returns true if there is nothing at coodinate (x, y)

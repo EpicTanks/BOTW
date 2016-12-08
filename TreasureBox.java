@@ -10,8 +10,7 @@ public class TreasureBox extends DungeonObject {
         contains = Item.getItem();
     }
     
-    public Item collect() {
-        l.deleteTreasureAt(x, y);
+    public Item contents() {
         return contains;
     }
 }
