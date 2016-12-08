@@ -18,6 +18,7 @@ public class CharacterSheet{
   private int partyOrder;
   private Inventory inv;
   private Armour armr;
+  private Armour hat;
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
@@ -85,12 +86,20 @@ public class CharacterSheet{
   }
   
   public void click(int x, int y){
-    System.out.println("x,y: " + x + "," + y);
+    // System.out.println("x,y: " + x + "," + y);
+    // System.out.println("top(y must b lesr): " + ( (partyOrder*75)+5) + ". bottom(y must be bigr):" + ((partyOrder*75)+40));
+    
+    if(x > 75 && x < 105 &&  (y < (partyOrder*75)+5  || y > (partyOrder*75)+70)){
+      statVis = false;
+      invVis = false;
+    }
+    
     if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
       if(invVis == true){
         invVis = false; 
       }
       else{
+        statVis = false;
         invVis = true;             
       }
       
@@ -101,6 +110,7 @@ public class CharacterSheet{
         statVis = false; 
       }
       else{
+        invVis = false;
         statVis = true;             
       }
       
@@ -154,6 +164,20 @@ public class CharacterSheet{
   
   public void collect(Item i, int s1, int s2){
     inv.add(i,s1,s2); 
+  }
+  
+  public boolean collect(Item q){
+    for(int i = 0; i < 2; i++){
+      for(int j = 0; j < 2; j++){
+        if(inv.checkEmpty(i,j) == true){
+          inv.add(q,i,j);
+          System.out.println("Added item!");         
+          return true;
+        }        
+      }
+    }
+    System.out.println("NO SPACCEEEE");
+    return false;
   }
   
   public void use(int s1, int s2){
