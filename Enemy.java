@@ -41,15 +41,37 @@ public class Enemy extends DungeonObject {
     }
     
     private void moveToward(PlayerParty p) {
-        if(x < p.getX() && l.isEmpty(x + 1, y)) {
+        int ul = shortestPath(11, x, y - 1);
+        int dl = shortestPath(11, x, y + 1);
+        int ll = shortestPath(11, x - 1, y);
+        int rl = shortestPath(11, x + 1, y);
+        int high = max4(ul, dl, ll, rl);
+        
+        if(rl == high && l.isEmpty(x + 1, y)) {
             x++;
-        } else if(x > p.getX() && l.isEmpty(x - 1, y)) {
-            x--;
-        } else if (y < p.getY() && l.isEmpty(x, y + 1)) {
+        } else if (dl == high && l.isEmpty(x, y + 1)) {
             y++;
-        } else if(y > p.getY() && l.isEmpty(x, y - 1)) {
+        } else if(ll == high && l.isEmpty(x - 1, y)) {
+            x--;
+        } else if (ul == high && l.isEmpty(x, y - 1)) {
             y--;
         }
+    }
+    
+    private int shortestPath(int moves, int cX, int cY) {
+        if (moves <= 0 || !l.isEmpty(cX, cY)) {
+            return -1;
+        }
+        if (l.containsPlayer(cX, cY)) {
+            return moves;
+        }
+        moves--;
+        return max4(shortestPath(moves, cX + 1, cY), shortestPath(moves, cX - 1, cY), 
+                    shortestPath(moves, cX, cY + 1), shortestPath(moves, cX, cY - 1));
+    }
+    
+    private int max4(int a, int b, int c, int d) {
+        return Math.max(Math.max(a, b), Math.max(c, d));
     }
     
     //move in a random direction (idling)

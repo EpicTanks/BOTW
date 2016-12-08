@@ -113,6 +113,10 @@ public class Level {
         return true;
     }
     
+    public boolean containsPlayer(int x, int y) {
+        return x == player.getX() && y == player.getY();
+    }
+    
     public PlayerParty getPlayer() {
         return player;
     }
