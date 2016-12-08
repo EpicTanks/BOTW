@@ -1,27 +1,95 @@
-import java.awt.image.*;
-import javax.imageio.*;
-import java.io.*;
+import java.awt.event.KeyEvent;
 
 public class PlayerParty extends DungeonObject {
-    //CharacterSheet[] sheets;
+    private CharacterSheet[] sheets;
     
-    public PlayerParty(int x, int y, Level l) {//, CharacterSheet[] sheets) {
+    public PlayerParty(int x, int y, Level l, CharacterSheet[] sheets) {
         super(x, y, l, "images/sprites/enemies/rat.png");
-        //this.sheets = sheets;
+        this.sheets = sheets;
     }
     
-    public boolean move(String direction) {
-        if (direction.equals("Up") && l.isEmpty(x, y - 1)) {
-            y--;
-        } else if (direction.equals("Down") && l.isEmpty(x, y + 1)) {
-            y++;
-        } else if (direction.equals("Left") && l.isEmpty(x - 1, y)) {
-            x--;
-        } else if (direction.equals("Right") && l.isEmpty(x + 1, y)) {
-            x++;
-        } else {
-            return false;
+    public boolean takeAction(KeyEvent e) {
+        switch(e.getKeyCode()) {
+            case 32:
+                return true; //skip the turn with spacebar
+            case 38:
+                return action("Up"); //move up with up arrow
+            case 40:
+                return action("Down"); //move down with down arrow
+            case 37:
+                return action("Left"); //move left with left arrow
+            case 39:
+                return action("Right"); //move right with right arrow
+            default:
+                return false; //do nothing with any other keys
         }
-        return true;
+    }
+    
+    public boolean action(String direction) {
+        if (direction.equals("Up")) {
+            if (l.containsTreasure(x, y - 1)) {
+                takeTreasure(l.getTreasure(x, y - 1));
+            }
+            if (l.containsEnemy(x, y - 1)) {
+                //fight it
+            } else if (l.isEmpty(x, y - 1)) {
+                move(0);
+                return true;
+            }
+        } else if (direction.equals("Down") && l.isEmpty(x, y + 1)) {
+            if (l.containsTreasure(x, y + 1)) {
+                takeTreasure(l.getTreasure(x, y + 1));
+            }
+            if (l.containsEnemy(x, y + 1)) {
+                //fight it
+            } else if (l.isEmpty(x, y + 1)) {
+                move(2);
+                return true;
+            }
+        } else if (direction.equals("Left") && l.isEmpty(x - 1, y)) {
+            if (l.containsTreasure(x - 1, y)) {
+                takeTreasure(l.getTreasure(x - 1, y));
+            }
+            if (l.containsEnemy(x - 1, y)) {
+                //fight it
+            } else if (l.isEmpty(x - 1, y)) {
+                move(3);
+                return true;
+            }
+        } else if (direction.equals("Right") && l.isEmpty(x + 1, y)) {
+            if (l.containsTreasure(x + 1, y)) {
+                takeTreasure(l.getTreasure(x + 1, y));
+            }
+            if (l.containsEnemy(x + 1, y)) {
+                //fight it
+            } else if (l.isEmpty(x + 1, y)) {
+                move(1);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private void takeTreasure(TreasureBox t) {
+        sheets[0].collect(t.collect(), 0, 0);
+    }
+    
+    public void move(int d) {
+        switch(d) {
+            case 0:
+                y--;
+                break;
+            case 1:
+                x++;
+                break;
+            case 2:
+                y++;
+                break;
+            case 3:
+                x--;
+                break;
+            default:
+                throw new RuntimeException("Jake wrote a bad switch statement.");
+        }
     }
 }

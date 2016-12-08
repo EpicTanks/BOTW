@@ -13,7 +13,7 @@ public class CoolKeyListener implements KeyListener {
     
     @Override
     public void keyPressed(KeyEvent e) {
-        if(l.isPlayerTurn() && l.getPlayer().move(KeyEvent.getKeyText(e.getKeyCode()))) {
+        if(l.isPlayerTurn() && l.getPlayer().takeAction(e)) {
             l.setEnemyTurn();
         }
     }
