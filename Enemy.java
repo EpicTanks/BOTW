@@ -3,7 +3,8 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Enemy extends DungeonObject {
-    public String name = "";
+    //naming variables
+    private String name = "";
     static String temp = "";
     private static final String[][] possibleNames = {
         {"bandit", "rat", "rangerrat", "giantrat", "bandit", "koolbandit", "ghostlybandit", "dwarfbandit", "giblo"},
@@ -15,9 +16,20 @@ public class Enemy extends DungeonObject {
         {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
     };
     
+    //stats
+    private int maxhp = 1;
+    private int hp = 1;
+    private int strength = 1;
+    private int speed = 1;
+    
     public Enemy(int x, int y, Level l, String theme) {
         super(x, y, l, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
         name = temp;
+        try {
+            setData();
+        } catch (IOException e) {
+            System.out.println("setData() failed, default stats kept.");
+        }
     }
     
     public static String findName(String theme) {
@@ -27,6 +39,24 @@ public class Enemy extends DungeonObject {
             }
         }
         return "error";
+    }
+    
+    public void setData() throws IOException{
+        BufferedReader reader = null;
+        try {
+            File file = new File("gamedata/enemies/" + name + ".txt");
+            reader = new BufferedReader(new FileReader(file));
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Whoops! Missing gamedata/enemies/" + name + ".txt");
+            throw new IOException();
+        }
+        
+        strength = Integer.parseInt(reader.readLine());
+        speed = Integer.parseInt(reader.readLine());
+        
+        maxhp = strength * 2;
+        hp = maxhp;
     }
     
     public void takeTurn(PlayerParty p) {
