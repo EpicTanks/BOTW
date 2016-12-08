@@ -26,48 +26,40 @@ public class PlayerParty extends DungeonObject {
     }
     
     public boolean action(String direction) {
+        int a = 0;
+        int b = 0;
+        int dir = 0;
+        
         if (direction.equals("Up")) {
-            if (l.containsTreasure(x, y - 1)) {
-                if (takeTreasure(l.getTreasure(x, y - 1)))
-                    l.deleteTreasureAt(x, y - 1);
-            }
-            if (l.containsEnemy(x, y - 1)) {
-                //fight it
-            } else if (l.isEmpty(x, y - 1)) {
-                move(0);
-            }
-            return true;
+            a = x;
+            b = y - 1;
+            dir = 0;
         } else if (direction.equals("Down")) {
-            if (l.containsTreasure(x, y + 1)) {
-                if (takeTreasure(l.getTreasure(x, y + 1)))
-                    l.deleteTreasureAt(x, y + 1);
-            } else if (l.containsEnemy(x, y + 1)) {
-                //fight it
-            } else if (l.isEmpty(x, y + 1)) {
-                move(2);
-            }
-            return true;
+            a = x;
+            b = y + 1;
+            dir = 2;
         } else if (direction.equals("Left")) {
-            if (l.containsTreasure(x - 1, y)) {
-                if (takeTreasure(l.getTreasure(x - 1, y)))
-                    l.deleteTreasureAt(x - 1, y);
-            } else if (l.containsEnemy(x - 1, y)) {
-                //fight it
-            } else if (l.isEmpty(x - 1, y)) {
-                move(3);
-            }
-            return true;
+            a = x - 1;
+            b = y;
+            dir = 3;
         } else if (direction.equals("Right")) {
-            if (l.containsTreasure(x + 1, y)) {
-                if (takeTreasure(l.getTreasure(x + 1, y)))
-                    l.deleteTreasureAt(x + 1, y);
-            } else if (l.containsEnemy(x + 1, y)) {
-                //fight it
-            } else if (l.isEmpty(x + 1, y)) {
-                move(1);
-            }
+            a = x + 1;
+            b = y;
+            dir = 1;
+        }
+        
+        if (l.containsTreasure(a, b)) {
+            if (takeTreasure(l.getTreasure(a, b)))
+                l.deleteTreasureAt(a, b);
+            return true;
+        } else if (l.containsEnemy(a, b)) {
+            attack(l.getEnemy(a, b));
+            return true;
+        } else if (l.isEmpty(a, b)) {
+            move(dir);
             return true;
         }
+        
         return false;
     }
     
@@ -80,6 +72,22 @@ public class PlayerParty extends DungeonObject {
             return true;
         }
         return false;
+    }
+    
+    private void attack(Enemy e) {
+        e.takeDamage(1);
+    }
+    
+    public void takeDamage(int damage) {
+        if (sheets[0].isAlive()) {
+            sheets[0].takeDamage(damage);
+        } else if (sheets[1].isAlive()) {
+            sheets[1].takeDamage(damage);
+        } else if (sheets[2].isAlive()) {
+            sheets[2].takeDamage(damage);
+        } else {
+            System.out.println("You heckin lose!");
+        }
     }
     
     public void move(int d) {
