@@ -13,7 +13,7 @@ public class Level {
     private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     private ArrayList<TreasureBox> treasureList = new ArrayList<TreasureBox>();
     private PlayerParty player;
-    //private CharacterSheet[] characters = new CharacterSheet[3];
+    private CharacterSheet[] sheets;
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
     private BufferedImage wall2Image = null;
@@ -22,8 +22,9 @@ public class Level {
     private static final int SCALE = 16;
     private static final int OFFSET = 192;
     
-    public Level(int floor) {
+    public Level(int floor, CharacterSheet[] sheets) {
         this.floor = floor; //will be used to set the theme later
+        this.sheets = sheets;
         
         //set the theme (for now, just mines)
         theme = "mines";
@@ -59,12 +60,7 @@ public class Level {
                 }
             }
         }
-        
-        //create the player
-//        for(CharacterSheet c: characters) {
-//            c = new CharacterSheet("marvin", 0, 0, 0, 0, 0, "wow", "gudablity");
-//        }
-        player = new PlayerParty(1, 1, this);//, characters);
+        player = new PlayerParty(1, 1, this, sheets);
     }
     
     //loads a floor from a text file
@@ -94,6 +90,13 @@ public class Level {
         }
     }
     
+    public void deleteTreasureAt(int x, int y) {
+        for(TreasureBox t: treasureList) {
+            if (x == t.getX() && y == t.getY())
+                treasureList.remove(t);
+        }        
+    }
+    
     //returns true if there is nothing at coodinate (x, y)
     public boolean isEmpty(int x, int y) {
         char c = layout[x][y];
@@ -113,12 +116,36 @@ public class Level {
         return true;
     }
     
+    public boolean containsTreasure(int x, int y) {
+        for (TreasureBox t: treasureList) {
+            if (x == t.getX() && y == t.getY())
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean containsEnemy(int x, int y) {
+        for (Enemy e: enemyList) {
+            if (x == e.getX() && y == e.getY())
+                return true;
+        }
+        return false;
+    }
+    
     public boolean containsPlayer(int x, int y) {
         return x == player.getX() && y == player.getY();
     }
     
     public PlayerParty getPlayer() {
         return player;
+    }
+    
+    public TreasureBox getTreasure(int x, int y) {
+        for (TreasureBox t: treasureList) {
+            if (x == t.getX() && y == t.getY())
+                return t;
+        }
+        return null;
     }
     
     //draws the world

@@ -3,6 +3,9 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Enemy extends DungeonObject {
+    //constants
+    private static final int SIGHT_RANGE = 8;
+    
     //naming variables
     private String name = "";
     static String temp = "";
@@ -16,7 +19,7 @@ public class Enemy extends DungeonObject {
         {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
     };
     
-    //stats
+    //stats (default is 1 for everything)
     private int maxhp = 1;
     private int hp = 1;
     private int strength = 1;
@@ -71,10 +74,10 @@ public class Enemy extends DungeonObject {
     }
     
     private void moveToward(PlayerParty p) {
-        int ul = shortestPath(11, x, y - 1);
-        int dl = shortestPath(11, x, y + 1);
-        int ll = shortestPath(11, x - 1, y);
-        int rl = shortestPath(11, x + 1, y);
+        int ul = shortestPath(SIGHT_RANGE - 1, x, y - 1);
+        int dl = shortestPath(SIGHT_RANGE - 1, x, y + 1);
+        int ll = shortestPath(SIGHT_RANGE - 1, x - 1, y);
+        int rl = shortestPath(SIGHT_RANGE - 1, x + 1, y);
         int high = max4(ul, dl, ll, rl);
         
         if(rl == high && l.isEmpty(x + 1, y)) {
@@ -135,8 +138,8 @@ public class Enemy extends DungeonObject {
     }
     
     //return true if this enemy can see the given player
-    public boolean canSee(PlayerParty p) {
-        if (getDistanceTo(p) <= 8) {
+    private boolean canSee(PlayerParty p) {
+        if (getDistanceTo(p) <= SIGHT_RANGE) {
             return true;
         }
         return false;
