@@ -16,7 +16,7 @@ public class Enemy extends DungeonObject {
     };
     
     public Enemy(int x, int y, Level l, String theme) {
-        super(x, y, l, "art/sprites/enemies/" + (temp = findName(theme)) + ".png");
+        super(x, y, l, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
         name = temp;
     }
     

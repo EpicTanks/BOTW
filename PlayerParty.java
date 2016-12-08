@@ -6,7 +6,7 @@ public class PlayerParty extends DungeonObject {
     //CharacterSheet[] sheets;
     
     public PlayerParty(int x, int y, Level l) {//, CharacterSheet[] sheets) {
-        super(x, y, l, "art/sprites/enemies/rat.png");
+        super(x, y, l, "images/sprites/enemies/rat.png");
         //this.sheets = sheets;
     }
     

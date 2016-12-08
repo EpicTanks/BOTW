@@ -2,11 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelTest extends JPanel {
-    private static Level l = new Level(0);
+    private Level l = new Level(0);
+    private CharacterSheet[] sheets = new CharacterSheet[3];
     
     public LevelTest() {
         addKeyListener(new CoolKeyListener(l));
         setFocusable(true);
+        
+        sheets[0] = new CharacterSheet("bob", 0);
+        sheets[1] = new CharacterSheet("bob", 1);
+        sheets[2] = new CharacterSheet("bob", 2);
+        
+        addMouseListener(new CoolMouseListener(sheets));
     }
     
     public void paint(Graphics g) {
@@ -15,7 +22,16 @@ public class LevelTest extends JPanel {
         
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, getWidth(), getHeight());
+        
         l.render(g2d);
+        
+        for (CharacterSheet c : sheets) {
+            c.paint(g2d);
+        }
+    }
+    
+    public void move() {
+        l.takeEnemyTurn();
     }
     
     public static void main(String[] args) throws InterruptedException {
@@ -28,7 +44,7 @@ public class LevelTest extends JPanel {
         
         while(true) {
             lt.repaint();
-            l.takeEnemyTurn();
+            lt.move();
         }
     }
 }
