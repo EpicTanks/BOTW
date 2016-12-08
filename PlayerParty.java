@@ -4,7 +4,7 @@ public class PlayerParty extends DungeonObject {
     private CharacterSheet[] sheets;
     
     public PlayerParty(int x, int y, Level l, CharacterSheet[] sheets) {
-        super(x, y, l, "images/sprites/enemies/rat.png");
+        super(x, y, l, "images/sprites/player.png");
         this.sheets = sheets;
     }
     
@@ -28,39 +28,40 @@ public class PlayerParty extends DungeonObject {
     public boolean action(String direction) {
         if (direction.equals("Up")) {
             if (l.containsTreasure(x, y - 1)) {
-                takeTreasure(l.getTreasure(x, y - 1));
+                if (takeTreasure(l.getTreasure(x, y - 1)))
+                    l.deleteTreasureAt(x, y - 1);
             }
             if (l.containsEnemy(x, y - 1)) {
                 //fight it
             } else if (l.isEmpty(x, y - 1)) {
                 move(0);
-                return true;
             }
-        } else if (direction.equals("Down") && l.isEmpty(x, y + 1)) {
+            return true;
+        } else if (direction.equals("Down")) {
             if (l.containsTreasure(x, y + 1)) {
-                takeTreasure(l.getTreasure(x, y + 1));
-            }
-            if (l.containsEnemy(x, y + 1)) {
+                if (takeTreasure(l.getTreasure(x, y + 1)))
+                    l.deleteTreasureAt(x, y + 1);
+            } else if (l.containsEnemy(x, y + 1)) {
                 //fight it
             } else if (l.isEmpty(x, y + 1)) {
                 move(2);
-                return true;
             }
-        } else if (direction.equals("Left") && l.isEmpty(x - 1, y)) {
+            return true;
+        } else if (direction.equals("Left")) {
             if (l.containsTreasure(x - 1, y)) {
-                takeTreasure(l.getTreasure(x - 1, y));
-            }
-            if (l.containsEnemy(x - 1, y)) {
+                if (takeTreasure(l.getTreasure(x - 1, y)))
+                    l.deleteTreasureAt(x - 1, y);
+            } else if (l.containsEnemy(x - 1, y)) {
                 //fight it
             } else if (l.isEmpty(x - 1, y)) {
                 move(3);
-                return true;
             }
-        } else if (direction.equals("Right") && l.isEmpty(x + 1, y)) {
+            return true;
+        } else if (direction.equals("Right")) {
             if (l.containsTreasure(x + 1, y)) {
-                takeTreasure(l.getTreasure(x + 1, y));
-            }
-            if (l.containsEnemy(x + 1, y)) {
+                if (takeTreasure(l.getTreasure(x + 1, y)))
+                    l.deleteTreasureAt(x + 1, y);
+            } else if (l.containsEnemy(x + 1, y)) {
                 //fight it
             } else if (l.isEmpty(x + 1, y)) {
                 move(1);
@@ -70,8 +71,15 @@ public class PlayerParty extends DungeonObject {
         return false;
     }
     
-    private void takeTreasure(TreasureBox t) {
-        sheets[0].collect(t.collect(), 0, 0);
+    private boolean takeTreasure(TreasureBox t) {
+        if (sheets[0].collect(t.contents())) {
+            return true;
+        } else if (sheets[1].collect(t.contents())) {
+            return true;
+        } else if (sheets[2].collect(t.contents())) {
+            return true;
+        }
+        return false;
     }
     
     public void move(int d) {

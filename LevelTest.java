@@ -6,14 +6,15 @@ public class LevelTest extends JPanel {
     private CharacterSheet[] sheets = new CharacterSheet[3];
     
     public LevelTest() {
-        addKeyListener(new CoolKeyListener(l));
-        setFocusable(true);
-        
         sheets[0] = new CharacterSheet("bob", 0);
         sheets[1] = new CharacterSheet("bob", 1);
         sheets[2] = new CharacterSheet("bob", 2);
         
         l = new Level(0, sheets);
+        
+        
+        addKeyListener(new CoolKeyListener(l));
+        setFocusable(true);
         
         addMouseListener(new CoolMouseListener(sheets));
     }

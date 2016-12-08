@@ -169,7 +169,7 @@ public class CharacterSheet{
   public boolean collect(Item q){
     for(int i = 0; i < 2; i++){
       for(int j = 0; j < 2; j++){
-        if(inv.checkEmpty(i,j) == true){
+        if(inv.checkEmpty(i,j)){
           inv.add(q,i,j);
           System.out.println("Added item!");         
           return true;
