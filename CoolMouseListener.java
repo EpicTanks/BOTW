@@ -1,6 +1,13 @@
 import java.awt.event.*;
 
 public class CoolMouseListener implements MouseListener {
+  
+  private CharacterSheet[] cs;
+  
+  public CoolMouseListener(CharacterSheet[] c){
+    cs = c;
+  }
+  
     public void mousePressed(MouseEvent e) {
     }
 
@@ -14,5 +21,8 @@ public class CoolMouseListener implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+      for(int i = 0; i < cs.length; i++){
+      cs[i].click(e.getX(),e.getY());
+      }
     }
 }
