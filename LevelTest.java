@@ -31,4 +31,4 @@ public class LevelTest extends JPanel {
             l.takeEnemyTurn();
         }
     }
-} 
+}
