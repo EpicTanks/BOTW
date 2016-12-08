@@ -21,10 +21,10 @@ public class CharacterSheet{
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
-  private String[] abilities = new String[2];
+  public String[] abilities = new String[5];
   private boolean invVis;
   private boolean statVis;
-  
+  public int noOfAbils = 0;
   
   public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
     //Births a new character from the bowels of the machine god
@@ -39,9 +39,6 @@ public class CharacterSheet{
     this.spch = spch;
     this.smrt = smrt;
     this.hp = str*2;
-    //set starting abilities
-    abilities[0] = ab1;
-    abilities[1] = ab2;
     //create the player's inventory
     inv = new Inventory(this,192,partyOrder*74);
     //no armr to start
@@ -58,6 +55,9 @@ public class CharacterSheet{
     this.hp = 5;
     this.mp = 5;
     this.bp = 5;
+    for(int k = 0; k < abilities.length; k++){
+      abilities[k] = ("");
+    }
   }
   
   public void loadImages(String n){    
@@ -88,26 +88,26 @@ public class CharacterSheet{
     System.out.println("x,y: " + x + "," + y);
     if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
       if(invVis == true){
-       invVis = false; 
+        invVis = false; 
       }
       else{
-       invVis = true;             
+        invVis = true;             
       }
       
       
     }
     if(x > 75 && x < 105 && y > (partyOrder*75)+40 && y < (partyOrder*75)+70){
-           if(statVis == true){
-       statVis = false; 
+      if(statVis == true){
+        statVis = false; 
       }
       else{
-      statVis = true;             
+        statVis = true;             
       }
-       
+      
     }
     
     if(invVis == true){
-     inv.click(x,y); 
+      inv.click(x,y); 
     }
     
     
@@ -118,10 +118,10 @@ public class CharacterSheet{
     g2d.drawImage(bg, 0, partyOrder*74,null);
     g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
     g2d.setFont(new Font("Consolas",Font.PLAIN,15));
-      g2d.setColor(Color.white);
-      g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
-      g2d.drawString("MP: " + mp, 135, (partyOrder*74)+43);
-      g2d.drawString("BP: " + bp, 135, (partyOrder*74)+65);
+    g2d.setColor(Color.white);
+    g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
+    g2d.drawString("MP: " + mp, 135, (partyOrder*74)+43);
+    g2d.drawString("BP: " + bp, 135, (partyOrder*74)+65);
     
     
     if(invVis == true){
@@ -129,8 +129,13 @@ public class CharacterSheet{
     }
     if(statVis == true){
       g2d.drawImage(abilBG, 192, partyOrder*74,null);
+      g2d.setFont(new Font("Consolas",Font.PLAIN,15));
+      g2d.setColor(Color.white);
+      for(int k = 0; k < abilities.length; k++){
+        g2d.drawString(abilities[k], 200, ((partyOrder*74)+20)+((25*k))+(k*2));
+      }
     }
-     
+    
   }
   
   
@@ -142,11 +147,11 @@ public class CharacterSheet{
       }
       else{
         // newnewne 
-      }
-      
-    }
-    
+      }      
+    }    
   }
+  
+  
   public void collect(Item i, int s1, int s2){
     inv.add(i,s1,s2); 
   }
@@ -154,6 +159,10 @@ public class CharacterSheet{
   public void use(int s1, int s2){
     inv.use(s1, s2);
   }
+  
+  public void remove(int s1, int s2){
+    inv.remove(s1, s2);
+  }  
   
   public void setArmour(Armour a){
     armr = a;

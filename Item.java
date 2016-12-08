@@ -7,11 +7,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
 public abstract class Item {
-    private Inventory location;
-    private String name;
-    private String description;
-    private int price;
-    private int slot;
+    protected Inventory location;
+    protected String name;
+    protected String description;
+    protected int price;
+    protected int slot;
     
     public abstract void use(CharacterSheet c);
     public abstract void paint(Graphics2D g2d, int x, int y);
@@ -27,7 +27,7 @@ public abstract class Item {
             case 2:
                 return new SpellBook();
             default:
-                throw new RuntimeException("Jake wrote a bad switch statement.");
+                throw new RuntimeException("Jake wrote a bad switch statement. Blame him.");
         }
     }
 }
