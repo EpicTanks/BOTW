@@ -192,5 +192,11 @@ public class CharacterSheet{
     armr = a;
   }
   
+  public boolean isAlive() {
+      return hp > 0;
+  }
   
+  public void takeDamage(int damage) {
+      hp -= damage;
+  }
 }

@@ -100,6 +100,10 @@ public class Level {
         }
     }
     
+    public void removeEnemy(Enemy e) {
+        enemyList.remove(e);
+    }
+    
     //returns true if there is nothing at coodinate (x, y)
     public boolean isEmpty(int x, int y) {
         char c = layout[x][y];
@@ -147,6 +151,14 @@ public class Level {
         for (TreasureBox t: treasureList) {
             if (x == t.getX() && y == t.getY())
                 return t;
+        }
+        return null;
+    }
+    
+    public Enemy getEnemy(int x, int y) {
+        for (Enemy e: enemyList) {
+            if (x == e.getX() && y == e.getY())
+                return e;
         }
         return null;
     }

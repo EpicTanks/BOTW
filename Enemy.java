@@ -65,12 +65,23 @@ public class Enemy extends DungeonObject {
     public void takeTurn(PlayerParty p) {
         if ((x == p.getX() && (y == p.getY() - 1 || y == p.getY() + 1))
                 || (y == p.getY() && (x == p.getX() - 1 || x == p.getX() + 1))) {
-            //attack(PlayerParty);
+            attack(p);
         } else if (canSee(p)){
             moveToward(p);
         } else {
             moveAtRandom();
         }
+    }
+    
+    public void takeDamage(int damage) {
+        hp -= damage;
+        if(hp < 0) {
+            l.removeEnemy(this);
+        }
+    }
+    
+    private void attack(PlayerParty p) {
+        p.takeDamage(strength);
     }
     
     private void moveToward(PlayerParty p) {
