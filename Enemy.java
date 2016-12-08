@@ -75,7 +75,7 @@ public class Enemy extends DungeonObject {
     
     public void takeDamage(int damage) {
         hp -= damage;
-        if(hp < 0) {
+        if(hp <= 0) {
             l.removeEnemy(this);
         }
     }

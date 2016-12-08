@@ -42,9 +42,10 @@ public class Level {
         
         //try to load the level
         try {
-            loadLevel("floor2.txt");
+            //loadLevel("floor2.txt");
+            genLevel();
         } catch (IOException e) {
-            System.err.println("Whoops. No file!");
+            System.err.println("Whoops. Missing a file!");
             throw new RuntimeException(e);
         }
         
@@ -77,8 +78,81 @@ public class Level {
         }
     }
     
-    //generates a floor at random based on the theme
-    public void genLevel() {
+    //generates a floor at random
+    public void genLevel() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int) (Math.random() * 10) + ".txt"));
+        
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i + 24] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i + 24] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i + 24] = line.charAt(j);
+            }
+        }
+        
+        //close off the outside;
+        for(int i = 0; i < 36; i++) {
+            layout[0][i] = '|';
+            layout[35][i] = '|';
+            layout[i][0] = '-';
+            layout[i][35] = '-';
+        }
+        layout[0][0] = layout[0][35] = layout[35][0] = layout[35][35] = 'c';
     }
     
     //Moves the enemies
