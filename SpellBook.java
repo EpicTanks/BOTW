@@ -34,7 +34,7 @@ public class SpellBook extends Item{
     reqSmarts = 5;
     
     try{
-      img = ImageIO.read(new File("images/" + colour + "_book.png")); 
+      img = ImageIO.read(new File("images/items/spellbooks/" + colour + "_book.png")); 
     }
     catch(IOException e){     
     }
@@ -59,8 +59,6 @@ public class SpellBook extends Item{
   
   public void paint(Graphics2D g2d, int x, int y){
     g2d.drawImage(img, x, y, 64, 64, null);
-    g2d.setColor(Color.white);
-    g2d.drawString("s:" + slot,x,y+5);
   }
   
   public void use(CharacterSheet c){
