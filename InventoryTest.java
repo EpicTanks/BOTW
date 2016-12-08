@@ -8,10 +8,10 @@ import java.awt.event.*;
 public class InventoryTest extends JPanel{
   
   private CharacterSheet[] bobs = new CharacterSheet[3];
-  private SpellBook gboy = new SpellBook("streem", "red");
-  private SpellBook bboy = new SpellBook("brumbo", "green");
-  private SpellBook sboy = new SpellBook("brumbo", "purple");
-  private SpellBook aboy = new SpellBook("brumbo", "pink");
+  private SpellBook gboy = new SpellBook();
+  private SpellBook bboy = new SpellBook();
+  private SpellBook sboy = new SpellBook();
+  private SpellBook aboy = new SpellBook();
   private CoolMouseListener cml = new CoolMouseListener(bobs);
   
   public InventoryTest(){
