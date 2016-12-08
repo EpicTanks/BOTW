@@ -32,12 +32,12 @@ public abstract class DungeonObject {
         return y;
     }
     
-    public void render(Graphics2D g2d, int scale) {
+    public void render(Graphics2D g2d, int scale, int offset) {
         if(sprite != null) {
-            g2d.drawImage(sprite, x * scale, y * scale, scale, scale, null);
+            g2d.drawImage(sprite, (x * scale) + offset, y * scale, scale, scale, null);
         } else {
             g2d.setColor(Color.black);
-            g2d.fillRect(x * scale, y * scale, scale, scale);
+            g2d.fillRect((x * scale) + offset, y * scale, scale, scale);
         }
     }
 }

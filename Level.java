@@ -20,6 +20,7 @@ public class Level {
     private BufferedImage cornerImage = null;
     private boolean playerTurn = true;
     private static final int SCALE = 16;
+    private static final int OFFSET = 192;
     
     public Level(int floor) {
         this.floor = floor; //will be used to set the theme later
@@ -29,10 +30,10 @@ public class Level {
         
         //try to load the images based on the theme
         try {
-            floorImage = ImageIO.read(new File("art/tiles/" + theme + "/floor.png"));
-            wallImage = ImageIO.read(new File("art/tiles/" + theme + "/wall.png"));
-            wall2Image = ImageIO.read(new File("art/tiles/" + theme + "/wall2.png"));
-            cornerImage = ImageIO.read(new File("art/tiles/" + theme + "/corner.png"));
+            floorImage = ImageIO.read(new File("images/tiles/" + theme + "/floor.png"));
+            wallImage = ImageIO.read(new File("images/tiles/" + theme + "/wall.png"));
+            wall2Image = ImageIO.read(new File("images/tiles/" + theme + "/wall2.png"));
+            cornerImage = ImageIO.read(new File("images/tiles/" + theme + "/corner.png"));
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
@@ -84,7 +85,7 @@ public class Level {
     }
     
     //Moves the enemies
-    public void takeEnemyTurn() throws InterruptedException{
+    public void takeEnemyTurn() {
         if(!playerTurn) {
             for (Enemy e: enemyList) {
                 e.takeTurn(player);
@@ -142,22 +143,22 @@ public class Level {
                         break;
                 }
                 
-                g2d.drawImage(img, x * SCALE, y * SCALE, SCALE, SCALE, null);
+                g2d.drawImage(img, (x * SCALE) + OFFSET, y * SCALE, SCALE, SCALE, null);
             }
         }
         
         //draw the enemies
         for (Enemy e: enemyList) {
-            e.render(g2d, SCALE);
+            e.render(g2d, SCALE, OFFSET);
         }
 
         //draw the treasure
         for (TreasureBox t: treasureList) {
-            t.render(g2d, SCALE);
+            t.render(g2d, SCALE, OFFSET);
         }
         
         //draw the player
-        player.render(g2d, SCALE);
+        player.render(g2d, SCALE, OFFSET);
     }
     
     
