@@ -75,7 +75,22 @@ public class PlayerParty extends DungeonObject {
     }
     
     private void attack(Enemy e) {
-        e.takeDamage(1);
+        int d = rollDamage();
+        System.out.println("Dealt " + d + " damage to the " + e.getName() + ".");
+        e.takeDamage(d);
+    }
+    
+    private int rollDamage() {
+        if (sheets[0].isAlive()) {
+            return sheets[0].rollDamage();
+        } else if (sheets[1].isAlive()) {
+            return sheets[1].rollDamage();
+        } else if (sheets[2].isAlive()) {
+            return sheets[2].rollDamage();
+        } else {
+            System.out.println("You can't attack if everyone is dead!");
+            return 0;
+        }
     }
     
     public void takeDamage(int damage) {

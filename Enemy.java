@@ -77,10 +77,16 @@ public class Enemy extends DungeonObject {
         hp -= damage;
         if(hp <= 0) {
             l.removeEnemy(this);
+            System.out.println("The " + name + " was slain.");
         }
     }
     
+    public String getName() {
+        return name;
+    }
+    
     private void attack(PlayerParty p) {
+        System.out.println("The " + name + " dealt " + strength + " damage to you.");
         p.takeDamage(strength);
     }
     
