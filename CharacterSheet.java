@@ -11,7 +11,7 @@ public class CharacterSheet{
   private int hp;
   private int mp;
   private int bp;
-  private int str;
+  private int str = 2;
   private int spd;
   private int smrt;
   private int spch;
@@ -177,6 +177,10 @@ public class CharacterSheet{
       }
     }
     return false;
+  }
+  
+  public int rollDamage() {
+      return (int) (Math.random() * str) + 1; //1 to str damage
   }
   
   public void use(int s1, int s2){
