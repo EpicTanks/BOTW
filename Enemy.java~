@@ -33,7 +33,7 @@ public class Enemy extends DungeonObject {
         } catch (IOException e) {
             System.out.println("setData() failed, default stats kept.");
         }
-        scaleStats(l.getFloor() - 1);
+        scaleStats(l.getFloor());
     }
     
     public static String findName(String theme) {
