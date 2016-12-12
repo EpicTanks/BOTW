@@ -33,6 +33,7 @@ public class Enemy extends DungeonObject {
         } catch (IOException e) {
             System.out.println("setData() failed, default stats kept.");
         }
+        scaleStats(l.getFloor());
     }
     
     public static String findName(String theme) {
@@ -60,6 +61,13 @@ public class Enemy extends DungeonObject {
         
         maxhp = strength * 2;
         hp = maxhp;
+    }
+    
+    public void scaleStats(int mod) {
+        maxhp += 2 * mod;
+        hp = maxhp;
+        strength += mod;
+        speed += mod;
     }
     
     public void takeTurn(PlayerParty p) {
@@ -91,20 +99,24 @@ public class Enemy extends DungeonObject {
     }
     
     private void moveToward(PlayerParty p) {
-        int ul = shortestPath(SIGHT_RANGE - 1, x, y - 1);
-        int dl = shortestPath(SIGHT_RANGE - 1, x, y + 1);
-        int ll = shortestPath(SIGHT_RANGE - 1, x - 1, y);
-        int rl = shortestPath(SIGHT_RANGE - 1, x + 1, y);
-        int high = max4(ul, dl, ll, rl);
-        
-        if(rl == high && l.isEmpty(x + 1, y)) {
-            x++;
-        } else if (dl == high && l.isEmpty(x, y + 1)) {
-            y++;
-        } else if(ll == high && l.isEmpty(x - 1, y)) {
-            x--;
-        } else if (ul == high && l.isEmpty(x, y - 1)) {
-            y--;
+        if(speed > 0) {
+            int ul = shortestPath(SIGHT_RANGE - 1, x, y - 1);
+            int dl = shortestPath(SIGHT_RANGE - 1, x, y + 1);
+            int ll = shortestPath(SIGHT_RANGE - 1, x - 1, y);
+            int rl = shortestPath(SIGHT_RANGE - 1, x + 1, y);
+            int high = max4(ul, dl, ll, rl);
+            
+            if(rl == high && l.isEmpty(x + 1, y)) {
+                x++;
+            } else if (dl == high && l.isEmpty(x, y + 1)) {
+                y++;
+            } else if(ll == high && l.isEmpty(x - 1, y)) {
+                x--;
+            } else if (ul == high && l.isEmpty(x, y - 1)) {
+                y--;
+            }
+        } else {
+            //Do nothing if you have no speed
         }
     }
     
@@ -126,31 +138,35 @@ public class Enemy extends DungeonObject {
     
     //move in a random direction (idling)
     private void moveAtRandom() {
-        int r = (int) (Math.random() * 4) + 1;
-        
-        switch(r) {
-            case 1: 
-                if(l.isEmpty(x, y + 1)) {
+        if (speed > 0) {
+            int r = (int) (Math.random() * 4) + 1;
+            
+            switch(r) {
+                case 1: 
+                    if(l.isEmpty(x, y + 1)) {
                     y++;
                 }
-                break;
-            case 2:
-                if(l.isEmpty(x + 1, y)) {
+                    break;
+                case 2:
+                    if(l.isEmpty(x + 1, y)) {
                     x++;
                 }
-                break;
-            case 3:
-                if(l.isEmpty(x, y - 1)) {
+                    break;
+                case 3:
+                    if(l.isEmpty(x, y - 1)) {
                     y--;
                 }
-                break;
-            case 4:
-                if(l.isEmpty(x - 1, y)) {
+                    break;
+                case 4:
+                    if(l.isEmpty(x - 1, y)) {
                     x--;
                 }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            //Do nothing if you have no speed
         }
     }
     
