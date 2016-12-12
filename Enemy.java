@@ -3,6 +3,9 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Enemy extends DungeonObject {
+    //constants
+    private static final int SIGHT_RANGE = 8;
+    
     //naming variables
     private String name = "";
     static String temp = "";
@@ -16,7 +19,7 @@ public class Enemy extends DungeonObject {
         {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
     };
     
-    //stats
+    //stats (default is 1 for everything)
     private int maxhp = 1;
     private int hp = 1;
     private int strength = 1;
@@ -30,6 +33,7 @@ public class Enemy extends DungeonObject {
         } catch (IOException e) {
             System.out.println("setData() failed, default stats kept.");
         }
+        scaleStats(l.getFloor());
     }
     
     public static String findName(String theme) {
@@ -59,10 +63,17 @@ public class Enemy extends DungeonObject {
         hp = maxhp;
     }
     
+    public void scaleStats(int mod) {
+        maxhp += 2 * mod;
+        hp = maxhp;
+        strength += mod;
+        speed += mod;
+    }
+    
     public void takeTurn(PlayerParty p) {
         if ((x == p.getX() && (y == p.getY() - 1 || y == p.getY() + 1))
                 || (y == p.getY() && (x == p.getX() - 1 || x == p.getX() + 1))) {
-            //attack(PlayerParty);
+            attack(p);
         } else if (canSee(p)){
             moveToward(p);
         } else {
@@ -70,21 +81,42 @@ public class Enemy extends DungeonObject {
         }
     }
     
+    public void takeDamage(int damage) {
+        hp -= damage;
+        if(hp <= 0) {
+            l.removeEnemy(this);
+            System.out.println("The " + name + " was slain.");
+        }
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    private void attack(PlayerParty p) {
+        System.out.println("The " + name + " dealt " + strength + " damage to you.");
+        p.takeDamage(strength);
+    }
+    
     private void moveToward(PlayerParty p) {
-        int ul = shortestPath(11, x, y - 1);
-        int dl = shortestPath(11, x, y + 1);
-        int ll = shortestPath(11, x - 1, y);
-        int rl = shortestPath(11, x + 1, y);
-        int high = max4(ul, dl, ll, rl);
-        
-        if(rl == high && l.isEmpty(x + 1, y)) {
-            x++;
-        } else if (dl == high && l.isEmpty(x, y + 1)) {
-            y++;
-        } else if(ll == high && l.isEmpty(x - 1, y)) {
-            x--;
-        } else if (ul == high && l.isEmpty(x, y - 1)) {
-            y--;
+        if(speed > 0) {
+            int ul = shortestPath(SIGHT_RANGE - 1, x, y - 1);
+            int dl = shortestPath(SIGHT_RANGE - 1, x, y + 1);
+            int ll = shortestPath(SIGHT_RANGE - 1, x - 1, y);
+            int rl = shortestPath(SIGHT_RANGE - 1, x + 1, y);
+            int high = max4(ul, dl, ll, rl);
+            
+            if(rl == high && l.isEmpty(x + 1, y)) {
+                x++;
+            } else if (dl == high && l.isEmpty(x, y + 1)) {
+                y++;
+            } else if(ll == high && l.isEmpty(x - 1, y)) {
+                x--;
+            } else if (ul == high && l.isEmpty(x, y - 1)) {
+                y--;
+            }
+        } else {
+            //Do nothing if you have no speed
         }
     }
     
@@ -106,37 +138,41 @@ public class Enemy extends DungeonObject {
     
     //move in a random direction (idling)
     private void moveAtRandom() {
-        int r = (int) (Math.random() * 4) + 1;
-        
-        switch(r) {
-            case 1: 
-                if(l.isEmpty(x, y + 1)) {
+        if (speed > 0) {
+            int r = (int) (Math.random() * 4) + 1;
+            
+            switch(r) {
+                case 1: 
+                    if(l.isEmpty(x, y + 1)) {
                     y++;
                 }
-                break;
-            case 2:
-                if(l.isEmpty(x + 1, y)) {
+                    break;
+                case 2:
+                    if(l.isEmpty(x + 1, y)) {
                     x++;
                 }
-                break;
-            case 3:
-                if(l.isEmpty(x, y - 1)) {
+                    break;
+                case 3:
+                    if(l.isEmpty(x, y - 1)) {
                     y--;
                 }
-                break;
-            case 4:
-                if(l.isEmpty(x - 1, y)) {
+                    break;
+                case 4:
+                    if(l.isEmpty(x - 1, y)) {
                     x--;
                 }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            //Do nothing if you have no speed
         }
     }
     
     //return true if this enemy can see the given player
-    public boolean canSee(PlayerParty p) {
-        if (getDistanceTo(p) <= 8) {
+    private boolean canSee(PlayerParty p) {
+        if (getDistanceTo(p) <= SIGHT_RANGE - 1) {
             return true;
         }
         return false;

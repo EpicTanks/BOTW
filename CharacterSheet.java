@@ -11,7 +11,7 @@ public class CharacterSheet{
   private int hp;
   private int mp;
   private int bp;
-  private int str;
+  private int str = 2;
   private int spd;
   private int smrt;
   private int spch;
@@ -169,15 +169,18 @@ public class CharacterSheet{
   public boolean collect(Item q){
     for(int i = 0; i < 2; i++){
       for(int j = 0; j < 2; j++){
-        if(inv.checkEmpty(i,j) == true){
+        if(inv.checkEmpty(i,j)){
           inv.add(q,i,j);
-          System.out.println("Added item!");         
+          System.out.println(name + " picked up the " + q.name);         
           return true;
         }        
       }
     }
-    System.out.println("NO SPACCEEEE");
     return false;
+  }
+  
+  public int rollDamage() {
+      return (int) (Math.random() * str) + 1; //1 to str damage
   }
   
   public void use(int s1, int s2){
@@ -192,5 +195,14 @@ public class CharacterSheet{
     armr = a;
   }
   
+  public boolean isAlive() {
+      return hp > 0;
+  }
   
+  public void takeDamage(int damage) {
+      hp -= damage;
+      if(hp < 0) {
+          hp = 0;
+      }
+  }
 }

@@ -9,5 +9,9 @@ public class TreasureBox extends DungeonObject {
         super(x, y, l, "images/sprites/box.png");
         contains = Item.getItem();
     }
+    
+    public Item contents() {
+        return contains;
+    }
 }
 

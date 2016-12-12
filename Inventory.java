@@ -75,6 +75,10 @@ public class Inventory{
     remove(s1,s2);
   }
   
+  public boolean checkEmpty(int s1, int s2) {
+      return contents[s1][s2] == null;
+  }
+  
   public void click(int x, int y){
     
     if(cMenuVis == true){
