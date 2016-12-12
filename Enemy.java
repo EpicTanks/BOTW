@@ -33,6 +33,7 @@ public class Enemy extends DungeonObject {
         } catch (IOException e) {
             System.out.println("setData() failed, default stats kept.");
         }
+        scaleStats(l.getFloor());
     }
     
     public static String findName(String theme) {
@@ -60,6 +61,13 @@ public class Enemy extends DungeonObject {
         
         maxhp = strength * 2;
         hp = maxhp;
+    }
+    
+    public void scaleStats(int mod) {
+        maxhp += 2 * mod;
+        hp = maxhp;
+        strength += mod;
+        speed += mod;
     }
     
     public void takeTurn(PlayerParty p) {

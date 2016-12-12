@@ -78,7 +78,7 @@ public class Level {
         }
     }
     
-    //generates a floor at random
+    //generates a floor at random (this is a huge mess, i will clean it up eventually)
     public void genLevel() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int) (Math.random() * 10) + ".txt"));
         
@@ -235,6 +235,10 @@ public class Level {
                 return e;
         }
         return null;
+    }
+    
+    public int getFloor() {
+        return floor;
     }
     
     //draws the world

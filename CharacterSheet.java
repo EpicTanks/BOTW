@@ -201,5 +201,8 @@ public class CharacterSheet{
   
   public void takeDamage(int damage) {
       hp -= damage;
+      if(hp < 0) {
+          hp = 0;
+      }
   }
 }
