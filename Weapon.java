@@ -9,15 +9,15 @@ import java.awt.image.AffineTransformOp;
 public class Weapon extends Item{
   public BufferedImage img = null;
   private String wType;
+
   private String[][] weaponCatalogue ={
-    {"Pistol","Chicken Cooper","Six-Shooter","Super Shooter","Brigadier","The Good Boy Gun"},
+    {"Pistol","Chicken Cooper","Six-Shooter","Super Shooter","Brigadier"},
     {"Rifle","L.A.R.D.","Screwball","Big Man","Bolt Action Riflee"},
     {"Musket","Old Musket","War Relic","Devil's Breath"},
     {"Axe","Axe","Battleaxe"},
-    {"Club","Club","Rail-Spike"},
     {"Staff","Staff","Ritual Staff"},
     {"Sword","Sword","War Sabre","Shank","Knife"},
-    {"BBGun","B.B. Boy"}
+    {"Special","B.B. Boy","Rail-Spike","Club", "Arclight","The Good Boy Gun","Flamethrower"}
   }; 
   
   
@@ -29,20 +29,28 @@ public class Weapon extends Item{
   private int price = 1;
   
   public Weapon(){
-    int i = (int) (8*Math.random());
+      type = "Weapon";
+    int i = (int) (7*Math.random());
     int j = (int) ((weaponCatalogue[i].length-1)*Math.random()+1);
     //System.out.println("Yuo got a " +  weaponCatalogue[i][0]);
     name = weaponCatalogue[i][j];
     description = "Yeehaw! What a VERY WELL MADE weaponry device!";
-    price = 6;
     wType = weaponCatalogue[i][0];
-     try {
-            setData();
-        } catch (IOException e) {
-            System.out.println("setData() failed, default stats kept.");
-        }
+    
+//Code stolen direct from jake
+    try {
+      setData();
+    } catch (IOException e) {
+      System.out.println("setData() failed, default stats kept.");
+    }
     try{
-      img = ImageIO.read(new File("images/items/weapons/" + wType + ".png")); 
+      //set extra case for ewpaons that dont fit in to other categories
+      if(wType != "Special"){
+        img = ImageIO.read(new File("images/items/weapons/" + wType + ".png")); 
+      }
+      else{
+        img = ImageIO.read(new File("images/items/weapons/" + name + ".png"));
+      }
     }
     catch(IOException e){     
       System.out.println("Hey hey!There's no image for " + wType);
@@ -50,15 +58,18 @@ public class Weapon extends Item{
     
   }
   
+  
+  //New constructer for getting specific weapons
   public Weapon(String n, String c){
+      type = "Weapon";
     name = n;
-     wType = c;
-     
-     try {
-            setData();
-        } catch (IOException e) {
-            System.out.println("setData() failed, default stats kept.");
-        }
+    wType = c;
+    
+    try {
+      setData();
+    } catch (IOException e) {
+      System.out.println("setData() failed, default stats kept.");
+    }
     try{
       img = ImageIO.read(new File("images/items/weapons/" + wType + ".png")); 
     }
@@ -86,14 +97,14 @@ public class Weapon extends Item{
   }
   
   public int rollDamage(){
-   return (int) (Math.random() * dmghi) + dmglo; 
+    return (int) (Math.random() * dmghi) + dmglo; 
   }
   
   public void statsToString(){
-   System.out.println("Weapon: " + name); 
-   System.out.println("Damage: " + dmglo + "-" + dmghi);
-   System.out.println("Range: " + range);
-   System.out.println("Value: " + price);
+    System.out.println("Weapon: " + name); 
+    System.out.println("Damage: " + dmglo + "-" + dmghi);
+    System.out.println("Range: " + range);
+    System.out.println("Value: " + price);
   }
   
   public void use(CharacterSheet c){
@@ -110,10 +121,6 @@ public class Weapon extends Item{
   
   public int getSlot(){
     return slot; 
-  }
-  
-  public String getName(){
-    return name; 
   }
   
   public void setLocation(Inventory l, int s){

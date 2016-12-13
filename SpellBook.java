@@ -32,7 +32,7 @@ public class SpellBook extends Item{
     spell = spellCatalogue[i][j];
     colour = spellCatalogue[i][0];
     reqSmarts = 5;
-    
+    type = "Spellbook";
     try{
       img = ImageIO.read(new File("images/items/spellbooks/" + colour + "_book.png")); 
     }
@@ -48,9 +48,6 @@ public class SpellBook extends Item{
    return slot; 
   }
   
-    public String getName(){
-   return name; 
-  }
   
   public void setLocation(Inventory l, int s){
    location = l; 

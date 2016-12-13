@@ -10,6 +10,7 @@ public abstract class Item {
   protected Inventory location;
   protected String name;
   protected String description;
+  protected String type;
   protected int price;
   protected int slot;
   
@@ -18,7 +19,9 @@ public abstract class Item {
   public abstract void setLocation(Inventory l, int s);
   public abstract Inventory getLocation();
   public abstract int getSlot();
-  public abstract String getName();
+  public String getName(){
+   return name; 
+  }
   
   public static Item getItem() {
     switch((int) (Math.random() * 3) + 1) {
@@ -31,5 +34,9 @@ public abstract class Item {
       default:
         throw new RuntimeException("Jake wrote a bad switch statement. Blame him.");
     }
+  }
+  
+  public String getType(){
+   return type; 
   }
 }
