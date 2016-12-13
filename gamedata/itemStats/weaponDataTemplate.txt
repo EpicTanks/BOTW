@@ -3,3 +3,4 @@ DamageMax
 ClipSize
 Range(tiles)
 Price
+Description
