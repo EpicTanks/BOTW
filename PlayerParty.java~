@@ -9,7 +9,6 @@ public class PlayerParty extends DungeonObject {
     }
     
     public boolean takeAction(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         switch(e.getKeyCode()) {
             case 32:
                 return true; //skip the turn with spacebar
@@ -21,8 +20,6 @@ public class PlayerParty extends DungeonObject {
                 return action("Left"); //move left with left arrow
             case 39:
                 return action("Right"); //move right with right arrow
-            case 46:
-                return l.useStairs(x, y);
             default:
                 return false; //do nothing with any other keys
         }
