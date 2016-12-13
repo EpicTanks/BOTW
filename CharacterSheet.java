@@ -17,14 +17,15 @@ public class CharacterSheet{
   private int spch;
   private int partyOrder;
   private Inventory inv;
-  private Armour armr;
-  private Armour hat;
+  public Armour armr;
+  public Armour hat;
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
   public String[] abilities = new String[5];
   private boolean invVis;
   private boolean statVis;
+  public Weapon weap = new Weapon("Fists","Fist");
   public int noOfAbils = 0;
   
   public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
@@ -180,7 +181,7 @@ public class CharacterSheet{
   }
   
   public int rollDamage() {
-      return (int) (Math.random() * str) + 1; //1 to str damage
+      return ((int) (Math.random() * str) + 1)+weap.rollDamage(); //1 to str damage
   }
   
   public void use(int s1, int s2){
