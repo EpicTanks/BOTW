@@ -87,12 +87,16 @@ public class CharacterSheet{
   }
   
   public void click(int x, int y){
-    // System.out.println("x,y: " + x + "," + y);
+    //System.out.println("x,y: " + x + "," + y);
     // System.out.println("top(y must b lesr): " + ( (partyOrder*75)+5) + ". bottom(y must be bigr):" + ((partyOrder*75)+40));
     
     if(x > 75 && x < 105 &&  (y < (partyOrder*75)+5  || y > (partyOrder*75)+70)){
       statVis = false;
       invVis = false;
+    }
+    
+    if(x > 5 && x < 69 && y > (partyOrder*75)+5 && y < (partyOrder*75)+69){
+     statsToString(); 
     }
     
     if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
@@ -122,6 +126,17 @@ public class CharacterSheet{
     }
     
     
+  }
+  
+  
+  public void statsToString(){
+    System.out.println(name + ", The Adventurer");
+    System.out.println("");
+    System.out.println("Strength: " + str);
+    System.out.println("Speed: " + spd);
+    System.out.println("Smarts: " + smrt);
+    System.out.println("Speech: " + spch);
+    weap.statsToString();
   }
   
   public void paint(Graphics2D g2d){

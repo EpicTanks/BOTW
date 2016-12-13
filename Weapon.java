@@ -89,6 +89,13 @@ public class Weapon extends Item{
    return (int) (Math.random() * dmghi) + dmglo; 
   }
   
+  public void statsToString(){
+   System.out.println("Weapon: " + name); 
+   System.out.println("Damage: " + dmglo + "-" + dmghi);
+   System.out.println("Range: " + range);
+   System.out.println("Value: " + price);
+  }
+  
   public void use(CharacterSheet c){
     c.weap = this;
   }
