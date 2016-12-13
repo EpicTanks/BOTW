@@ -4,6 +4,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 import java.nio.*;
+import java.util.*;
 import java.util.ArrayList;
 
 public class Level {
@@ -13,7 +14,7 @@ public class Level {
     private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     private ArrayList<TreasureBox> treasureList = new ArrayList<TreasureBox>();
     private PlayerParty player;
-    //private CharacterSheet[] characters = new CharacterSheet[3];
+    private CharacterSheet[] sheets;
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
     private BufferedImage wall2Image = null;
@@ -22,8 +23,9 @@ public class Level {
     private static final int SCALE = 16;
     private static final int OFFSET = 192;
     
-    public Level(int floor) {
+    public Level(int floor, CharacterSheet[] sheets) {
         this.floor = floor; //will be used to set the theme later
+        this.sheets = sheets;
         
         //set the theme (for now, just mines)
         theme = "mines";
@@ -40,9 +42,10 @@ public class Level {
         
         //try to load the level
         try {
-            loadLevel("floor2.txt");
+            //loadLevel("floor2.txt");
+            genLevel();
         } catch (IOException e) {
-            System.err.println("Whoops. No file!");
+            System.err.println("Whoops. Missing a file!");
             throw new RuntimeException(e);
         }
         
@@ -59,12 +62,7 @@ public class Level {
                 }
             }
         }
-        
-        //create the player
-//        for(CharacterSheet c: characters) {
-//            c = new CharacterSheet("marvin", 0, 0, 0, 0, 0, "wow", "gudablity");
-//        }
-        player = new PlayerParty(1, 1, this);//, characters);
+        player = new PlayerParty(1, 1, this, sheets);
     }
     
     //loads a floor from a text file
@@ -80,8 +78,81 @@ public class Level {
         }
     }
     
-    //generates a floor at random based on the theme
-    public void genLevel() {
+    //generates a floor at random (this is a huge mess, i will clean it up eventually)
+    public void genLevel() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int) (Math.random() * 10) + ".txt"));
+        
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i + 12] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j][i + 24] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 12][i + 24] = line.charAt(j);
+            }
+        }
+        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
+        for (int i = 0; i < 12; i++) {
+            String line = reader.readLine();
+            for (int j = 0; j < 12; j++) {
+                layout[j + 24][i + 24] = line.charAt(j);
+            }
+        }
+        
+        //close off the outside;
+        for(int i = 0; i < 36; i++) {
+            layout[0][i] = '|';
+            layout[35][i] = '|';
+            layout[i][0] = '-';
+            layout[i][35] = '-';
+        }
+        layout[0][0] = layout[0][35] = layout[35][0] = layout[35][35] = 'c';
     }
     
     //Moves the enemies
@@ -92,6 +163,19 @@ public class Level {
             }
             playerTurn = true;
         }
+    }
+    
+    public void deleteTreasureAt(int x, int y) {
+        for (final Iterator iterator = treasureList.iterator(); iterator.hasNext(); ) {
+            TreasureBox target = (TreasureBox) iterator.next();
+            if (target.getX() == x && target.getY() == y) {
+                iterator.remove();
+            }
+        }
+    }
+    
+    public void removeEnemy(Enemy e) {
+        enemyList.remove(e);
     }
     
     //returns true if there is nothing at coodinate (x, y)
@@ -113,12 +197,48 @@ public class Level {
         return true;
     }
     
+    public boolean containsTreasure(int x, int y) {
+        for (TreasureBox t: treasureList) {
+            if (x == t.getX() && y == t.getY())
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean containsEnemy(int x, int y) {
+        for (Enemy e: enemyList) {
+            if (x == e.getX() && y == e.getY())
+                return true;
+        }
+        return false;
+    }
+    
     public boolean containsPlayer(int x, int y) {
         return x == player.getX() && y == player.getY();
     }
     
     public PlayerParty getPlayer() {
         return player;
+    }
+    
+    public TreasureBox getTreasure(int x, int y) {
+        for (TreasureBox t: treasureList) {
+            if (x == t.getX() && y == t.getY())
+                return t;
+        }
+        return null;
+    }
+    
+    public Enemy getEnemy(int x, int y) {
+        for (Enemy e: enemyList) {
+            if (x == e.getX() && y == e.getY())
+                return e;
+        }
+        return null;
+    }
+    
+    public int getFloor() {
+        return floor;
     }
     
     //draws the world
