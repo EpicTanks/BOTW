@@ -2,16 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelTest extends JPanel {
-    private Level l = new Level(0);
+    private Level l;
     private CharacterSheet[] sheets = new CharacterSheet[3];
     
     public LevelTest() {
+        sheets[0] = new CharacterSheet("bob", 0);
+        sheets[1] = new CharacterSheet("bob2", 1);
+        sheets[2] = new CharacterSheet("jim", 2);
+        
+        l = new Level(0, sheets);
+        
         addKeyListener(new CoolKeyListener(l));
         setFocusable(true);
-        
-        sheets[0] = new CharacterSheet("bob", 0);
-        sheets[1] = new CharacterSheet("bob", 1);
-        sheets[2] = new CharacterSheet("bob", 2);
         
         addMouseListener(new CoolMouseListener(sheets));
     }
