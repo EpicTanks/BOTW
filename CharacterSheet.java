@@ -28,6 +28,7 @@ public class CharacterSheet{
   public Weapon weap = new Weapon("Fists","Fist");
   public int noOfAbils = 0;
   public static CharacterSheet selectedSheet;
+  public String race;
   
   public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
     //Births a new character from the bowels of the machine god
@@ -51,6 +52,8 @@ public class CharacterSheet{
   
   //dumbed down creator
   public CharacterSheet(String name, int po){
+    String[] races = {"Human","Elf","Orc","Halfling","Dwarf","Lizardman"};
+    race = races[(int) (Math.random()*6)];
     this.name = name;
     partyOrder = po;
     inv = new Inventory(this,192,partyOrder*74); 
@@ -65,7 +68,7 @@ public class CharacterSheet{
   
   public void loadImages(String n){    
     try{
-      portrait = ImageIO.read(new File("images/portraits/" + n + ".png")); 
+      portrait = ImageIO.read(new File("images/portraits/colour"+((int)(Math.random()*2)+1)+"/" + race + "_male.png")); 
       bg = ImageIO.read(new File("images/cSheet.png"));
       abilBG = ImageIO.read(new File("images/cMenu.png"));
     }
