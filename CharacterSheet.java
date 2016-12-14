@@ -27,6 +27,7 @@ public class CharacterSheet{
   private boolean statVis;
   public Weapon weap = new Weapon("Fists","Fist");
   public int noOfAbils = 0;
+  public static CharacterSheet selectedSheet;
   
   public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
     //Births a new character from the bowels of the machine god
@@ -73,6 +74,10 @@ public class CharacterSheet{
     invVis = false;
   }
   
+  public Weapon getWeap(){
+   return weap;
+  }
+  
   public void changeHP(int mod){
     hp += mod;
   }
@@ -96,6 +101,7 @@ public class CharacterSheet{
     }
     
     if(x > 5 && x < 69 && y > (partyOrder*75)+5 && y < (partyOrder*75)+69){
+      selectedSheet = this;
      statsToString(); 
     }
     
@@ -143,6 +149,10 @@ public class CharacterSheet{
     
     g2d.drawImage(bg, 0, partyOrder*74,null);
     g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
+    if(selectedSheet == this){
+      g2d.setColor(Color.yellow);
+      g2d.drawRect(5,(partyOrder*74)+5,64,64);
+    }
     g2d.setFont(new Font("Consolas",Font.PLAIN,15));
     g2d.setColor(Color.white);
     g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);

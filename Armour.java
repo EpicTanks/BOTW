@@ -20,6 +20,7 @@ public class Armour extends Item{
        int i = (int) (2*Math.random());
        int j = (int) (13*Math.random()+1);
        equipType = armourCatalogue[i][0];
+       type = "Armour";
        if(equipType == "Armour"){
        
         description = "A Nice Set of Armour";
@@ -56,9 +57,6 @@ public class Armour extends Item{
    return location; 
   }
   
-      public String getName(){
-   return name; 
-  }  
     
   public int getSlot(){
    return slot; 
