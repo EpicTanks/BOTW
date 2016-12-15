@@ -72,6 +72,8 @@ public class Armour extends Item{
   }
   
   
+  
+  
    public void setData() throws IOException{
     BufferedReader reader = null;
     try {
@@ -98,6 +100,12 @@ public class Armour extends Item{
   public void use(CharacterSheet c){
     c.setArmour(this);
   }
+  
+  public int protect(){
+   return protection; 
+  }
+  
+  
   
   public void setLocation(Inventory l, int s){
     location = l; 
