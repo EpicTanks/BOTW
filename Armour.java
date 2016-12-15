@@ -9,7 +9,7 @@ public class Armour extends Item{
   //fields
   public BufferedImage img = null;
   private String equipType;
-  private int protection;
+  private int protection = 3;
   private int strMod;
   private int smrtMod;
   private int spchMod;
@@ -30,10 +30,10 @@ public class Armour extends Item{
     int i = (int) (8*Math.random());
     int j = (int) ((armourCatalogue[i].length-1)*Math.random()+1);
     equipType = armourCatalogue[i][0];
-    type = "Armour";
     
     
-   
+    
+    
     try {
       setData();
     } catch (IOException e) {
@@ -48,14 +48,14 @@ public class Armour extends Item{
     }
     
     if(i <= 4){
-      equipType = "Armour";
+      type = "Armour";
     }
     else{
-      equipType = "Hat"; 
+      type = "Hat";
     }
     
     
-    if(equipType == "Armour"){
+    if(type == "Armour"){
       
       description = "A Nice Set of Armour";
     }
@@ -72,52 +72,76 @@ public class Armour extends Item{
   }
   
   
-  
-  
-   public void setData() throws IOException{
-    BufferedReader reader = null;
-    try {
-      File file = new File("gamedata/itemStats/armourStats/" + equipType + "/" +  name + ".txt");
-      reader = new BufferedReader(new FileReader(file));
+  public Armour(int e){
+    name = "Dumb!!!";
+    if(e == 0){
+      type = "Armour";
+      protection = 0;
+      strMod = 0;
+      smrtMod = 0;
+      spchMod = 0;
+      price = 0;
     }
-    catch (FileNotFoundException e) {
-      System.out.println("gamedata/itemStats/armourStats/" + equipType + "/" +  name + ".txt");
-      throw new IOException();
+    else{
+      if(e == 0){
+        type = "Hat";
+        protection = 0;
+        strMod = 0;
+        smrtMod = 0;
+        spchMod = 0;
+        price = 0;
+      }
+    }
+  }
+    
+    public void setData() throws IOException{
+      BufferedReader reader = null;
+      try {
+        File file = new File("gamedata/itemStats/armourStats/" + equipType + "/" +  name + ".txt");
+        reader = new BufferedReader(new FileReader(file));
+      }
+      catch (FileNotFoundException e) {
+        System.out.println("gamedata/itemStats/armourStats/" + equipType + "/" +  name + ".txt");
+        throw new IOException();
+      }
+      
+      protection = Integer.parseInt(reader.readLine());
+      strMod = Integer.parseInt(reader.readLine());
+      smrtMod = Integer.parseInt(reader.readLine());
+      spchMod = Integer.parseInt(reader.readLine());
+      price = Integer.parseInt(reader.readLine());
     }
     
-    protection = Integer.parseInt(reader.readLine());
-    strMod = Integer.parseInt(reader.readLine());
-    smrtMod = Integer.parseInt(reader.readLine());
-    spchMod = Integer.parseInt(reader.readLine());
-    price = Integer.parseInt(reader.readLine());
+    
+    public void paint(Graphics2D g2d, int x, int y){
+      g2d.drawImage(img, x, y, 64, 64, null);
+    }
+    
+    public void use(CharacterSheet c){
+      if(type == "Armour"){
+        c.setArmour(this, 0);
+      }
+      else{
+         c.setArmour(this, 1);
+      }
+    }
+    
+    public int protect(){
+      return protection; 
+    }
+    
+    
+    public void setLocation(Inventory l, int s){
+      location = l; 
+      slot = s;
+    }
+    
+    public Inventory getLocation(){
+      return location; 
+    }
+    
+    
+    public int getSlot(){
+      return slot; 
+    }
   }
-  
-   
-  public void paint(Graphics2D g2d, int x, int y){
-    g2d.drawImage(img, x, y, 64, 64, null);
-  }
-  
-  public void use(CharacterSheet c){
-    c.setArmour(this);
-  }
-  
-  public int protect(){
-   return protection; 
-  }
-  
-  
-  
-  public void setLocation(Inventory l, int s){
-    location = l; 
-    slot = s;
-  }
-  
-  public Inventory getLocation(){
-    return location; 
-  }
-  
-  
-  public int getSlot(){
-    return slot; 
-  }
-}

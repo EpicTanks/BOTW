@@ -17,8 +17,8 @@ public class CharacterSheet{
   private int spch;
   private int partyOrder;
   private Inventory inv;
-  public Armour armr;
-  public Armour hat;
+  public Armour armr = new Armour(0);
+  public Armour hat = new Armour(1);
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
@@ -220,8 +220,22 @@ public class CharacterSheet{
     inv.remove(s1, s2);
   }  
   
-  public void setArmour(Armour a){
+  public void setArmour(Armour a, int eType){
+    if(eType == 0){
     armr = a;
+    }
+    else{
+     hat = a; 
+    }
+  }
+  
+  
+  public Armour getArmour(){
+   return armr; 
+  }
+  
+  public Armour getHat(){
+    return hat;
   }
   
   public boolean isAlive() {
@@ -229,7 +243,13 @@ public class CharacterSheet{
   }
   
   public void takeDamage(int damage) {
-      hp -= damage;
+    if(armr.protect() >= damage){
+      
+    }
+    else{
+      hp -= (damage-armr.protect());
+    }
+    System.out.println(name + " took " + damage + " damage.");
       if(hp < 0) {
           hp = 0;
       }

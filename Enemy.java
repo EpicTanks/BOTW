@@ -108,9 +108,9 @@ public class Enemy extends DungeonObject {
     
     private void attack(PlayerParty p) {
         if(isRanged > 0) {
-            System.out.println("The " + name + " shot you for " + strength + " damage.");
+            System.out.println("The " + name + " shot you!"); // for " + strength + " damage.");
         } else {
-            System.out.println("The " + name + " dealt " + strength + " damage to you.");
+            System.out.println("The " + name + " punched ya!"); // " + strength + " damage to you.");
         }
         p.takeDamage(strength);
     }
