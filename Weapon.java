@@ -81,11 +81,11 @@ public class Weapon extends Item{
   public void setData() throws IOException{
     BufferedReader reader = null;
     try {
-      File file = new File("gamedata/itemStats/" + wType + "/" +  name + ".txt");
+      File file = new File("gamedata/itemStats/weaponStats/" + wType + "/" +  name + ".txt");
       reader = new BufferedReader(new FileReader(file));
     }
     catch (FileNotFoundException e) {
-      System.out.println("gamedata/itemStats/" + wType + "/" +  name + ".txt");
+      System.out.println("gamedata/itemStats/weaponStats/" + wType + "/" +  name + ".txt");
       throw new IOException();
     }
     
