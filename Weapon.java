@@ -101,10 +101,10 @@ public class Weapon extends Item{
   }
   
   public void statsToString(){
-    System.out.println("Weapon: " + name); 
-    System.out.println("Damage: " + dmglo + "-" + dmghi);
-    System.out.println("Range: " + range);
-    System.out.println("Value: " + price);
+    Console.addMessage("Weapon: " + name); 
+    Console.addMessage("Damage: " + dmglo + "-" + dmghi);
+    Console.addMessage("Range: " + range);
+    Console.addMessage("Value: " + price);
   }
   
   public void use(CharacterSheet c){

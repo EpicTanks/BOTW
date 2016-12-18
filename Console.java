@@ -33,4 +33,8 @@ public abstract class Console {
             messageList.remove();
         }
     }
+    
+    public static void clear() {
+        messageList = new LinkedList<String>();
+    }
 }

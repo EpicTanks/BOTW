@@ -139,12 +139,13 @@ public class CharacterSheet{
   
   
   public void statsToString(){
-    System.out.println(name + ", The Adventurer");
-    System.out.println("");
-    System.out.println("Strength: " + str);
-    System.out.println("Speed: " + spd);
-    System.out.println("Smarts: " + smrt);
-    System.out.println("Speech: " + spch);
+    Console.clear();
+    Console.addMessage(name + ", The Adventurer");
+    Console.addMessage("");
+    Console.addMessage("Strength: " + str);
+    Console.addMessage("Speed: " + spd);
+    Console.addMessage("Smarts: " + smrt);
+    Console.addMessage("Speech: " + spch);
     weap.statsToString();
   }
   
