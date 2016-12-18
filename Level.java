@@ -45,26 +45,19 @@ public class Level {
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
+        genLevel();
         
-        //try to load the level
-        try {
-            //loadLevel("floor2.txt");
-            genLevel();
-        } catch (IOException e) {
-            System.err.println("Whoops. Missing a file!");
-            throw new RuntimeException(e);
-        }
         
         //create enemies and treasure boxes
         for (int x = 0; x < layout.length; x++) {
             for (int y = 0; y < layout[x].length; y++) {
-                if(layout[x][y] == 'e') {
+                if(layout[y][x] == 'e') {
                     enemyList.add(new Enemy(x, y, this, theme)); //create an enemy
-                    layout[x][y] = '.'; //place a floor under the enemy
+                    layout[y][x] = '.'; //place a floor under the enemy
                 }
-                if(layout[x][y] == 't') {
+                if(layout[y][x] == 't') {
                     treasureList.add(new TreasureBox(x, y, this)); //create a treasure
-                    layout[x][y] = '.'; //place a floor under the treasure
+                    layout[y][x] = '.'; //place a floor under the treasure
                 }
             }
         }
@@ -84,85 +77,8 @@ public class Level {
         }
     }
     
-    //generates a floor at random (this is a huge mess, i will clean it up eventually)
-    public void genLevel() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int) (Math.random() * 10) + ".txt"));
-        
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j][i] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 12][i] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 24][i] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j][i + 12] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 12][i + 12] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 24][i + 12] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j][i + 24] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 12][i + 24] = line.charAt(j);
-            }
-        }
-        reader = new BufferedReader(new FileReader("gamedata/rooms/" + (int)(Math.random() * 10)+ ".txt"));
-        for (int i = 0; i < 12; i++) {
-            String line = reader.readLine();
-            for (int j = 0; j < 12; j++) {
-                layout[j + 24][i + 24] = line.charAt(j);
-            }
-        }
-        
-        //close off the outside;
-        for(int i = 0; i < 36; i++) {
-            layout[0][i] = '|';
-            layout[35][i] = '|';
-            layout[i][0] = '-';
-            layout[i][35] = '-';
-        }
-        layout[0][0] = layout[0][35] = layout[35][0] = layout[35][35] = 'c';
-        
-        //staircase pls
-        layout[(int) (Math.random()*34 + 1)][(int) (Math.random()*34 + 1)] = 'd';
-        layout[1][1] = 'u';
+    public void genLevel() {
+        layout = RandomLevel.genLevel(floor);
     }
     
     //Moves the enemies
@@ -190,7 +106,7 @@ public class Level {
     
     //returns true if there is nothing at coodinate (x, y)
     public boolean isEmpty(int x, int y) {
-        char c = layout[x][y];
+        char c = layout[y][x];
         if (c == '-' || c == '|' || c == 'c') {
             return false;
         }
@@ -224,13 +140,16 @@ public class Level {
     }
     
     public boolean useStairs(int x, int y) {
-        if (layout[x][y] == 'd') {
+        if (layout[y][x] == 'd') {
+            Console.clear("You walked down the stairs.");
             lt.newLevel(floor + 1);
             return true; //generate new level with floor+1
-        } else if (layout[x][y] == 'u') {
-            lt.newLevel(0);
+        } else if (layout[y][x] == 'u') {
+            Console.clear("You retreated to the first level.");
+            lt.newLevel(1);
             return true; //goto town
         } else {
+            Console.addMessage("There are no stairs there!");
             return false; //do nothing
         }
     }
@@ -271,7 +190,7 @@ public class Level {
             for (int y = 0; y < layout[x].length; y++) {
                 
                 BufferedImage img = null;
-                switch (layout[x][y]) {
+                switch (layout[y][x]) {
                     case 'c':
                         img = cornerImage;
                         break;

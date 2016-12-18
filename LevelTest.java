@@ -7,11 +7,11 @@ public class LevelTest extends JPanel {
     private CoolKeyListener k;
     
     public LevelTest() {
-        sheets[0] = new CharacterSheet("bob", 0);
-        sheets[1] = new CharacterSheet("bob2", 1);
-        sheets[2] = new CharacterSheet("jim", 2);
+        sheets[0] = new CharacterSheet("Bob", 0);
+        sheets[1] = new CharacterSheet("Bill", 1);
+        sheets[2] = new CharacterSheet("Jim", 2);
         CharacterSheet.selectedSheet = sheets[0];
-        l = new Level(0, sheets, this);
+        l = new Level(1, sheets, this);
         
         addKeyListener(k = new CoolKeyListener(l));
         setFocusable(true);

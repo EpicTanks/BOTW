@@ -9,7 +9,7 @@ public class Enemy extends DungeonObject {
     //naming variables
     private String name = "";
     static String temp = "";
-    private static final String[][] possibleNames = {
+    private static final String[][] possibleNames = { //TODO: Capitalize and add spaces
         {"bandit", "rat", "rangerrat", "giantrat", "bandit", "koolbandit", "ghostlybandit", "dwarfbandit", "giblo"},
         {"haunted", "rat", "rangerrat", "giantrat", "ghostlybandit"},
         {"mines", "rat", "rangerrat", "giantrat", "dwarfbandit", "caveogre", "kobold", "grayooze"},
@@ -19,15 +19,17 @@ public class Enemy extends DungeonObject {
         {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
     };
     
-    //stats (default is 1 for everything)
+    //Stats (default is 1 for everything)
     private int maxhp = 1;
     private int hp = 1;
     private int strength = 1;
     private int speed = 1;
     
-    //ranged status
+    //Ranged status
     private int isRanged;
     
+    
+    //Constructor
     public Enemy(int x, int y, Level l, String theme) {
         super(x, y, l, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
         name = temp;
@@ -39,6 +41,7 @@ public class Enemy extends DungeonObject {
         scaleStats(l.getFloor() - 1);
     }
     
+    //Returns a name based on the provided theme.
     public static String findName(String theme) {
         for (int i = 0; i < possibleNames.length; i++) {
             if (possibleNames[i][0].equals(theme)) {
@@ -48,6 +51,7 @@ public class Enemy extends DungeonObject {
         return "error";
     }
     
+    //Sets this enemies stats and loads its picture.
     private void setData() throws IOException{
         
         //load file
@@ -71,6 +75,7 @@ public class Enemy extends DungeonObject {
         isRanged = Integer.parseInt(reader.readLine());
     }
     
+    //Increase this enemies stats based on the provided int.
     public void scaleStats(int mod) {
         maxhp += 2 * mod;
         hp = maxhp;
@@ -78,6 +83,7 @@ public class Enemy extends DungeonObject {
         speed += mod;
     }
     
+    //Choose an action.
     public void takeTurn(PlayerParty p) {
         if ((x == p.getX() && (y == p.getY() - 1 || y == p.getY() + 1))
                 || (y == p.getY() && (x == p.getX() - 1 || x == p.getX() + 1))) {
@@ -94,6 +100,7 @@ public class Enemy extends DungeonObject {
         }
     }
     
+    //Take an amount of damage. Also calls the method to remove this enemy from the level.
     public void takeDamage(int damage) {
         hp -= damage;
         if(hp <= 0) {
@@ -116,11 +123,11 @@ public class Enemy extends DungeonObject {
     }
     
     private void moveToward(PlayerParty p) {
-        if(speed > 0) {
-            int ul = shortestPath(SIGHT_RANGE - 1, x, y - 1);
-            int dl = shortestPath(SIGHT_RANGE - 1, x, y + 1);
-            int ll = shortestPath(SIGHT_RANGE - 1, x - 1, y);
-            int rl = shortestPath(SIGHT_RANGE - 1, x + 1, y);
+        if(speed > 0 && name != "grayooze") {
+            int ul = shortestPath(SIGHT_RANGE, x, y - 1);
+            int dl = shortestPath(SIGHT_RANGE, x, y + 1);
+            int ll = shortestPath(SIGHT_RANGE, x - 1, y);
+            int rl = shortestPath(SIGHT_RANGE, x + 1, y);
             int high = max4(ul, dl, ll, rl);
             
             if(rl == high && l.isEmpty(x + 1, y)) {
@@ -155,7 +162,7 @@ public class Enemy extends DungeonObject {
     
     //move in a random direction (idling)
     private void moveAtRandom() {
-        if (speed > 0) {
+        if (speed > 0 && name != "grayooze") {
             int r = (int) (Math.random() * 4) + 1;
             
             switch(r) {

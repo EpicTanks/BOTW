@@ -312,8 +312,7 @@ public class Level {
         //draw the player
         player.render(g2d, SCALE, OFFSET);
     }
-    
-    
+        
     public void setEnemyTurn() {
         playerTurn = false;
     }
