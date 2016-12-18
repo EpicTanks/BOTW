@@ -225,12 +225,15 @@ public class Level {
     
     public boolean useStairs(int x, int y) {
         if (layout[x][y] == 'd') {
+            Console.clear("You walked down the stairs.");
             lt.newLevel(floor + 1);
             return true; //generate new level with floor+1
         } else if (layout[x][y] == 'u') {
+            Console.clear("You retreated to the first level.");
             lt.newLevel(0);
             return true; //goto town
         } else {
+            Console.addMessage("There are no stairs there!");
             return false; //do nothing
         }
     }
