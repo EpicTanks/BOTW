@@ -244,15 +244,16 @@ public class CharacterSheet{
   }
   
   public void takeDamage(int damage) {
-    if(armr.protect() >= damage){
-      
-    }
-    else{
-      hp -= (damage-armr.protect());
-    }
+    damage -= armr.protect();
+    if(damage < 0)
+      damage = 0;
+    
+    hp -= damage;
+    
     Console.addMessage(name + " took " + damage + " damage.");
-      if(hp < 0) {
-          hp = 0;
-      }
+    
+    if(hp < 0) {
+        hp = 0;
+    }
   }
 }
