@@ -27,12 +27,59 @@ public class Level {
     private static final int OFFSET = 192;
     
     public Level(int floor, CharacterSheet[] sheets, LevelTest lt) {
-        this.floor = floor; //will be used to set the theme later
+        this.floor = floor;
         this.sheets = sheets;
         this.lt = lt;
+        Random r = new Random();
+        String difficulty = "easy";
         
-        //set the theme (for now, just mines)
-        theme = "mines";
+        switch (floor) {
+            case 1:
+            case 2:
+            case 3:
+                difficulty = "easy";
+                break;
+            case 4:
+            case 5:
+            case 6:
+                difficulty = "average";
+                break;
+            case 7:
+            case 8:
+            case 9:
+                difficulty = "hard";
+                break;
+            case 10:
+                difficulty = "hell";
+                break;
+            default:
+                difficulty = "easy";
+        }
+        
+        if(difficulty.equals("easy")) {
+            switch (r.nextInt(1)) {
+                default:
+                    theme = "ruins";
+            }
+        } else if(difficulty.equals("average")) {
+            switch (r.nextInt(2)) {
+                case 1:
+                    theme = "canyon";
+                    break;
+                case 2:
+                    theme = "mines";
+                    break;
+                default:
+                    theme = "ruins";
+            }
+        } else if(difficulty.equals("hard")) {
+            switch (r.nextInt(1)) {
+                default:
+                    theme = "ruins";
+            }
+        } else {
+            theme = "dragonhell";
+        }
         
         //try to load the images based on the theme
         try {
@@ -45,7 +92,16 @@ public class Level {
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
-        genLevel();
+        System.out.println(difficulty);
+        if(!difficulty.equals("hell")) {
+            genLevel();
+        } else {
+            try {
+                loadLevel("gamedata/rooms/boss.txt");
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
         
         
         //create enemies and treasure boxes
