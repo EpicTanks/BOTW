@@ -139,14 +139,15 @@ public class CharacterSheet{
   
   
   public void statsToString(){
-    Console.clear();
-    Console.addMessage(name + ", The Adventurer");
-    Console.addMessage("");
-    Console.addMessage("Strength: " + str);
-    Console.addMessage("Speed: " + spd);
-    Console.addMessage("Smarts: " + smrt);
-    Console.addMessage("Speech: " + spch);
+    Console.clear(name + ", The Adventurer");
+    Console.addCloseMessage("Strength: " + str);
+    Console.addCloseMessage("Speed: " + spd);
+    Console.addCloseMessage("Smarts: " + smrt);
+    Console.addCloseMessage("Speech: " + spch);
+    Console.addCloseMessage("");
     weap.statsToString();
+    Console.addCloseMessage("");
+    //armr.statsToString();
   }
   
   public void paint(Graphics2D g2d){

@@ -53,6 +53,31 @@ public abstract class Console {
         messageList.add(""); //Add a blank line between each message to improve readability
     }
     
+    public static void addCloseMessage(String s) {
+        
+        //Splits up the string into pieces if it's too big to fit on 1 line.
+        while(s.length() > MAX_CHARS) {
+            String toAdd = "";
+            String[] words = s.split(" ");
+            
+            for(String word: words) {
+                if(toAdd.length() + word.length() > MAX_CHARS)
+                    break;
+                else
+                    toAdd += word + " ";
+            }
+            
+            messageList.add(toAdd);
+            s = s.substring(toAdd.length());
+        }
+        messageList.add(s);
+        
+        //Removes the oldest messages if there are too many to fit inside the box
+        while(messageList.size() > MAX_LINES) {
+            messageList.remove();
+        }
+    }
+    
     public static void clear() {
         messageList = new LinkedList<String>();
     }
