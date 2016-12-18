@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 //This class is abstract because there will only ever be 1 console, and I don't want anyone trying to create an instance
 public abstract class Console {
@@ -24,8 +26,18 @@ public abstract class Console {
     
     public static void addMessage(String s) {
         while(s.length() > MAX_CHARS) {
-            messageList.add(s.substring(0, MAX_CHARS));
-            s = s.substring(MAX_CHARS);
+            String toAdd = "";
+            ArrayList<String> words = new ArrayList<String>(Arrays.asList(s.split(" ")));
+            
+            for(String word: words) {
+                if(toAdd.length() + word.length() > MAX_CHARS)
+                    break;
+                else
+                    toAdd += word + " ";
+            }
+            s = s.substring(toAdd.length());
+            
+            messageList.add(toAdd);
         }
         messageList.add(s);
         
