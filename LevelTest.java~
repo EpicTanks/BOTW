@@ -31,6 +31,8 @@ public class LevelTest extends JPanel {
         for (CharacterSheet c : sheets) {
             c.paint(g2d);
         }
+        
+        Console.paint(g2d);
     }
     
     public void move() {
