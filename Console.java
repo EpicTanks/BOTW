@@ -11,13 +11,13 @@ public abstract class Console {
     private static final int X = 0;
     private static final int Y = 225;
     private static final int FONT_SIZE = 14;
-    private static final int MAX_LINES = 351 / FONT_SIZE;
+    private static final int MAX_LINES = (350 / FONT_SIZE) - 1;
     private static final int MAX_CHARS = 175 / (FONT_SIZE / 2);
     private static final Color BROWN = new Color(255, 190, 100);
     
     public static void paint(Graphics2D g2d) {
         g2d.setColor(BROWN);
-        g2d.fillRect(X, Y, 192, 351);
+        g2d.fillRect(X, Y, 192, 350);
         
         g2d.setColor(Color.black);
         g2d.setFont(new Font("Segoe Print", Font.PLAIN, FONT_SIZE)); 
