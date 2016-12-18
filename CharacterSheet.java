@@ -250,7 +250,7 @@ public class CharacterSheet{
     else{
       hp -= (damage-armr.protect());
     }
-    System.out.println(name + " took " + damage + " damage.");
+    Console.addMessage(name + " took " + damage + " damage.");
       if(hp < 0) {
           hp = 0;
       }
