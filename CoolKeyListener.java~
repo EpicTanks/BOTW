@@ -4,6 +4,10 @@ public class CoolKeyListener implements KeyListener {
     private Level l;
     
     public CoolKeyListener(Level l) {
+        setLevel(l);
+    }
+    
+    public void setLevel(Level l) {
         this.l = l;
     }
     

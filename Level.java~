@@ -15,17 +15,21 @@ public class Level {
     private ArrayList<TreasureBox> treasureList = new ArrayList<TreasureBox>();
     private PlayerParty player;
     private CharacterSheet[] sheets;
+    private LevelTest lt;
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
     private BufferedImage wall2Image = null;
     private BufferedImage cornerImage = null;
+    private BufferedImage stairUp = null;
+    private BufferedImage stairDown = null;
     private boolean playerTurn = true;
     private static final int SCALE = 16;
     private static final int OFFSET = 192;
     
-    public Level(int floor, CharacterSheet[] sheets) {
+    public Level(int floor, CharacterSheet[] sheets, LevelTest lt) {
         this.floor = floor; //will be used to set the theme later
         this.sheets = sheets;
+        this.lt = lt;
         
         //set the theme (for now, just mines)
         theme = "mines";
@@ -36,6 +40,8 @@ public class Level {
             wallImage = ImageIO.read(new File("images/tiles/" + theme + "/wall.png"));
             wall2Image = ImageIO.read(new File("images/tiles/" + theme + "/wall2.png"));
             cornerImage = ImageIO.read(new File("images/tiles/" + theme + "/corner.png"));
+            stairUp = ImageIO.read(new File("images/tiles/StairsUp.png"));
+            stairDown = ImageIO.read(new File("images/tiles/Stairs.png"));
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
@@ -153,6 +159,10 @@ public class Level {
             layout[i][35] = '-';
         }
         layout[0][0] = layout[0][35] = layout[35][0] = layout[35][35] = 'c';
+        
+        //staircase pls
+        layout[(int) (Math.random()*34 + 1)][(int) (Math.random()*34 + 1)] = 'd';
+        layout[1][1] = 'u';
     }
     
     //Moves the enemies
@@ -213,6 +223,18 @@ public class Level {
         return false;
     }
     
+    public boolean useStairs(int x, int y) {
+        if (layout[x][y] == 'd') {
+            lt.newLevel(floor + 1);
+            return true; //generate new level with floor+1
+        } else if (layout[x][y] == 'u') {
+            lt.newLevel(0);
+            return true; //goto town
+        } else {
+            return false; //do nothing
+        }
+    }
+    
     public boolean containsPlayer(int x, int y) {
         return x == player.getX() && y == player.getY();
     }
@@ -261,6 +283,12 @@ public class Level {
                         break;
                     case '.':
                         img = floorImage;
+                        break;
+                    case 'u':
+                        img = stairUp;
+                        break;
+                    case 'd':
+                        img = stairDown;
                         break;
                     default:
                         img = null;
