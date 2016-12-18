@@ -10,7 +10,7 @@ public class LevelTest extends JPanel {
         sheets[0] = new CharacterSheet("bob", 0);
         sheets[1] = new CharacterSheet("bob2", 1);
         sheets[2] = new CharacterSheet("jim", 2);
-        
+        CharacterSheet.selectedSheet = sheets[0];
         l = new Level(0, sheets, this);
         
         addKeyListener(k = new CoolKeyListener(l));
@@ -31,6 +31,8 @@ public class LevelTest extends JPanel {
         for (CharacterSheet c : sheets) {
             c.paint(g2d);
         }
+        
+        Console.paint(g2d);
     }
     
     public void move() {

@@ -25,6 +25,9 @@ public class Enemy extends DungeonObject {
     private int strength = 1;
     private int speed = 1;
     
+    //ranged status
+    private int isRanged;
+    
     public Enemy(int x, int y, Level l, String theme) {
         super(x, y, l, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
         name = temp;
@@ -45,7 +48,9 @@ public class Enemy extends DungeonObject {
         return "error";
     }
     
-    public void setData() throws IOException{
+    private void setData() throws IOException{
+        
+        //load file
         BufferedReader reader = null;
         try {
             File file = new File("gamedata/enemies/" + name + ".txt");
@@ -56,11 +61,14 @@ public class Enemy extends DungeonObject {
             throw new IOException();
         }
         
+        //set stats
         strength = Integer.parseInt(reader.readLine());
         speed = Integer.parseInt(reader.readLine());
-        
         maxhp = strength * 2;
         hp = maxhp;
+        
+        //set ranged status
+        isRanged = Integer.parseInt(reader.readLine());
     }
     
     public void scaleStats(int mod) {
@@ -73,8 +81,13 @@ public class Enemy extends DungeonObject {
     public void takeTurn(PlayerParty p) {
         if ((x == p.getX() && (y == p.getY() - 1 || y == p.getY() + 1))
                 || (y == p.getY() && (x == p.getX() - 1 || x == p.getX() + 1))) {
-            attack(p);
+            if(isRanged != 1) {
+                attack(p); //pure ranged enemies cant attack within 1 square
+            }
         } else if (canSee(p)){
+            if (isRanged > 0 && getDistanceTo(p) < 5) {
+                attack(p);
+            }
             moveToward(p);
         } else {
             moveAtRandom();
@@ -94,7 +107,11 @@ public class Enemy extends DungeonObject {
     }
     
     private void attack(PlayerParty p) {
-        System.out.println("The " + name + " dealt " + strength + " damage to you.");
+        if(isRanged > 0) {
+            System.out.println("The " + name + " shot you for " + strength + " damage.");
+        } else {
+            System.out.println("The " + name + " dealt " + strength + " damage to you.");
+        }
         p.takeDamage(strength);
     }
     

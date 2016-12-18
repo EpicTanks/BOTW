@@ -4,15 +4,16 @@ import java.awt.*;
 public class LevelTest extends JPanel {
     private Level l;
     private CharacterSheet[] sheets = new CharacterSheet[3];
+    private CoolKeyListener k;
     
     public LevelTest() {
         sheets[0] = new CharacterSheet("bob", 0);
         sheets[1] = new CharacterSheet("bob2", 1);
         sheets[2] = new CharacterSheet("jim", 2);
+        CharacterSheet.selectedSheet = sheets[0];
+        l = new Level(0, sheets, this);
         
-        l = new Level(0, sheets);
-        
-        addKeyListener(new CoolKeyListener(l));
+        addKeyListener(k = new CoolKeyListener(l));
         setFocusable(true);
         
         addMouseListener(new CoolMouseListener(sheets));
@@ -34,6 +35,11 @@ public class LevelTest extends JPanel {
     
     public void move() {
         l.takeEnemyTurn();
+    }
+    
+    public void newLevel(int floor) {
+        l = new Level(floor, sheets, this);
+        k.setLevel(l);
     }
     
     public static void main(String[] args) throws InterruptedException {

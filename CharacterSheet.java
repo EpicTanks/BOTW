@@ -17,15 +17,18 @@ public class CharacterSheet{
   private int spch;
   private int partyOrder;
   private Inventory inv;
-  private Armour armr;
-  private Armour hat;
+  public Armour armr = new Armour(0);
+  public Armour hat = new Armour(1);
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
   public String[] abilities = new String[5];
   private boolean invVis;
   private boolean statVis;
+  public Weapon weap = new Weapon("Fists","Fist");
   public int noOfAbils = 0;
+  public static CharacterSheet selectedSheet;
+  public String race;
   
   public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
     //Births a new character from the bowels of the machine god
@@ -49,6 +52,8 @@ public class CharacterSheet{
   
   //dumbed down creator
   public CharacterSheet(String name, int po){
+    String[] races = {"Human","Elf","Orc","Halfling","Dwarf","Lizardman"};
+    race = races[(int) (Math.random()*6)];
     this.name = name;
     partyOrder = po;
     inv = new Inventory(this,192,partyOrder*74); 
@@ -63,13 +68,17 @@ public class CharacterSheet{
   
   public void loadImages(String n){    
     try{
-      portrait = ImageIO.read(new File("images/portraits/" + n + ".png")); 
+      portrait = ImageIO.read(new File("images/portraits/colour"+((int)(Math.random()*2)+1)+"/" + race + "_male.png")); 
       bg = ImageIO.read(new File("images/cSheet.png"));
       abilBG = ImageIO.read(new File("images/cMenu.png"));
     }
     catch(IOException e){     
     } 
     invVis = false;
+  }
+  
+  public Weapon getWeap(){
+   return weap;
   }
   
   public void changeHP(int mod){
@@ -86,12 +95,17 @@ public class CharacterSheet{
   }
   
   public void click(int x, int y){
-    // System.out.println("x,y: " + x + "," + y);
+    //System.out.println("x,y: " + x + "," + y);
     // System.out.println("top(y must b lesr): " + ( (partyOrder*75)+5) + ". bottom(y must be bigr):" + ((partyOrder*75)+40));
     
     if(x > 75 && x < 105 &&  (y < (partyOrder*75)+5  || y > (partyOrder*75)+70)){
       statVis = false;
       invVis = false;
+    }
+    
+    if(x > 5 && x < 69 && y > (partyOrder*75)+5 && y < (partyOrder*75)+69){
+      selectedSheet = this;
+     statsToString(); 
     }
     
     if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
@@ -123,10 +137,25 @@ public class CharacterSheet{
     
   }
   
+  
+  public void statsToString(){
+    System.out.println(name + ", The Adventurer");
+    System.out.println("");
+    System.out.println("Strength: " + str);
+    System.out.println("Speed: " + spd);
+    System.out.println("Smarts: " + smrt);
+    System.out.println("Speech: " + spch);
+    weap.statsToString();
+  }
+  
   public void paint(Graphics2D g2d){
     
     g2d.drawImage(bg, 0, partyOrder*74,null);
     g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
+    if(selectedSheet == this){
+      g2d.setColor(Color.yellow);
+      g2d.drawRect(5,(partyOrder*74)+5,64,64);
+    }
     g2d.setFont(new Font("Consolas",Font.PLAIN,15));
     g2d.setColor(Color.white);
     g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
@@ -171,7 +200,7 @@ public class CharacterSheet{
       for(int j = 0; j < 2; j++){
         if(inv.checkEmpty(i,j)){
           inv.add(q,i,j);
-          System.out.println(name + " picked up the " + q.name);         
+          Console.addMessage(name + " picked up the " + q.name);         
           return true;
         }        
       }
@@ -180,7 +209,7 @@ public class CharacterSheet{
   }
   
   public int rollDamage() {
-      return (int) (Math.random() * str) + 1; //1 to str damage
+      return ((int) (Math.random() * str) + 1)+weap.rollDamage(); //1 to str damage
   }
   
   public void use(int s1, int s2){
@@ -191,8 +220,22 @@ public class CharacterSheet{
     inv.remove(s1, s2);
   }  
   
-  public void setArmour(Armour a){
+  public void setArmour(Armour a, int eType){
+    if(eType == 0){
     armr = a;
+    }
+    else{
+     hat = a; 
+    }
+  }
+  
+  
+  public Armour getArmour(){
+   return armr; 
+  }
+  
+  public Armour getHat(){
+    return hat;
   }
   
   public boolean isAlive() {
@@ -200,7 +243,13 @@ public class CharacterSheet{
   }
   
   public void takeDamage(int damage) {
-      hp -= damage;
+    if(armr.protect() >= damage){
+      
+    }
+    else{
+      hp -= (damage-armr.protect());
+    }
+    System.out.println(name + " took " + damage + " damage.");
       if(hp < 0) {
           hp = 0;
       }

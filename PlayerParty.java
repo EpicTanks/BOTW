@@ -3,13 +3,14 @@ import java.awt.event.KeyEvent;
 public class PlayerParty extends DungeonObject {
     private CharacterSheet[] sheets;
     
+    //Constructor
     public PlayerParty(int x, int y, Level l, CharacterSheet[] sheets) {
         super(x, y, l, "images/sprites/player.png");
         this.sheets = sheets;
     }
     
+    //Does something based on the input. Returns false if the turn is not passed.
     public boolean takeAction(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         switch(e.getKeyCode()) {
             case 32:
                 return true; //skip the turn with spacebar
@@ -28,6 +29,7 @@ public class PlayerParty extends DungeonObject {
         }
     }
     
+    //Chooses an action based on what is in the player's way (if anything)
     public boolean action(String direction) {
         int a = 0;
         int b = 0;
@@ -66,48 +68,7 @@ public class PlayerParty extends DungeonObject {
         return false;
     }
     
-    private boolean takeTreasure(TreasureBox t) {
-        if (sheets[0].collect(t.contents())) {
-            return true;
-        } else if (sheets[1].collect(t.contents())) {
-            return true;
-        } else if (sheets[2].collect(t.contents())) {
-            return true;
-        }
-        return false;
-    }
-    
-    private void attack(Enemy e) {
-        int d = rollDamage();
-        System.out.println("Dealt " + d + " damage to the " + e.getName() + ".");
-        e.takeDamage(d);
-    }
-    
-    private int rollDamage() {
-        if (sheets[0].isAlive()) {
-            return sheets[0].rollDamage();
-        } else if (sheets[1].isAlive()) {
-            return sheets[1].rollDamage();
-        } else if (sheets[2].isAlive()) {
-            return sheets[2].rollDamage();
-        } else {
-            System.out.println("You can't attack if everyone is dead!");
-            return 0;
-        }
-    }
-    
-    public void takeDamage(int damage) {
-        if (sheets[0].isAlive()) {
-            sheets[0].takeDamage(damage);
-        } else if (sheets[1].isAlive()) {
-            sheets[1].takeDamage(damage);
-        } else if (sheets[2].isAlive()) {
-            sheets[2].takeDamage(damage);
-        } else {
-            System.out.println("You heckin lose!");
-        }
-    }
-    
+    //moves the player
     public void move(int d) {
         switch(d) {
             case 0:
@@ -125,5 +86,57 @@ public class PlayerParty extends DungeonObject {
             default:
                 throw new RuntimeException("Jake wrote a bad switch statement.");
         }
+    }
+    
+    //Tries to pick up a treasure. Returns false if there is no room in the whole party.
+    private boolean takeTreasure(TreasureBox t) {
+        if (sheets[0].collect(t.contents())) {
+            return true;
+        } else if (sheets[1].collect(t.contents())) {
+            return true;
+        } else if (sheets[2].collect(t.contents())) {
+            return true;
+        }
+        return false;
+    }
+    
+    //deals damage to an enemy and prints out a message
+    private void attack(Enemy e) {
+        int d = rollDamage();
+        Console.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
+        e.takeDamage(d);
+    }
+    
+    //returns the damage dealt by the first party member that is alive
+    private int rollDamage() {
+        if (sheets[0].isAlive()) {
+            return sheets[0].rollDamage();
+        } else if (sheets[1].isAlive()) {
+            return sheets[1].rollDamage();
+        } else if (sheets[2].isAlive()) {
+            return sheets[2].rollDamage();
+        } else {
+            Console.addMessage("You can't attack if everyone is dead!");
+            return 0;
+        }
+    }
+    
+    //deals damage to the first party member that is alive
+    public void takeDamage(int damage) {
+        if (sheets[0].isAlive()) {
+            sheets[0].takeDamage(damage);
+        } else if (sheets[1].isAlive()) {
+            sheets[1].takeDamage(damage);
+        } else if (sheets[2].isAlive()) {
+            sheets[2].takeDamage(damage);
+        } else {
+            Console.addMessage("You heckin lose!");
+            stall();
+        }
+    }
+   
+    //just puts the program into an infinite loop until we make an actual game over screen
+    public void stall() {
+        while (true);
     }
 }

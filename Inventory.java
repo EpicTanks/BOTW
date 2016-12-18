@@ -71,12 +71,56 @@ public class Inventory{
   }
   
   public void use(int s1, int s2){
-    contents[s1][s2].use(owner);
-    remove(s1,s2);
+    
+    if(contents[s1][s2].getType() == "Weapon"){
+      
+      Item temp = owner.getWeap();
+      contents[s1][s2].use(owner);
+      //make sure fists can't get put back into the inventory
+      if(temp.getName() == "Fists"){
+        
+        remove(s1,s2);
+      }
+      else{
+        
+        add(temp, s1, s2);
+      }
+    }
+    
+    else if(contents[s1][s2].getType() == "Armour"){
+      
+      Item temp = owner.getArmour();
+      contents[s1][s2].use(owner);
+      //make sure fists can't get put back into the inventory
+      if(temp.getName() == "Dumb!!!"){       
+        remove(s1,s2);
+      }
+      else{        
+        add(temp, s1, s2);
+      }
+    }
+    
+    else if(contents[s1][s2].getType() == "Hat"){
+      
+      Item temp = owner.getHat();
+      contents[s1][s2].use(owner);
+      //make sure fists can't get put back into the inventory
+      if(temp.getName() == "Dumb!!!"){        
+        remove(s1,s2);
+      }
+      else{        
+        add(temp, s1, s2);
+      }
+    }
+    
+    else{
+      contents[s1][s2].use(owner);
+      remove(s1,s2);
+    }
   }
   
   public boolean checkEmpty(int s1, int s2) {
-      return contents[s1][s2] == null;
+    return contents[s1][s2] == null;
   }
   
   public void click(int x, int y){
@@ -110,8 +154,19 @@ public class Inventory{
       }
       
       else if(x > (this.x+330) && x < (this.x+370) && y > (this.y+50) && y < (this.y+70)){
-        System.out.println("IM GONNA CANCEL"); 
-          cMenuVis = false;
+        System.out.println("IM GONNA MOVE"); 
+        if(owner.selectedSheet == owner){
+          System.out.println("This is your item!!!"); 
+        }
+        //owner.selectedSheet.collect(contents[selectedItemS1][selectedItemS2]);
+        else if(owner.selectedSheet.collect(contents[selectedItemS1][selectedItemS2]) == false){
+          
+          System.out.println("There's no space!!!"); 
+        }
+        else{
+          remove(selectedItemS1,selectedItemS2);
+        }
+        cMenuVis = false;
       }
     }
     
