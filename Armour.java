@@ -73,7 +73,7 @@ public class Armour extends Item{
   
   
   public Armour(int e){
-    name = "Dumb!!!";
+    name = "Nothing";
     if(e == 0){
       type = "Armour";
       protection = 0;
@@ -129,6 +129,13 @@ public class Armour extends Item{
     public int protect(){
       return protection; 
     }
+    
+    public void statsToString(){
+    Console.addCloseMessage(type + ": " + name);
+    Console.addCloseMessage("");
+    Console.addCloseMessage("Protection: " + protection);
+    Console.addCloseMessage("Value: " + price);
+  }
     
     
     public void setLocation(Inventory l, int s){
