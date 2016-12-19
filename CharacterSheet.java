@@ -78,19 +78,24 @@ public class CharacterSheet{
   }
   
   public Weapon getWeap(){
-   return weap;
+    return weap;
   }
   
   public void changeHP(int mod){
     hp += mod;
   }
   
-  public void changeBP(int mod){
+  public int shoot(int mod){
     if(bp <= 0){
       //reload the gune, setting bp to max once more.
+      bp = weap.getClip();
+      Console.addMessage(name + " reloads!");
+      return 0;
     }
     else{
-      bp += mod;
+      bp -= mod;
+      Console.addMessage(name + " fires his gun!");
+      return rollDamage();
     }
   }
   
@@ -105,7 +110,7 @@ public class CharacterSheet{
     
     if(x > 5 && x < 69 && y > (partyOrder*75)+5 && y < (partyOrder*75)+69){
       selectedSheet = this;
-     statsToString(); 
+      statsToString(); 
     }
     
     if(x > 75 && x < 105 && y > (partyOrder*75)+5 && y < (partyOrder*75)+35){
@@ -139,13 +144,17 @@ public class CharacterSheet{
   
   
   public void statsToString(){
-    System.out.println(name + ", The Adventurer");
-    System.out.println("");
-    System.out.println("Strength: " + str);
-    System.out.println("Speed: " + spd);
-    System.out.println("Smarts: " + smrt);
-    System.out.println("Speech: " + spch);
+    Console.clear(name + ", The Adventurer");
+    Console.addCloseMessage("Strength: " + str);
+    Console.addCloseMessage("Speed: " + spd);
+    Console.addCloseMessage("Smarts: " + smrt);
+    Console.addCloseMessage("Speech: " + spch);
+    Console.addCloseMessage("");
     weap.statsToString();
+    Console.addCloseMessage("");
+    armr.statsToString();
+    Console.addCloseMessage("");
+    hat.statsToString();
   }
   
   public void paint(Graphics2D g2d){
@@ -209,7 +218,7 @@ public class CharacterSheet{
   }
   
   public int rollDamage() {
-      return ((int) (Math.random() * str) + 1)+weap.rollDamage(); //1 to str damage
+    return ((int) (Math.random() * str) + 1)+weap.rollDamage(); //1 to str damage
   }
   
   public void use(int s1, int s2){
@@ -222,16 +231,16 @@ public class CharacterSheet{
   
   public void setArmour(Armour a, int eType){
     if(eType == 0){
-    armr = a;
+      armr = a;
     }
     else{
-     hat = a; 
+      hat = a; 
     }
   }
   
   
   public Armour getArmour(){
-   return armr; 
+    return armr; 
   }
   
   public Armour getHat(){
@@ -239,19 +248,20 @@ public class CharacterSheet{
   }
   
   public boolean isAlive() {
-      return hp > 0;
+    return hp > 0;
   }
   
   public void takeDamage(int damage) {
-    if(armr.protect() >= damage){
-      
+    damage -= armr.protect();
+    if(damage < 0)
+      damage = 0;
+    
+    hp -= damage;
+    
+    Console.addMessage(name + " took " + damage + " damage.");
+    
+    if(hp < 0) {
+      hp = 0;
     }
-    else{
-      hp -= (damage-armr.protect());
-    }
-    System.out.println(name + " took " + damage + " damage.");
-      if(hp < 0) {
-          hp = 0;
-      }
   }
 }

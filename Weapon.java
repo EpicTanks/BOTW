@@ -9,7 +9,7 @@ import java.awt.image.AffineTransformOp;
 public class Weapon extends Item{
   public BufferedImage img = null;
   private String wType;
-
+private boolean isRanged;
   private String[][] weaponCatalogue ={
     {"Pistol","Chicken Cooper","Six-Shooter","Super Shooter","Brigadier"},
     {"Rifle","L.A.R.D.","Screwball","Big Man","Bolt Action Riflee"},
@@ -94,6 +94,14 @@ public class Weapon extends Item{
     clip = Integer.parseInt(reader.readLine());
     range = Integer.parseInt(reader.readLine());
     price = Integer.parseInt(reader.readLine());
+    
+    if(clip == 0){
+     isRanged = false; 
+    }
+    else{
+     isRanged = true; 
+    }
+    
   }
   
   public int rollDamage(){
@@ -101,10 +109,13 @@ public class Weapon extends Item{
   }
   
   public void statsToString(){
-    System.out.println("Weapon: " + name); 
-    System.out.println("Damage: " + dmglo + "-" + dmghi);
-    System.out.println("Range: " + range);
-    System.out.println("Value: " + price);
+    Console.addCloseMessage("Weapon: " + name);
+    Console.addCloseMessage("");
+    Console.addCloseMessage("Damage: " + dmglo + "-" + dmghi);
+    if(isRanged){
+    Console.addCloseMessage("Range: " + range);   
+    }
+    Console.addCloseMessage("Value: " + price);
   }
   
   public void use(CharacterSheet c){
@@ -113,6 +124,18 @@ public class Weapon extends Item{
   
   public void paint(Graphics2D g2d, int x, int y){
     g2d.drawImage(img, x, y, 64, 64, null);
+  }
+  
+  public int getRange(){
+  return range;  
+  }
+  
+  public boolean getIsRanged(){
+   return isRanged; 
+  }
+  
+  public int getClip(){
+   return clip; 
   }
   
   public Inventory getLocation(){
