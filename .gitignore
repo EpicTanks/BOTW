@@ -214,3 +214,21 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/Armour.class
+/BestOfTheWest.class
+/CharacterSheet.class
+/Console.class
+/CoolKeyListener.class
+/CoolMouseListener.class
+/DungeonObject.class
+/Enemy.class
+/Inventory.class
+/InventoryTest.class
+/Item.class
+/Level.class
+/LevelTest.class
+/PlayerParty.class
+/RandomLevel.class
+/SpellBook.class
+/TreasureBox.class
+/Weapon.class

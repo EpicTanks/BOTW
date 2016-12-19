@@ -40,7 +40,7 @@ public class PlayerParty extends DungeonObject {
         int a = 0;
         int b = 0;
         int dir = 0;
-        if (isShooting) {
+        if (isShooting) { //change
             if (getFirstAlive().getWeap().getIsRanged()) {
                 Console.addMessage("You fire!");
                 isShooting = false;
