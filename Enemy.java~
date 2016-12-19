@@ -98,7 +98,7 @@ public class Enemy extends DungeonObject {
         hp -= damage;
         if(hp <= 0) {
             l.removeEnemy(this);
-            System.out.println("The " + name + " was slain.");
+            Console.addMessage("The " + name + " was slain.");
         }
     }
     
@@ -108,9 +108,9 @@ public class Enemy extends DungeonObject {
     
     private void attack(PlayerParty p) {
         if(isRanged > 0) {
-            System.out.println("The " + name + " shot you for " + strength + " damage.");
+            Console.addMessage("The " + name + " shot you!");
         } else {
-            System.out.println("The " + name + " dealt " + strength + " damage to you.");
+            Console.addMessage("The " + name + " punched ya!");
         }
         p.takeDamage(strength);
     }

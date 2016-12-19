@@ -13,6 +13,7 @@ public class PlayerParty extends DungeonObject {
     public boolean takeAction(KeyEvent e) {
         switch(e.getKeyCode()) {
             case 32:
+                Console.addMessage("Waited around for a while.");
                 return true; //skip the turn with spacebar
             case 38:
                 return action("Up"); //move up with up arrow
@@ -25,6 +26,7 @@ public class PlayerParty extends DungeonObject {
             case 46:
                 return l.useStairs(x, y);
             default:
+                Console.addMessage("Invalid key. Press something else.");
                 return false; //do nothing with any other keys
         }
     }
