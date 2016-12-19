@@ -120,6 +120,7 @@ private boolean isRanged;
   
   public void use(CharacterSheet c){
     c.weap = this;
+    c.maxBP();
   }
   
   public void paint(Graphics2D g2d, int x, int y){
