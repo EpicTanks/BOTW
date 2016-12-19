@@ -85,7 +85,7 @@ public class CharacterSheet{
     hp += mod;
   }
   
-  public int shoot(){
+  public int shoot(int mod){
     if(bp <= 0){
       //reload the gune, setting bp to max once more.
       bp = weap.getClip();
@@ -93,7 +93,7 @@ public class CharacterSheet{
       return 0;
     }
     else{
-      bp--;
+      bp -= mod;
       Console.addMessage(name + " fires his gun!");
       return rollDamage();
     }
