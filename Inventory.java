@@ -92,7 +92,7 @@ public class Inventory{
       Item temp = owner.getArmour();
       contents[s1][s2].use(owner);
       //make sure fists can't get put back into the inventory
-      if(temp.getName() == "Dumb!!!"){       
+      if(temp.getName() == "Nothing"){       
         remove(s1,s2);
       }
       else{        
@@ -105,7 +105,7 @@ public class Inventory{
       Item temp = owner.getHat();
       contents[s1][s2].use(owner);
       //make sure fists can't get put back into the inventory
-      if(temp.getName() == "Dumb!!!"){        
+      if(temp.getName() == "Nothing"){        
         remove(s1,s2);
       }
       else{        
