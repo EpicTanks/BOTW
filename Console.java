@@ -10,7 +10,7 @@ public abstract class Console {
     //Constants
     private static final int X = 0;
     private static final int Y = 225;
-    private static final int FONT_SIZE = 14;
+    private static final int FONT_SIZE = 20;
     private static final int MAX_LINES = (350 / FONT_SIZE) - 1;
     private static final int MAX_CHARS = 175 / (FONT_SIZE / 2);
     private static final Color BROWN = new Color(255, 190, 100);
