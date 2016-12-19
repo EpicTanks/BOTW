@@ -58,9 +58,13 @@ public class CharacterSheet{
     partyOrder = po;
     inv = new Inventory(this,192,partyOrder*74); 
     loadImages(name);
-    this.hp = 5;
-    this.mp = 5;
-    this.bp = 5;
+    this.str = 3;
+    this.spd = 3;
+    this.spch = 3;
+    this.smrt = 3;
+    this.hp = str*2;
+    this.mp = smrt*2;
+    this.bp = 0;
     for(int k = 0; k < abilities.length; k++){
       abilities[k] = ("");
     }
@@ -97,6 +101,10 @@ public class CharacterSheet{
       Console.addMessage(name + " fires his gun!");
       return rollDamage();
     }
+  }
+  
+  public void maxBP(){
+   bp = weap.getClip(); 
   }
   
   public void click(int x, int y){
