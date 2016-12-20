@@ -1,10 +1,7 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class CharacterSheet{
   private String name;

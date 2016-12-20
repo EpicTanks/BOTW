@@ -1,9 +1,7 @@
 import java.awt.Graphics2D;
-import java.awt.Color;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
-import java.nio.*;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -11,10 +9,8 @@ public class Level {
     private int floor;
     private String theme;
     private char[][] layout = new char[36][36];
-    private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
-    private ArrayList<TreasureBox> treasureList = new ArrayList<TreasureBox>();
+    private ArrayList<DungeonObject> objectList = new ArrayList<DungeonObject>();
     private PlayerParty player;
-    private CharacterSheet[] sheets;
     private LevelTest lt;
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
@@ -28,7 +24,6 @@ public class Level {
     
     public Level(int floor, CharacterSheet[] sheets, LevelTest lt) {
         this.floor = floor;
-        this.sheets = sheets;
         this.lt = lt;
         Random r = new Random();
         String difficulty = "easy";
@@ -108,11 +103,11 @@ public class Level {
         for (int x = 0; x < layout.length; x++) {
             for (int y = 0; y < layout[x].length; y++) {
                 if(layout[y][x] == 'e') {
-                    enemyList.add(new Enemy(x, y, this, theme)); //create an enemy
+                    objectList.add(new Enemy(x, y, this, theme)); //create an enemy
                     layout[y][x] = '.'; //place a floor under the enemy
                 }
                 if(layout[y][x] == 't') {
-                    treasureList.add(new TreasureBox(x, y, this)); //create a treasure
+                    objectList.add(new TreasureBox(x, y, this)); //create a treasure
                     layout[y][x] = '.'; //place a floor under the treasure
                 }
             }
@@ -131,6 +126,8 @@ public class Level {
                 layout[j][i] = line.charAt(j);
             }
         }
+        
+        reader.close();
     }
     
     public void genLevel() {
@@ -140,24 +137,16 @@ public class Level {
     //Moves the enemies
     public void takeEnemyTurn() {
         if(!playerTurn) {
-            for (Enemy e: enemyList) {
-                e.takeTurn(player);
+            for (DungeonObject o: objectList) {
+            	if (o instanceof Enemy)
+                ((Enemy)o).takeTurn(player);
             }
             playerTurn = true;
         }
     }
     
-    public void deleteTreasureAt(int x, int y) {
-        for (final Iterator iterator = treasureList.iterator(); iterator.hasNext(); ) {
-            TreasureBox target = (TreasureBox) iterator.next();
-            if (target.getX() == x && target.getY() == y) {
-                iterator.remove();
-            }
-        }
-    }
-    
-    public void removeEnemy(Enemy e) {
-        enemyList.remove(e);
+    public void removeObject(DungeonObject o) {
+    	objectList.remove(o);
     }
     
     //returns true if there is nothing at coodinate (x, y)
@@ -166,33 +155,12 @@ public class Level {
         if (c == '-' || c == '|' || c == 'c') {
             return false;
         }
-        for (Enemy e: enemyList) {
-            if(e.getX() == x && e.getY() == y) {
-                return false;
-            }
-        }
-        for (TreasureBox t: treasureList) {
-            if (t.getX() == x && t.getY() == y) {
-                return false;
-            }
+        for (DungeonObject o: objectList) {
+        	if (o.getX() == x && o.getY() == y) {
+        		return false;
+        	}
         }
         return true;
-    }
-    
-    public boolean containsTreasure(int x, int y) {
-        for (TreasureBox t: treasureList) {
-            if (x == t.getX() && y == t.getY())
-                return true;
-        }
-        return false;
-    }
-    
-    public boolean containsEnemy(int x, int y) {
-        for (Enemy e: enemyList) {
-            if (x == e.getX() && y == e.getY())
-                return true;
-        }
-        return false;
     }
     
     public boolean useStairs(int x, int y) {
@@ -218,20 +186,15 @@ public class Level {
         return player;
     }
     
-    public TreasureBox getTreasure(int x, int y) {
-        for (TreasureBox t: treasureList) {
-            if (x == t.getX() && y == t.getY())
-                return t;
-        }
-        return null;
-    }
-    
-    public Enemy getEnemy(int x, int y) {
-        for (Enemy e: enemyList) {
-            if (x == e.getX() && y == e.getY())
-                return e;
-        }
-        return null;
+    public Object getThingAt(int x, int y) {
+    	for (DungeonObject o: objectList) {
+    		if(o.getX() == x && o.getY() == y)
+    			return o;
+    	}
+    	if (!isEmpty(x, y)) {
+    		return 'w';
+    	}
+    	return null;
     }
     
     public int getFloor() {
@@ -274,14 +237,9 @@ public class Level {
             }
         }
         
-        //draw the enemies
-        for (Enemy e: enemyList) {
-            e.render(g2d, SCALE, OFFSET);
-        }
-
-        //draw the treasure
-        for (TreasureBox t: treasureList) {
-            t.render(g2d, SCALE, OFFSET);
+        //draw dungeon objects
+        for (DungeonObject o: objectList) {
+        	o.render(g2d, SCALE, OFFSET);
         }
         
         //draw the player

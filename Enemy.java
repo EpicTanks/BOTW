@@ -1,5 +1,3 @@
-import java.awt.image.*;
-import javax.imageio.*;
 import java.io.*;
 
 public class Enemy extends DungeonObject {
@@ -73,6 +71,8 @@ public class Enemy extends DungeonObject {
         
         //set ranged status
         isRanged = Integer.parseInt(reader.readLine());
+        
+        reader.close();
     }
     
     //Increase this enemies stats based on the provided int.
@@ -93,8 +93,9 @@ public class Enemy extends DungeonObject {
         } else if (canSee(p)){
             if (isRanged > 0 && getDistanceTo(p) < 5) {
                 attack(p);
+            } else {
+            	moveToward(p);
             }
-            moveToward(p);
         } else {
             moveAtRandom();
         }
@@ -104,7 +105,7 @@ public class Enemy extends DungeonObject {
     public void takeDamage(int damage) {
         hp -= damage;
         if(hp <= 0) {
-            l.removeEnemy(this);
+            l.removeObject(this);
             Console.addMessage("The " + name + " was slain.");
         }
     }
@@ -156,7 +157,7 @@ public class Enemy extends DungeonObject {
                     shortestPath(moves, cX, cY + 1), shortestPath(moves, cX, cY - 1));
     }
     
-    private int max4(int a, int b, int c, int d) {
+    private static int max4(int a, int b, int c, int d) {
         return Math.max(Math.max(a, b), Math.max(c, d));
     }
     
@@ -196,7 +197,7 @@ public class Enemy extends DungeonObject {
     
     //return true if this enemy can see the given player
     private boolean canSee(PlayerParty p) {
-        if (getDistanceTo(p) <= SIGHT_RANGE - 1) {
+        if (getDistanceTo(p) <= SIGHT_RANGE) {
             return true;
         }
         return false;
