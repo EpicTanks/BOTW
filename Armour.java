@@ -42,7 +42,12 @@ public class Armour extends Item{
     
     
     try{
+      if(i == 4 || i == 7){
+        img = ImageIO.read(new File("images/items/armour/" + name + ".png")); 
+      }
+      else{
       img = ImageIO.read(new File("images/items/armour/" + equipType + ".png")); 
+      }
     }
     catch(IOException e){     
     }
@@ -103,6 +108,7 @@ public class Armour extends Item{
       strMod = Integer.parseInt(reader.readLine());
       smrtMod = Integer.parseInt(reader.readLine());
       spchMod = Integer.parseInt(reader.readLine());
+      spdMod = Integer.parseInt(reader.readLine());
       price = Integer.parseInt(reader.readLine());
       
       reader.close();
