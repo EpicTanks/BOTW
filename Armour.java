@@ -78,16 +78,13 @@ public class Armour extends Item{
       smrtMod = 0;
       spchMod = 0;
       price = 0;
-    }
-    else{
-      if(e == 0){
-        type = "Hat";
-        protection = 0;
-        strMod = 0;
-        smrtMod = 0;
-        spchMod = 0;
-        price = 0;
-      }
+    } else if(e == 1){
+      type = "Hat";
+      protection = 0;
+      strMod = 0;
+      smrtMod = 0;
+      spchMod = 0;
+      price = 0;
     }
   }
     
@@ -131,9 +128,11 @@ public class Armour extends Item{
     
     public void statsToString(){
     Console.addCloseMessage(type + ": " + name);
-    Console.addCloseMessage("");
-    Console.addCloseMessage("Protection: " + protection);
-    Console.addCloseMessage("Value: " + price);
+    if (type.equals("Armour")) {
+      Console.addCloseMessage("");
+      Console.addCloseMessage("Protection: " + protection);
+      Console.addCloseMessage("Value: " + price);
+    }
   }
     
     
