@@ -42,7 +42,12 @@ public class Armour extends Item{
     
     
     try{
+      if(i == 4 || i == 7){
+        img = ImageIO.read(new File("images/items/armour/" + name + ".png")); 
+      }
+      else{
       img = ImageIO.read(new File("images/items/armour/" + equipType + ".png")); 
+      }
     }
     catch(IOException e){     
     }
