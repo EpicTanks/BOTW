@@ -30,8 +30,8 @@ public class Armour extends Item{
     int i = (int) (8*Math.random());
     int j = (int) ((armourCatalogue[i].length-1)*Math.random()+1);
     equipType = armourCatalogue[i][0];
-    
-    
+    name = armourCatalogue[i][j];
+    price = 6;
     
     
     try {
@@ -63,9 +63,6 @@ public class Armour extends Item{
       
       description = "A Nice Hat!";
     }
-    
-    name = armourCatalogue[i][j];
-    price = 6;
     
     
     
