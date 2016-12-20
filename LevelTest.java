@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelTest extends JPanel {
-    private Level l;
+	private static final long serialVersionUID = 1L; //eclispse says we need this
+	private Level l;
     private CharacterSheet[] sheets = new CharacterSheet[3];
     private CoolKeyListener k;
     

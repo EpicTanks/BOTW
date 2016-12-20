@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 
 public class PlayerParty extends DungeonObject {
     private CharacterSheet[] sheets;
-    private boolean isShooting = false;
+    private boolean isReady = false;
     
     //Constructor
     public PlayerParty(int x, int y, Level l, CharacterSheet[] sheets) {
@@ -12,7 +12,7 @@ public class PlayerParty extends DungeonObject {
     
     //Does something based on the input. Returns false if the turn is not passed.
     public boolean takeAction(KeyEvent e) {
-        System.out.println(e.getKeyCode());
+        //System.out.println(e.getKeyCode());
         switch(e.getKeyCode()) {
             case 32:
                 Console.addMessage("Waited around for a while.");
@@ -27,8 +27,10 @@ public class PlayerParty extends DungeonObject {
                 return action("Right"); //move right with right arrow
             case 46:
                 return l.useStairs(x, y);
+            case 82:
+            	return getFirstAlive().reload();
             case 83:
-                return shoot();
+                return changeReadiness();
             default:
                 Console.addMessage("Invalid key. Press something else.");
                 return false; //do nothing with any other keys
@@ -37,84 +39,44 @@ public class PlayerParty extends DungeonObject {
     
     //Chooses an action based on what is in the player's way (if anything)
     public boolean action(String direction) {
-        int a = 0;
-        int b = 0;
-        int dir = 0;
-        if (isShooting) {
+        Object nextTo = null;
+        
+        if (isReady) {
             if (getFirstAlive().getWeap().getIsRanged()) {
-                Console.addMessage("You fire!");
-                isShooting = false;
-                if (direction.equals("Up")) {
-                    for (int i = 0; i < getFirstAlive().getWeap().getRange(); i++) {
-                        if (l.containsEnemy(x, y - i)) {
-                            rangedAttack(l.getEnemy(x, y - i));
-                            return true;
-                        }
-                    }
-                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + "and missed!");
-                    return true;
-                    
-                } else if (direction.equals("Down")) {
-                    for (int i = 0; i < getFirstAlive().getWeap().getRange(); i++) {
-                        if (l.containsEnemy(x, y + i)) {
-                            rangedAttack(l.getEnemy(x, y + i));
-                            return true;
-                        }
-                    }
-                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + "and missed!");
-                    return true;
-                } else if (direction.equals("Left")) {
-                    for (int i = 0; i < getFirstAlive().getWeap().getRange(); i++) {
-                        if (l.containsEnemy(x - i, y)) {
-                            rangedAttack(l.getEnemy(x - i, y));
-                            return true;
-                        }
-                    }
-                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + "and missed!");
-                    return true;
-                    
-                } else if (direction.equals("Right")) {
-                    for (int i = 0; i < getFirstAlive().getWeap().getRange(); i++) {
-                        if (l.containsEnemy(x + i, y)) {
-                            rangedAttack(l.getEnemy(x + i, y));
-                            return true;
-                        }
-                    }
-                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + "and missed!");
-                    return true;
-                }
+                isReady = false;
+                tryShoot(direction);
             } else {
                 Console.addMessage("You fail at firing your melee weapon");
             }
-            isShooting = false;
+            isReady = false;
+            return true;
         } else {
-            if (direction.equals("Up")) {
-                a = x;
-                b = y - 1;
-                dir = 0;
-            } else if (direction.equals("Down")) {
-                a = x;
-                b = y + 1;
-                dir = 2;
-            } else if (direction.equals("Left")) {
-                a = x - 1;
-                b = y;
-                dir = 3;
-            } else if (direction.equals("Right")) {
-                a = x + 1;
-                b = y;
-                dir = 1;
-            }
+        	switch (direction) {
+        		case "Up":
+        			nextTo = l.getThingAt(x, y - 1);
+        			break;
+        		case "Right":
+        			nextTo = l.getThingAt(x + 1, y);
+        			break;
+        		case "Down":
+        			nextTo = l.getThingAt(x, y + 1);
+        			break;
+        		case "Left":
+        			nextTo = l.getThingAt(x - 1, y);
+        			break;
+        		default:
+        			throw new RuntimeException("Bad direction.");
+        	}
             
-            if (l.containsTreasure(a, b)) {
-                if (takeTreasure(l.getTreasure(a, b)))
-                    l.deleteTreasureAt(a, b);
+            if (nextTo instanceof TreasureBox) {
+                if (takeTreasure((TreasureBox)nextTo))
+                    l.removeObject((TreasureBox)nextTo);
                 return true;
-            } else if (l.containsEnemy(a, b)) {
-                attack(l.getEnemy(a, b));
+            } else if (nextTo instanceof Enemy) {
+                attack((Enemy)nextTo, false);
                 return true;
-            } else if (l.isEmpty(a, b)) {
-                move(dir);
+            } else if (!(nextTo instanceof Character)) {
+                move(direction);
                 return true;
             }
         }
@@ -123,18 +85,18 @@ public class PlayerParty extends DungeonObject {
     }
     
     //moves the player
-    public void move(int d) {
-        switch(d) {
-            case 0:
+    public void move(String direction) {
+        switch(direction) {
+            case "Up":
                 y--;
                 break;
-            case 1:
+            case "Right":
                 x++;
                 break;
-            case 2:
+            case "Down":
                 y++;
                 break;
-            case 3:
+            case "Left":
                 x--;
                 break;
             default:
@@ -154,31 +116,70 @@ public class PlayerParty extends DungeonObject {
         return false;
     }
     
-    private boolean shoot() {
-        if (!isShooting) {
+    private boolean changeReadiness() {
+        if (!isReady) {
             Console.addMessage("You get ready to shoot your gun.");
-            isShooting = true;
+            isReady = true;
         } else {
             Console.addMessage("You put down your gun.");
-            isShooting = false;
+            isReady = false;
         }
         return false;
     }
     
+    private void tryShoot(String direction) {
+    	switch (direction) {
+    		case "Up":
+    			shootInDirection(0, -1);
+    			break;
+    		case "Right":
+    			shootInDirection(1, 0);
+    			break;
+    		case "Down":
+    			shootInDirection(0, 1);
+    			break;
+    		case "Left":
+    			shootInDirection(-1, 0);
+    			break;
+    		default:
+    			throw new RuntimeException("Bad direction.");
+    	}
+    }
+    
+    private void shootInDirection(int xmod, int ymod) {
+    	int range = getFirstAlive().getWeap().getRange();
+    	
+    	Console.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
+    	if (!getFirstAlive().isLoaded()) {
+    	    Console.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
+    	    return;
+    	} else {
+    		Console.addCloseMessage("The gun fires!");
+    	}
+    	for (int i = 0; i <= range; i++) {
+    		Object target = l.getThingAt(x + (i * xmod), y + (i * ymod));
+    		if (target instanceof Enemy) {
+    			attack((Enemy) target, true);
+    			return;
+    		}
+    		if (target instanceof Character) {
+    			Console.addMessage("The bullet harmlessly bounced off the wall.");
+    			return;
+    		}
+    	}
+    	Console.addMessage("The bullet quickly lost speed and hit the ground.");
+    }
+    
     //deals damage to an enemy and prints out a message
-    private void attack(Enemy e) {
-        int d = rollDamage();
+    private void attack(Enemy e, boolean ranged) {
+    	int d;
+    	if (ranged) {
+    		d = getFirstAlive().shoot();
+    	} else {
+    		d = getFirstAlive().rollDamage();
+    	}
         Console.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
         e.takeDamage(d);
-    }
-    
-    private void rangedAttack(Enemy e) {
-        e.takeDamage(getFirstAlive().shoot());
-    }
-    
-    //returns the damage dealt by the first party member that is alive
-    private int rollDamage() {
-        return getFirstAlive().rollDamage();
     }
     
     //deals damage to the first party member that is alive

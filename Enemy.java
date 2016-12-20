@@ -1,5 +1,3 @@
-import java.awt.image.*;
-import javax.imageio.*;
 import java.io.*;
 
 public class Enemy extends DungeonObject {
@@ -10,13 +8,13 @@ public class Enemy extends DungeonObject {
     private String name = "";
     static String temp = "";
     private static final String[][] possibleNames = { //TODO: Capitalize and add spaces
-        {"bandit", "rat", "rangerrat", "giantrat", "bandit", "koolbandit", "ghostlybandit", "dwarfbandit", "giblo"},
-        {"haunted", "rat", "rangerrat", "giantrat", "ghostlybandit"},
-        {"mines", "rat", "rangerrat", "giantrat", "dwarfbandit", "caveogre", "kobold", "grayooze"},
-        {"canyon", "rat", "rangerrat", "giantrat", "dwarfbandit", "grayooze", "wildbear", "ruinraider", "ratssassin"},
-        {"ruins", "rat", "rangerrat", "giantrat", "kobold", "wildbear", "hedgehog", "gianthedgehog", "ruinraider", "elderelf"},
-        {"dragonhell", "rat", "rangerrat", "giantrat", "dragongod"},
-        {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
+        {"bandit", "Rat", "Ranger Rat", "Giant Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit", "Giblo"},
+        {"haunted", "Rat", "Ranger Rat", "Giant Rat", "Ghostly Bandit"},
+        {"mines", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Cave Ogre", "Kobold", "Gray Ooze"},
+        {"canyon", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Gray Ooze", "Wild Bear", "Ruin Raider", "Ratssassin"},
+        {"ruins", "Rat", "Ranger Rat", "Giant Rat", "Kobold", "Wild Bear", "Hedgehog", "Giant Hedgehog", "Ruin Raider", "Elder Elf"},
+        {"dragonhell", "Rat", "Ranger Rat", "Giant Rat", "Dragon God"},
+        {"nega", "Rat", "Ranger Rat", "Giant Rat", "Super Bandit"}
     };
     
     //Stats (default is 1 for everything)
@@ -73,6 +71,8 @@ public class Enemy extends DungeonObject {
         
         //set ranged status
         isRanged = Integer.parseInt(reader.readLine());
+        
+        reader.close();
     }
     
     //Increase this enemies stats based on the provided int.
@@ -93,8 +93,9 @@ public class Enemy extends DungeonObject {
         } else if (canSee(p)){
             if (isRanged > 0 && getDistanceTo(p) < 5) {
                 attack(p);
+            } else {
+            	moveToward(p);
             }
-            moveToward(p);
         } else {
             moveAtRandom();
         }
@@ -104,7 +105,7 @@ public class Enemy extends DungeonObject {
     public void takeDamage(int damage) {
         hp -= damage;
         if(hp <= 0) {
-            l.removeEnemy(this);
+            l.removeObject(this);
             Console.addMessage("The " + name + " was slain.");
         }
     }
@@ -156,7 +157,7 @@ public class Enemy extends DungeonObject {
                     shortestPath(moves, cX, cY + 1), shortestPath(moves, cX, cY - 1));
     }
     
-    private int max4(int a, int b, int c, int d) {
+    private static int max4(int a, int b, int c, int d) {
         return Math.max(Math.max(a, b), Math.max(c, d));
     }
     
@@ -196,7 +197,7 @@ public class Enemy extends DungeonObject {
     
     //return true if this enemy can see the given player
     private boolean canSee(PlayerParty p) {
-        if (getDistanceTo(p) <= SIGHT_RANGE - 1) {
+        if (getDistanceTo(p) <= SIGHT_RANGE) {
             return true;
         }
         return false;

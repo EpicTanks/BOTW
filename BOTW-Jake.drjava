@@ -3,9 +3,15 @@
   <project autorefresh="false" main="LevelTest" root="" work="">
     <createjar file=""/>
     <source>
+<<<<<<< HEAD
+      <file active="true" name="LevelTest.java" package="" timestamp="18-Dec-2016 00:15:51">
+        <select from="449" to="449"/>
+        <scroll column="0" row="0"/>
+=======
       <file active="true" name="PlayerParty.java" package="" timestamp="19-Dec-2016 10:50:35">
         <select from="3708" to="3708"/>
         <scroll column="891" row="0"/>
+>>>>>>> refs/remotes/origin/master
       </file>
       <file name="LevelTest.java" package="" timestamp="19-Dec-2016 10:22:02">
         <select from="3708" to="3708"/>
