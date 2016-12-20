@@ -88,12 +88,10 @@ public class CharacterSheet{
   
   public int shoot(){
     if(bp <= 0){
-      Console.addMessage("You need to reload!");
       return 0;
     }
     else{
       bp --;
-      Console.addMessage(name + " fires his gun!");
       return rollDamage();
     }
   }
@@ -279,5 +277,13 @@ public class CharacterSheet{
     if(hp < 0) {
       hp = 0;
     }
+  }
+
+  public String getName() {
+	  return name;
+  }
+
+  public boolean isLoaded() {
+	  return bp > 0;
   }
 }

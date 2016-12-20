@@ -110,6 +110,8 @@ public class Armour extends Item{
       smrtMod = Integer.parseInt(reader.readLine());
       spchMod = Integer.parseInt(reader.readLine());
       price = Integer.parseInt(reader.readLine());
+      
+      reader.close();
     }
     
     
