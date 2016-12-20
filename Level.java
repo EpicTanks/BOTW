@@ -138,7 +138,7 @@ public class Level {
     public void takeEnemyTurn() {
         if(!playerTurn) {
             for (DungeonObject o: objectList) {
-            	if (o instanceof Enemy)
+             if (o instanceof Enemy)
                 ((Enemy)o).takeTurn(player);
             }
             playerTurn = true;
@@ -146,7 +146,7 @@ public class Level {
     }
     
     public void removeObject(DungeonObject o) {
-    	objectList.remove(o);
+     objectList.remove(o);
     }
     
     //returns true if there is nothing at coodinate (x, y)
@@ -156,9 +156,9 @@ public class Level {
             return false;
         }
         for (DungeonObject o: objectList) {
-        	if (o.getX() == x && o.getY() == y) {
-        		return false;
-        	}
+         if (o.getX() == x && o.getY() == y) {
+          return false;
+         }
         }
         return true;
     }
@@ -169,7 +169,8 @@ public class Level {
             lt.newLevel(floor + 1);
             return true; //generate new level with floor+1
         } else if (layout[y][x] == 'u') {
-            Console.clear("You retreated to the first level.");
+            Console.clear("You retreated to the town.");
+            lt.toggleDungeonMode();
             lt.newLevel(1);
             return true; //goto town
         } else {
@@ -187,14 +188,14 @@ public class Level {
     }
     
     public Object getThingAt(int x, int y) {
-    	for (DungeonObject o: objectList) {
-    		if(o.getX() == x && o.getY() == y)
-    			return o;
-    	}
-    	if (!isEmpty(x, y)) {
-    		return 'w';
-    	}
-    	return null;
+     for (DungeonObject o: objectList) {
+      if(o.getX() == x && o.getY() == y)
+       return o;
+     }
+     if (!isEmpty(x, y)) {
+      return 'w';
+     }
+     return null;
     }
     
     public int getFloor() {
@@ -239,7 +240,7 @@ public class Level {
         
         //draw dungeon objects
         for (DungeonObject o: objectList) {
-        	o.render(g2d, SCALE, OFFSET);
+         o.render(g2d, SCALE, OFFSET);
         }
         
         //draw the player
