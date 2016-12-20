@@ -8,13 +8,13 @@ public class Enemy extends DungeonObject {
     private String name = "";
     static String temp = "";
     private static final String[][] possibleNames = { //TODO: Capitalize and add spaces
-        {"bandit", "rat", "rangerrat", "giantrat", "bandit", "koolbandit", "ghostlybandit", "dwarfbandit", "giblo"},
-        {"haunted", "rat", "rangerrat", "giantrat", "ghostlybandit"},
-        {"mines", "rat", "rangerrat", "giantrat", "dwarfbandit", "caveogre", "kobold", "grayooze"},
-        {"canyon", "rat", "rangerrat", "giantrat", "dwarfbandit", "grayooze", "wildbear", "ruinraider", "ratssassin"},
-        {"ruins", "rat", "rangerrat", "giantrat", "kobold", "wildbear", "hedgehog", "gianthedgehog", "ruinraider", "elderelf"},
-        {"dragonhell", "rat", "rangerrat", "giantrat", "dragongod"},
-        {"nega", "rat", "rangerrat", "giantrat", "superbandit"}
+        {"bandit", "Rat", "Ranger Rat", "Giant Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit", "Giblo"},
+        {"haunted", "Rat", "Ranger Rat", "Giant Rat", "Ghostly Bandit"},
+        {"mines", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Cave Ogre", "Kobold", "Gray Ooze"},
+        {"canyon", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Gray Ooze", "Wild Bear", "Ruin Raider", "Ratssassin"},
+        {"ruins", "Rat", "Ranger Rat", "Giant Rat", "Kobold", "Wild Bear", "Hedgehog", "Giant Hedgehog", "Ruin Raider", "Elder Elf"},
+        {"dragonhell", "Rat", "Ranger Rat", "Giant Rat", "Dragon God"},
+        {"nega", "Rat", "Ranger Rat", "Giant Rat", "Super Bandit"}
     };
     
     //Stats (default is 1 for everything)

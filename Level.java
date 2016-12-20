@@ -26,7 +26,7 @@ public class Level {
         this.floor = floor;
         this.lt = lt;
         Random r = new Random();
-        String difficulty = "easy";
+        String difficulty;
         
         switch (floor) {
             case 1:
