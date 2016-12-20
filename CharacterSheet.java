@@ -91,9 +91,7 @@ public class CharacterSheet{
   
   public int shoot(){
     if(bp <= 0){
-      //reload the gune, setting bp to max once more.
-      bp = weap.getClip();
-      Console.addMessage(name + " reloads!");
+      Console.addMessage("You need to reload!");
       return 0;
     }
     else{
@@ -101,6 +99,18 @@ public class CharacterSheet{
       Console.addMessage(name + " fires his gun!");
       return rollDamage();
     }
+  }
+  
+  public boolean reload() {
+	  if (weap.getIsRanged()) {
+		  bp = weap.getClip();
+		  Console.addMessage(name + " reloads his gun");
+		  return true;
+	  } else {
+		  Console.addMessage("You can't reload if you have no gun!");
+		  return false;
+	  }
+	  
   }
   
   public void maxBP(){
@@ -163,6 +173,7 @@ public class CharacterSheet{
     armr.statsToString();
     Console.addCloseMessage("");
     hat.statsToString();
+    Console.setClear();
   }
   
   public void paint(Graphics2D g2d){
@@ -177,7 +188,7 @@ public class CharacterSheet{
     g2d.setColor(Color.white);
     g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
     g2d.drawString("MP: " + mp, 135, (partyOrder*74)+43);
-    g2d.drawString("BP: " + bp, 135, (partyOrder*74)+65);
+    g2d.drawString("BP: " + (weap.getIsRanged() ? bp : "/"), 135, (partyOrder*74)+65);
     
     
     if(invVis == true){

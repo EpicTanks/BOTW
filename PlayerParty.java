@@ -27,6 +27,8 @@ public class PlayerParty extends DungeonObject {
                 return action("Right"); //move right with right arrow
             case 46:
                 return l.useStairs(x, y);
+            case 82:
+            	return getFirstAlive().reload();
             case 83:
                 return shoot();
             default:
@@ -51,7 +53,7 @@ public class PlayerParty extends DungeonObject {
                             return true;
                         }
                     }
-                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + "and missed!");
+                    Console.addMessage("Your bullet travelled " + getFirstAlive().getWeap().getRange() + " tiles and missed!");
                     return true;
                     
                 } else if (direction.equals("Down")) {
