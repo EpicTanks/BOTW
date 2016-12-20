@@ -1,10 +1,7 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class CharacterSheet{
   private String name;
@@ -89,18 +86,26 @@ public class CharacterSheet{
     hp += mod;
   }
   
-  public int shoot(int mod){
+  public int shoot(){
     if(bp <= 0){
-      //reload the gune, setting bp to max once more.
-      bp = weap.getClip();
-      Console.addMessage(name + " reloads!");
       return 0;
     }
     else{
-      bp -= mod;
-      Console.addMessage(name + " fires his gun!");
+      bp --;
       return rollDamage();
     }
+  }
+  
+  public boolean reload() {
+	  if (weap.getIsRanged()) {
+		  bp = weap.getClip();
+		  Console.addMessage(name + " reloads his gun");
+		  return true;
+	  } else {
+		  Console.addMessage("You can't reload if you have no gun!");
+		  return false;
+	  }
+	  
   }
   
   public void maxBP(){
@@ -163,6 +168,7 @@ public class CharacterSheet{
     armr.statsToString();
     Console.addCloseMessage("");
     hat.statsToString();
+    Console.setClear();
   }
   
   public void paint(Graphics2D g2d){
@@ -177,7 +183,7 @@ public class CharacterSheet{
     g2d.setColor(Color.white);
     g2d.drawString("HP: " + hp, 135, (partyOrder*74)+20);
     g2d.drawString("MP: " + mp, 135, (partyOrder*74)+43);
-    g2d.drawString("BP: " + bp, 135, (partyOrder*74)+65);
+    g2d.drawString("BP: " + (weap.getIsRanged() ? bp : "/"), 135, (partyOrder*74)+65);
     
     
     if(invVis == true){
@@ -271,5 +277,13 @@ public class CharacterSheet{
     if(hp < 0) {
       hp = 0;
     }
+  }
+
+  public String getName() {
+	  return name;
+  }
+
+  public boolean isLoaded() {
+	  return bp > 0;
   }
 }

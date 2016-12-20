@@ -1,7 +1,3 @@
-import java.awt.image.*;
-import javax.imageio.*;
-import java.io.*;
-
 public class TreasureBox extends DungeonObject {
     
     private Item contains;

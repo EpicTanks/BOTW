@@ -30,8 +30,8 @@ public class Armour extends Item{
     int i = (int) (8*Math.random());
     int j = (int) ((armourCatalogue[i].length-1)*Math.random()+1);
     equipType = armourCatalogue[i][0];
-    
-    
+    name = armourCatalogue[i][j];
+    price = 6;
     
     
     try {
@@ -64,9 +64,6 @@ public class Armour extends Item{
       description = "A Nice Hat!";
     }
     
-    name = armourCatalogue[i][j];
-    price = 6;
-    
     
     
   }
@@ -81,16 +78,13 @@ public class Armour extends Item{
       smrtMod = 0;
       spchMod = 0;
       price = 0;
-    }
-    else{
-      if(e == 0){
-        type = "Hat";
-        protection = 0;
-        strMod = 0;
-        smrtMod = 0;
-        spchMod = 0;
-        price = 0;
-      }
+    } else if(e == 1){
+      type = "Hat";
+      protection = 0;
+      strMod = 0;
+      smrtMod = 0;
+      spchMod = 0;
+      price = 0;
     }
   }
     
@@ -110,6 +104,8 @@ public class Armour extends Item{
       smrtMod = Integer.parseInt(reader.readLine());
       spchMod = Integer.parseInt(reader.readLine());
       price = Integer.parseInt(reader.readLine());
+      
+      reader.close();
     }
     
     
@@ -132,9 +128,11 @@ public class Armour extends Item{
     
     public void statsToString(){
     Console.addCloseMessage(type + ": " + name);
-    Console.addCloseMessage("");
-    Console.addCloseMessage("Protection: " + protection);
-    Console.addCloseMessage("Value: " + price);
+    if (type.equals("Armour")) {
+      Console.addCloseMessage("");
+      Console.addCloseMessage("Protection: " + protection);
+      Console.addCloseMessage("Value: " + price);
+    }
   }
     
     

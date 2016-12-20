@@ -21,6 +21,7 @@ class RandomLevel {
                     layout[i][j] = line.charAt(j);
                 }
             }
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,9 +122,5 @@ class RandomLevel {
                 System.out.print(cc[i]);
             System.out.print("\n");
         }
-    }
-    
-    public static void main(String[] args) {
-        print2D(genLevel(10));
     }
 }

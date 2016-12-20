@@ -6,6 +6,7 @@ public abstract class Console {
     
     //List of messages
     private static LinkedList<String> messageList = new LinkedList<String>();
+    private static boolean toClear = false;
     
     //Constants
     private static final int X = 0;
@@ -26,7 +27,12 @@ public abstract class Console {
         }
     }
     
-    public static void addMessage(String s) {
+    public static void addCloseMessage(String s) {
+    	
+    	if(toClear) {
+    		clear();
+    		toClear = false;
+    	}
         
         //Splits up the string into pieces if it's too big to fit on 1 line.
         while(s.length() > MAX_CHARS) {
@@ -49,33 +55,11 @@ public abstract class Console {
         while(messageList.size() > MAX_LINES) {
             messageList.remove();
         }
-        
-        messageList.add(""); //Add a blank line between each message to improve readability
     }
     
-    public static void addCloseMessage(String s) {
-        
-        //Splits up the string into pieces if it's too big to fit on 1 line.
-        while(s.length() > MAX_CHARS) {
-            String toAdd = "";
-            String[] words = s.split(" ");
-            
-            for(String word: words) {
-                if(toAdd.length() + word.length() > MAX_CHARS)
-                    break;
-                else
-                    toAdd += word + " ";
-            }
-            
-            messageList.add(toAdd);
-            s = s.substring(toAdd.length());
-        }
-        messageList.add(s);
-        
-        //Removes the oldest messages if there are too many to fit inside the box
-        while(messageList.size() > MAX_LINES) {
-            messageList.remove();
-        }
+    public static void addMessage(String s) {
+        addCloseMessage(s);
+        messageList.add(""); //Add a blank line between each message to improve readability
     }
     
     public static void clear() {
@@ -86,4 +70,8 @@ public abstract class Console {
         clear();
         addMessage(s);
     }
+
+	public static void setClear() {
+		toClear = true;
+	}
 }
