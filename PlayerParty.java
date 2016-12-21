@@ -6,6 +6,7 @@ import java.io.*;
 
 public class PlayerParty extends DungeonObject {
     private boolean isReady = false;
+    private boolean isCasting = false;
     private BufferedImage overlay = null;
     
     //Constructor
@@ -131,6 +132,18 @@ public class PlayerParty extends DungeonObject {
         } else {
             BestOfTheWest.c.addMessage("You put down your gun.");
             isReady = false;
+        }
+        return false;
+    }
+    
+    
+    private boolean changeCasting(){
+              if (!isCasting) {
+            BestOfTheWest.c.addMessage("You get ready to cast a WIZARD spell.");
+            isCasting = true;
+        } else {
+            BestOfTheWest.c.addMessage("You stop speaking in tongues.");
+            isCasting = false;
         }
         return false;
     }

@@ -19,7 +19,7 @@ public class CharacterSheet{
     public BufferedImage portrait = null;
     public BufferedImage bg = null;
     public BufferedImage abilBG = null;
-    public String[] abilities = new String[5];
+    public Ability[] abilities = new Ability[5];
     private boolean invVis;
     private boolean statVis;
     public Weapon weap = new Weapon("Fists","Fist");
@@ -63,7 +63,7 @@ public class CharacterSheet{
         this.mp = smrt*2;
         this.bp = 0;
         for(int k = 0; k < abilities.length; k++){
-            abilities[k] = ("");
+            abilities[k] = null;
         }
     }
     
@@ -113,7 +113,7 @@ public class CharacterSheet{
     }
     
     public void click(int x, int y){
-        //System.out.println("x,y: " + x + "," + y);
+      //BestOfTheWest.c.addMessage("x,y: " + x + "," + y);
         // System.out.println("top(y must b lesr): " + ( (partyOrder*75)+5) + ". bottom(y must be bigr):" + ((partyOrder*75)+40));
         
         if(x > 75 && x < 105 &&  (y < (partyOrder*75)+5  || y > (partyOrder*75)+70)){
@@ -152,7 +152,14 @@ public class CharacterSheet{
             inv.click(x,y); 
         }
         
-        
+        if(statVis == true){
+          for(int k = 0; k < abilities.length; k++){
+          if(x >= 197 && x <= 320 && y >= 7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))) && y <= ((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5)))+29){
+            BestOfTheWest.c.addMessage("You dun clicked ability " + k);
+          }
+          }
+        }
+     
     }
     
     
@@ -193,15 +200,22 @@ public class CharacterSheet{
             g2d.drawImage(abilBG, 192, partyOrder*74,null);
             g2d.setFont(new Font("Consolas",Font.PLAIN,15));
             g2d.setColor(Color.white);
+            
             for(int k = 0; k < abilities.length; k++){
-                g2d.drawString(abilities[k], 200, ((partyOrder*74)+20)+((25*k))+(k*2));
+              //g2d.drawRect(197,7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))),320-192,22);
+              if(abilities[k] == null){
+                
+              }
+              else{
+                g2d.drawString(abilities[k].toString(), 200, ((partyOrder*74)+20)+((25*k))+(k*2));
+              }
             }
         }
         
     }
     
     
-    public void useAbility(String a){
+    public void useAbility(Ability a){
         for(int k = 0; k < abilities.length; k++){
             //ensure teh player has this ability
             if (abilities[k] == a){
