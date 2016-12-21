@@ -6,13 +6,11 @@ import java.io.*;
 public abstract class DungeonObject {
     protected int y;
     protected int x;
-    protected Level l;
     protected BufferedImage sprite = null;
     
-    public DungeonObject(int x, int y, Level l, String imgPath) {
+    public DungeonObject(int x, int y, String imgPath) {
         this.x = x;
         this.y = y;
-        this.l = l;
         setImage(imgPath);
     }
     

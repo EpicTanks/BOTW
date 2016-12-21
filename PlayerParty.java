@@ -5,14 +5,12 @@ import javax.imageio.*;
 import java.io.*;
 
 public class PlayerParty extends DungeonObject {
-    private CharacterSheet[] sheets;
     private boolean isReady = false;
     private BufferedImage overlay = null;
     
     //Constructor
-    public PlayerParty(int x, int y, Level l, CharacterSheet[] sheets) {
-        super(x, y, l, "images/sprites/player.png");
-        this.sheets = sheets;
+    public PlayerParty(int x, int y) {
+        super(x, y, "images/sprites/player.png");
         
         try {
             overlay = ImageIO.read(new File("images/tiles/overlay.png"));
@@ -25,7 +23,7 @@ public class PlayerParty extends DungeonObject {
     public boolean takeAction(KeyEvent e) {
         switch(e.getKeyCode()) {
             case 32:
-                Console.addMessage("Waited around for a while.");
+                BestOfTheWest.c.addMessage("Waited around for a while.");
                 return true; //skip the turn with spacebar
             case 38:
                 return action("Up"); //move up with up arrow
@@ -36,13 +34,13 @@ public class PlayerParty extends DungeonObject {
             case 39:
                 return action("Right"); //move right with right arrow
             case 46:
-                return l.useStairs(x, y); //use stairs with .
+                return BestOfTheWest.getLevel().useStairs(x, y); //use stairs with .
             case 82:
-             return getFirstAlive().reload(); //reload with r
+                return getFirstAlive().reload(); //reload with r
             case 83:
                 return changeReadiness();
             default:
-                Console.addMessage("Invalid key. Press something else.");
+                BestOfTheWest.c.addMessage("Invalid key. Press something else.");
                 return false; //do nothing with any other keys
         }
     }
@@ -56,31 +54,31 @@ public class PlayerParty extends DungeonObject {
                 isReady = false;
                 tryShoot(direction);
             } else {
-                Console.addMessage("You fail at firing your melee weapon");
+                BestOfTheWest.c.addMessage("You fail at firing your melee weapon");
             }
             isReady = false;
             return true;
         } else {
-         switch (direction) {
-          case "Up":
-           nextTo = l.getThingAt(x, y - 1);
-           break;
-          case "Right":
-           nextTo = l.getThingAt(x + 1, y);
-           break;
-          case "Down":
-           nextTo = l.getThingAt(x, y + 1);
-           break;
-          case "Left":
-           nextTo = l.getThingAt(x - 1, y);
-           break;
-          default:
-           throw new RuntimeException("Bad direction.");
-         }
+            switch (direction) {
+                case "Up":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x, y - 1);
+                    break;
+                case "Right":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x + 1, y);
+                    break;
+                case "Down":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x, y + 1);
+                    break;
+                case "Left":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x - 1, y);
+                    break;
+                default:
+                    throw new RuntimeException("Bad direction.");
+            }
             
             if (nextTo instanceof TreasureBox) {
                 if (takeTreasure((TreasureBox)nextTo))
-                    l.removeObject((TreasureBox)nextTo);
+                    BestOfTheWest.getLevel().removeObject((TreasureBox)nextTo);
                 return true;
             } else if (nextTo instanceof Enemy) {
                 attack((Enemy)nextTo, false);
@@ -116,11 +114,11 @@ public class PlayerParty extends DungeonObject {
     
     //Tries to pick up a treasure. Returns false if there is no room in the whole party.
     private boolean takeTreasure(TreasureBox t) {
-        if (sheets[0].collect(t.contents())) {
+        if (BestOfTheWest.sheets[0].collect(t.contents())) {
             return true;
-        } else if (sheets[1].collect(t.contents())) {
+        } else if (BestOfTheWest.sheets[1].collect(t.contents())) {
             return true;
-        } else if (sheets[2].collect(t.contents())) {
+        } else if (BestOfTheWest.sheets[2].collect(t.contents())) {
             return true;
         }
         return false;
@@ -128,68 +126,68 @@ public class PlayerParty extends DungeonObject {
     
     private boolean changeReadiness() {
         if (!isReady) {
-            Console.addMessage("You get ready to shoot your gun.");
+            BestOfTheWest.c.addMessage("You get ready to shoot your gun.");
             isReady = true;
         } else {
-            Console.addMessage("You put down your gun.");
+            BestOfTheWest.c.addMessage("You put down your gun.");
             isReady = false;
         }
         return false;
     }
     
     private void tryShoot(String direction) {
-     switch (direction) {
-      case "Up":
-       shootInDirection(0, -1);
-       break;
-      case "Right":
-       shootInDirection(1, 0);
-       break;
-      case "Down":
-       shootInDirection(0, 1);
-       break;
-      case "Left":
-       shootInDirection(-1, 0);
-       break;
-      default:
-       throw new RuntimeException("Bad direction.");
-     }
+        switch (direction) {
+            case "Up":
+                shootInDirection(0, -1);
+                break;
+            case "Right":
+                shootInDirection(1, 0);
+                break;
+            case "Down":
+                shootInDirection(0, 1);
+                break;
+            case "Left":
+                shootInDirection(-1, 0);
+                break;
+            default:
+                throw new RuntimeException("Bad direction.");
+        }
     }
     
     private void shootInDirection(int xmod, int ymod) {
         int range = getFirstAlive().getWeap().getRange();
         
-        Console.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
+        BestOfTheWest.c.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
         if (!getFirstAlive().isLoaded()) {
-            Console.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
+            BestOfTheWest.c.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
             return;
         } else {
-            Console.addCloseMessage("The gun fires!");
+            BestOfTheWest.c.addCloseMessage("The gun fires!");
         }
         for (int i = 0; i <= range; i++) {
-            Object target = l.getThingAt(x + (i * xmod), y + (i * ymod));
+            Object target = BestOfTheWest.getLevel().getThingAt(x + (i * xmod), y + (i * ymod));
             if (target instanceof Enemy) {
                 attack((Enemy) target, true);
                 return;
             } else if (target instanceof Character) {
                 getFirstAlive().shoot();
-                Console.addMessage("The bullet harmlessly bounced off the wall.");
+                BestOfTheWest.c.addMessage("The bullet harmlessly bounced off the wall.");
                 return;
             }
         }
         getFirstAlive().shoot();
-        Console.addMessage("The bullet quickly lost speed and hit the ground.");
+        BestOfTheWest.c.addMessage("The bullet quickly lost speed and hit the ground.");
     }
     
     //deals damage to an enemy and prints out a message
     private void attack(Enemy e, boolean ranged) {
-     int d;
-     if (ranged) {
-      d = getFirstAlive().shoot();
-     } else {
-      d = getFirstAlive().rollDamage();
-     }
-        Console.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
+        int d;
+        if (ranged) {
+            d = getFirstAlive().shoot();
+        } else {
+            d = getFirstAlive().rollDamage();
+        }
+        BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
         e.takeDamage(d);
     }
     
@@ -199,24 +197,25 @@ public class PlayerParty extends DungeonObject {
     }
     
     public CharacterSheet getFirstAlive() {
-        if (sheets[0].isAlive()) {
-            return sheets[0];
-        } else if (sheets[1].isAlive()) {
-            return sheets[1];
-        } else if (sheets[2].isAlive()) {
-            return sheets[2];
+        if (BestOfTheWest.sheets[0].isAlive()) {
+            return BestOfTheWest.sheets[0];
+        } else if (BestOfTheWest.sheets[1].isAlive()) {
+            return BestOfTheWest.sheets[1];
+        } else if (BestOfTheWest.sheets[2].isAlive()) {
+            return BestOfTheWest.sheets[2];
         } else {
-            Console.addMessage("You heckin lose!");
+            BestOfTheWest.c.addMessage("You heckin lose!");
             stall();
             return null;
         }
     }
-   
+    
     //just puts the program into an infinite loop until we make an actual game over screen
     public void stall() {
         while (true);
     }
     
+    @Override
     public void render(Graphics2D g2d, int scale, int offset) {
         super.render(g2d, scale, offset);
         

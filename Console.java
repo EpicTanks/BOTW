@@ -1,12 +1,11 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-//This class is abstract because there will only ever be 1 console, and I don't want anyone trying to create an instance
-public abstract class Console {
+public class Console {
     
     //List of messages
-    private static LinkedList<String> messageList = new LinkedList<String>();
-    private static boolean toClear = false;
+    private LinkedList<String> messageList = new LinkedList<String>();
+    private boolean toClear = false;
     
     //Constants
     private static final int X = 0;
@@ -16,7 +15,7 @@ public abstract class Console {
     private static final int MAX_CHARS = 175 / (FONT_SIZE / 2);
     private static final Color BROWN = new Color(255, 190, 100);
     
-    public static void paint(Graphics2D g2d) {
+    public void paint(Graphics2D g2d) {
         g2d.setColor(BROWN);
         g2d.fillRect(X, Y, 192, 350);
         
@@ -27,12 +26,12 @@ public abstract class Console {
         }
     }
     
-    public static void addCloseMessage(String s) {
-    	
-    	if(toClear) {
-    		clear();
-    		toClear = false;
-    	}
+    public void addCloseMessage(String s) {
+        
+        if(toClear) {
+            clear();
+            toClear = false;
+        }
         
         //Splits up the string into pieces if it's too big to fit on 1 line.
         while(s.length() > MAX_CHARS) {
@@ -57,21 +56,21 @@ public abstract class Console {
         }
     }
     
-    public static void addMessage(String s) {
+    public void addMessage(String s) {
         addCloseMessage(s);
         messageList.add(""); //Add a blank line between each message to improve readability
     }
     
-    public static void clear() {
+    public void clear() {
         messageList = new LinkedList<String>();
     }
     
-    public static void clear(String s) {
+    public void clear(String s) {
         clear();
         addMessage(s);
     }
-
-	public static void setClear() {
-		toClear = true;
-	}
+    
+    public void setClear() {
+        toClear = true;
+    }
 }
