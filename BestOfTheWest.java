@@ -6,6 +6,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
     private static final long serialVersionUID = 1L; // eclipse says we need this
     
     public static final MusicPlayer m = new MusicPlayer();
+    public static final Console c = new Console();
     public static final CharacterSheet[] sheets = new CharacterSheet[3];
     private static Level l = new Level(1);
     private static Town t = new Town();
@@ -19,7 +20,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == 27 && getMode().equals("Town")) {
-                Console.c.clear("You descended into a new dungeon.");
+                c.clear("You descended into a new dungeon.");
                 m.changeTrack("Travel");
                 setMode("Dungeon");
                 newLevel(1);
@@ -100,7 +101,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
         for (CharacterSheet c : sheets) {
             c.paint(g2d);
         }
-        Console.c.paint(g2d);
+        c.paint(g2d);
     }
     
     public static void newLevel(int floor) {

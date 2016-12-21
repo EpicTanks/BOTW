@@ -27,11 +27,11 @@ public class Console {
     }
     
     public void addCloseMessage(String s) {
-     
-     if(toClear) {
-      clear();
-      toClear = false;
-     }
+        
+        if(toClear) {
+            clear();
+            toClear = false;
+        }
         
         //Splits up the string into pieces if it's too big to fit on 1 line.
         while(s.length() > MAX_CHARS) {
@@ -69,8 +69,8 @@ public class Console {
         clear();
         addMessage(s);
     }
-
- public void setClear() {
-  toClear = true;
- }
+    
+    public void setClear() {
+        toClear = true;
+    }
 }

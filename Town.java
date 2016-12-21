@@ -17,7 +17,7 @@ public class Town {
     }
     
     public void click(MouseEvent e) {
-     BestOfTheWest.c.addMessage("Click!");
+        BestOfTheWest.c.addMessage("Click!");
     }
     
     public void render(Graphics2D g2d) {

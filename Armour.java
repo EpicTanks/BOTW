@@ -6,7 +6,7 @@ import java.awt.image.*;
 
 public class Armour extends Item{
     
-//fields
+    //fields
     public BufferedImage img = null;
     private String equipType;
     private int protection = 3;
