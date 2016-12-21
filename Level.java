@@ -255,4 +255,8 @@ public class Level {
     public boolean isPlayerTurn() {
         return playerTurn;
     }
+    
+    public String getTheme() {
+        return theme;
+    }
 }

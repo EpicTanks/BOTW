@@ -106,6 +106,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
     
     public static void newLevel(int floor) {
         l = new Level(floor);
+        c.addMessage(l.getTheme() + " !!!");
     }
     
     public static void setMode(String m) {
@@ -117,7 +118,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
     }
     
     public void run() {
-        JFrame frame = new JFrame("COOL LEVEL");
+        JFrame frame = new JFrame("Best Of The West");
         frame.add(this);
         frame.setSize(1000, 800);
         frame.setVisible(true);
