@@ -8,23 +8,25 @@ import java.util.ArrayList;
 public class Level {
     private int floor;
     private String theme;
+    
     private char[][] layout = new char[36][36];
     private ArrayList<DungeonObject> objectList = new ArrayList<DungeonObject>();
     private PlayerParty player;
-    private LevelTest lt;
+    
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
     private BufferedImage wall2Image = null;
     private BufferedImage cornerImage = null;
     private BufferedImage stairUp = null;
     private BufferedImage stairDown = null;
+    
     private boolean playerTurn = true;
+    
     private static final int SCALE = 16;
     private static final int OFFSET = 192;
     
-    public Level(int floor, CharacterSheet[] sheets, LevelTest lt) {
+    public Level(int floor) {
         this.floor = floor;
-        this.lt = lt;
         Random r = new Random();
         String difficulty;
         
@@ -87,7 +89,6 @@ public class Level {
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
-        System.out.println(difficulty);
         if(!difficulty.equals("hell")) {
             genLevel();
         } else {
@@ -112,7 +113,7 @@ public class Level {
                 }
             }
         }
-        player = new PlayerParty(1, 1, this, sheets);
+        player = new PlayerParty(1, 1);
     }
     
     //loads a floor from a text file
@@ -138,15 +139,15 @@ public class Level {
     public void takeEnemyTurn() {
         if(!playerTurn) {
             for (DungeonObject o: objectList) {
-             if (o instanceof Enemy)
-                ((Enemy)o).takeTurn(player);
+                if (o instanceof Enemy)
+                    ((Enemy)o).takeTurn(player);
             }
             playerTurn = true;
         }
     }
     
     public void removeObject(DungeonObject o) {
-     objectList.remove(o);
+        objectList.remove(o);
     }
     
     //returns true if there is nothing at coodinate (x, y)
@@ -156,25 +157,25 @@ public class Level {
             return false;
         }
         for (DungeonObject o: objectList) {
-         if (o.getX() == x && o.getY() == y) {
-          return false;
-         }
+            if (o.getX() == x && o.getY() == y) {
+                return false;
+            }
         }
         return true;
     }
     
     public boolean useStairs(int x, int y) {
         if (layout[y][x] == 'd') {
-            Console.clear("You walked down the stairs.");
-            lt.newLevel(floor + 1);
+            BestOfTheWest.c.clear("You walked down the stairs.");
+            BestOfTheWest.newLevel(floor + 1);
             return true; //generate new level with floor+1
         } else if (layout[y][x] == 'u') {
-            Console.clear("You retreated to the town.");
-            lt.toggleDungeonMode();
-            lt.newLevel(1);
+            BestOfTheWest.c.clear("You retreated to the town.");
+            BestOfTheWest.setMode("Town");
+            BestOfTheWest.m.changeTrack("Title");
             return true; //goto town
         } else {
-            Console.addMessage("There are no stairs there!");
+            BestOfTheWest.c.addMessage("There are no stairs there!");
             return false; //do nothing
         }
     }
@@ -188,14 +189,14 @@ public class Level {
     }
     
     public Object getThingAt(int x, int y) {
-     for (DungeonObject o: objectList) {
-      if(o.getX() == x && o.getY() == y)
-       return o;
-     }
-     if (!isEmpty(x, y)) {
-      return 'w';
-     }
-     return null;
+        for (DungeonObject o: objectList) {
+            if(o.getX() == x && o.getY() == y)
+                return o;
+        }
+        if (!isEmpty(x, y)) {
+            return 'w';
+        }
+        return null;
     }
     
     public int getFloor() {
@@ -240,18 +241,22 @@ public class Level {
         
         //draw dungeon objects
         for (DungeonObject o: objectList) {
-         o.render(g2d, SCALE, OFFSET);
+            o.render(g2d, SCALE, OFFSET);
         }
         
         //draw the player
         player.render(g2d, SCALE, OFFSET);
     }
-        
+    
     public void setEnemyTurn() {
         playerTurn = false;
     }
     
     public boolean isPlayerTurn() {
         return playerTurn;
+    }
+    
+    public String getTheme() {
+        return theme;
     }
 }
