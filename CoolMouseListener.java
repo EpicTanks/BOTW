@@ -4,9 +4,9 @@ public class CoolMouseListener implements MouseListener {
 
 	private CharacterSheet[] cs;
 	private Town t;
-	private LevelTest lt;
+	private BestOfTheWest lt;
 
-	public CoolMouseListener(CharacterSheet[] c, Town t, LevelTest lt) {
+	public CoolMouseListener(CharacterSheet[] c, Town t, BestOfTheWest lt) {
 		cs = c;
 		this.t = t;
 		this.lt = lt;

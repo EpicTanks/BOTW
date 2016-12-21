@@ -11,7 +11,7 @@ public class Level {
     private char[][] layout = new char[36][36];
     private ArrayList<DungeonObject> objectList = new ArrayList<DungeonObject>();
     private PlayerParty player;
-    private LevelTest lt;
+    private BestOfTheWest lt;
     private BufferedImage floorImage = null;
     private BufferedImage wallImage = null;
     private BufferedImage wall2Image = null;
@@ -22,7 +22,7 @@ public class Level {
     private static final int SCALE = 16;
     private static final int OFFSET = 192;
     
-    public Level(int floor, CharacterSheet[] sheets, LevelTest lt) {
+    public Level(int floor, CharacterSheet[] sheets, BestOfTheWest lt) {
         this.floor = floor;
         this.lt = lt;
         Random r = new Random();
