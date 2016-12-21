@@ -106,13 +106,13 @@ private boolean isRanged;
   }
   
   public void statsToString(){
-    Console.addCloseMessage("Weapon: " + name);
-    Console.addCloseMessage("");
-    Console.addCloseMessage("Damage: " + dmglo + "-" + dmghi);
+	  BestOfTheWest.c.addCloseMessage("Weapon: " + name);
+    BestOfTheWest.c.addCloseMessage("");
+    BestOfTheWest.c.addCloseMessage("Damage: " + dmglo + "-" + dmghi);
     if(isRanged){
-    Console.addCloseMessage("Range: " + range);   
+    	BestOfTheWest.c.addCloseMessage("Range: " + range);   
     }
-    Console.addCloseMessage("Value: " + price);
+    BestOfTheWest.c.addCloseMessage("Value: " + price);
   }
   
   public void use(CharacterSheet c){

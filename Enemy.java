@@ -7,7 +7,7 @@ public class Enemy extends DungeonObject {
     //naming variables
     private String name = "";
     static String temp = "";
-    private static final String[][] possibleNames = { //TODO: Capitalize and add spaces
+    private static final String[][] possibleNames = {
         {"bandit", "Rat", "Ranger Rat", "Giant Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit", "Giblo"},
         {"haunted", "Rat", "Ranger Rat", "Giant Rat", "Ghostly Bandit"},
         {"mines", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Cave Ogre", "Kobold", "Gray Ooze"},
@@ -29,7 +29,7 @@ public class Enemy extends DungeonObject {
     
     //Constructor
     public Enemy(int x, int y, Level l, String theme) {
-        super(x, y, l, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
+        super(x, y, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
         name = temp;
         try {
             setData();
@@ -105,8 +105,8 @@ public class Enemy extends DungeonObject {
     public void takeDamage(int damage) {
         hp -= damage;
         if(hp <= 0) {
-            l.removeObject(this);
-            Console.addMessage("The " + name + " was slain.");
+        	BestOfTheWest.getLevel().removeObject(this);
+            BestOfTheWest.c.addMessage("The " + name + " was slain.");
         }
     }
     
@@ -116,9 +116,9 @@ public class Enemy extends DungeonObject {
     
     private void attack(PlayerParty p) {
         if(isRanged > 0) {
-            Console.addMessage("The " + name + " shot you!");
+        	BestOfTheWest.c.addMessage("The " + name + " shot you!");
         } else {
-            Console.addMessage("The " + name + " punched ya!");
+        	BestOfTheWest.c.addMessage("The " + name + " punched ya!");
         }
         p.takeDamage(strength);
     }
@@ -131,13 +131,13 @@ public class Enemy extends DungeonObject {
             int rl = shortestPath(SIGHT_RANGE, x + 1, y);
             int high = max4(ul, dl, ll, rl);
             
-            if(rl == high && l.isEmpty(x + 1, y)) {
+            if(rl == high && BestOfTheWest.getLevel().isEmpty(x + 1, y)) {
                 x++;
-            } else if (dl == high && l.isEmpty(x, y + 1)) {
+            } else if (dl == high && BestOfTheWest.getLevel().isEmpty(x, y + 1)) {
                 y++;
-            } else if(ll == high && l.isEmpty(x - 1, y)) {
+            } else if(ll == high && BestOfTheWest.getLevel().isEmpty(x - 1, y)) {
                 x--;
-            } else if (ul == high && l.isEmpty(x, y - 1)) {
+            } else if (ul == high && BestOfTheWest.getLevel().isEmpty(x, y - 1)) {
                 y--;
             }
         } else {
@@ -146,10 +146,10 @@ public class Enemy extends DungeonObject {
     }
     
     private int shortestPath(int moves, int cX, int cY) {
-        if (moves <= 0 || !l.isEmpty(cX, cY)) {
+        if (moves <= 0 || !BestOfTheWest.getLevel().isEmpty(cX, cY)) {
             return -1;
         }
-        if (l.containsPlayer(cX, cY)) {
+        if (BestOfTheWest.getLevel().containsPlayer(cX, cY)) {
             return moves;
         }
         moves--;
@@ -168,22 +168,22 @@ public class Enemy extends DungeonObject {
             
             switch(r) {
                 case 1: 
-                    if(l.isEmpty(x, y + 1)) {
+                    if(BestOfTheWest.getLevel().isEmpty(x, y + 1)) {
                     y++;
                 }
                     break;
                 case 2:
-                    if(l.isEmpty(x + 1, y)) {
+                    if(BestOfTheWest.getLevel().isEmpty(x + 1, y)) {
                     x++;
                 }
                     break;
                 case 3:
-                    if(l.isEmpty(x, y - 1)) {
+                    if(BestOfTheWest.getLevel().isEmpty(x, y - 1)) {
                     y--;
                 }
                     break;
                 case 4:
-                    if(l.isEmpty(x - 1, y)) {
+                    if(BestOfTheWest.getLevel().isEmpty(x - 1, y)) {
                     x--;
                 }
                     break;

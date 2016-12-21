@@ -133,11 +133,11 @@ public class Armour extends Item{
     }
     
     public void statsToString(){
-    Console.addCloseMessage(type + ": " + name);
+      BestOfTheWest.c.addCloseMessage(type + ": " + name);
     if (type.equals("Armour")) {
-      Console.addCloseMessage("");
-      Console.addCloseMessage("Protection: " + protection);
-      Console.addCloseMessage("Value: " + price);
+      BestOfTheWest.c.addCloseMessage("");
+      BestOfTheWest.c.addCloseMessage("Protection: " + protection);
+      BestOfTheWest.c.addCloseMessage("Value: " + price);
     }
   }
     

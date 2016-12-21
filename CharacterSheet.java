@@ -99,10 +99,10 @@ public class CharacterSheet{
   public boolean reload() {
 	  if (weap.getIsRanged()) {
 		  bp = weap.getClip();
-		  Console.addMessage(name + " reloads his gun");
+		  BestOfTheWest.c.addMessage(name + " reloads his gun");
 		  return true;
 	  } else {
-		  Console.addMessage("You can't reload if you have no gun!");
+		  BestOfTheWest.c.addMessage("You can't reload if you have no gun!");
 		  return false;
 	  }
 	  
@@ -157,18 +157,18 @@ public class CharacterSheet{
   
   
   public void statsToString(){
-    Console.clear(name + ", The Adventurer");
-    Console.addCloseMessage("Strength: " + str);
-    Console.addCloseMessage("Speed: " + spd);
-    Console.addCloseMessage("Smarts: " + smrt);
-    Console.addCloseMessage("Speech: " + spch);
-    Console.addCloseMessage("");
+    BestOfTheWest.c.clear(name + ", The Adventurer");
+    BestOfTheWest.c.addCloseMessage("Strength: " + str);
+    BestOfTheWest.c.addCloseMessage("Speed: " + spd);
+    BestOfTheWest.c.addCloseMessage("Smarts: " + smrt);
+    BestOfTheWest.c.addCloseMessage("Speech: " + spch);
+    BestOfTheWest.c.addCloseMessage("");
     weap.statsToString();
-    Console.addCloseMessage("");
+    BestOfTheWest.c.addCloseMessage("");
     armr.statsToString();
-    Console.addCloseMessage("");
+    BestOfTheWest.c.addCloseMessage("");
     hat.statsToString();
-    Console.setClear();
+    BestOfTheWest.c.setClear();
   }
   
   public void paint(Graphics2D g2d){
@@ -223,7 +223,7 @@ public class CharacterSheet{
       for(int j = 0; j < 2; j++){
         if(inv.checkEmpty(i,j)){
           inv.add(q,i,j);
-          Console.addMessage(name + " picked up the " + q.name);         
+          BestOfTheWest.c.addMessage(name + " picked up the " + q.name);         
           return true;
         }        
       }
@@ -272,7 +272,7 @@ public class CharacterSheet{
     
     hp -= damage;
     
-    Console.addMessage(name + " took " + damage + " damage.");
+    BestOfTheWest.c.addMessage(name + " took " + damage + " damage.");
     
     if(hp < 0) {
       hp = 0;

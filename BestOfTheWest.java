@@ -4,12 +4,14 @@ import java.awt.event.*;
 
 public class BestOfTheWest extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L; // eclipse says we need this
-	private Level l;
-	private Town t;
-	private CharacterSheet[] sheets = new CharacterSheet[3];
-	private String mode = "Town";
-	private static MusicPlayer m = new MusicPlayer();
-	private KeyListener k = new KeyListener() {
+	
+	public static final MusicPlayer m = new MusicPlayer();
+	public static final Console c = new Console();
+	public static final CharacterSheet[] sheets = new CharacterSheet[3];
+	private static Level l = new Level(1);
+	private static Town t;
+	private static String mode = "Town";
+	private static KeyListener k = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}
@@ -17,8 +19,8 @@ public class BestOfTheWest extends JPanel implements Runnable {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == 27 && getMode().equals("Town")) {
-				Console.clear("You descended into a new dungeon.");
-				switchTrack("Travel");
+				c.clear("You descended into a new dungeon.");
+				m.changeTrack("Travel");
 				setMode("Dungeon");
 				newLevel(1);
 			} else {
@@ -39,14 +41,12 @@ public class BestOfTheWest extends JPanel implements Runnable {
 		sheets[0] = new CharacterSheet("Bob", 0);
 		sheets[1] = new CharacterSheet("Bill", 1);
 		sheets[2] = new CharacterSheet("Jim", 2);
-		CharacterSheet.selectedSheet = sheets[0];
-		l = new Level(1, sheets, this);
 		t = new Town();
 
+		addMouseListener(new CoolMouseListener(sheets, t, this));
 		addKeyListener(k);
 		setFocusable(true);
 
-		addMouseListener(new CoolMouseListener(sheets, t, this));
 	}
 
 	public void paint(Graphics g) {
@@ -75,27 +75,23 @@ public class BestOfTheWest extends JPanel implements Runnable {
         for (CharacterSheet c : sheets) {
             c.paint(g2d);
         }
-        Console.paint(g2d);
+        c.paint(g2d);
     }
 
-	public void move() {
+	public static void move() {
 		l.takeEnemyTurn();
 	}
 
-	public void newLevel(int floor) {
-		l = new Level(floor, sheets, this);
+	public static void newLevel(int floor) {
+		l = new Level(floor);
 	}
 
-	public void setMode(String m) {
-		this.mode = m;
+	public static void setMode(String m) {
+		mode = m;
 	}
 
-	public String getMode() {
+	public static String getMode() {
 		return mode;
-	}
-
-	public void switchTrack(String tune) {
-		m.changeTrack(tune);
 	}
 
 	public void run() {
@@ -117,5 +113,9 @@ public class BestOfTheWest extends JPanel implements Runnable {
 		Thread a = new Thread(lt);
 		a.start();
 		m.start();
+	}
+
+	public static Level getLevel() {
+		return l;
 	}
 }
