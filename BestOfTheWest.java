@@ -11,6 +11,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
     private static Level l = new Level(1);
     private static Town t = new Town();
     private static String mode = "Town";
+    
     private static KeyListener k = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -37,14 +38,39 @@ public class BestOfTheWest extends JPanel implements Runnable {
         }
     };
     
+    private static MouseListener k2 = new MouseListener() {
+        
+        public void mousePressed(MouseEvent e) {
+            for (int i = 0; i < sheets.length; i++) {
+                sheets[i].click(e.getX(), e.getY());
+            }
+            if (getMode().equals("Town")) {
+                t.click(e);
+            }
+        }
+        
+        public void mouseReleased(MouseEvent e) {
+        }
+        
+        public void mouseEntered(MouseEvent e) {
+        }
+        
+        public void mouseExited(MouseEvent e) {
+        }
+        
+        public void mouseClicked(MouseEvent e) {
+        }
+    };
+    
     public BestOfTheWest() {
         sheets[0] = new CharacterSheet("Bob", 0);
         sheets[1] = new CharacterSheet("Bill", 1);
         sheets[2] = new CharacterSheet("Jim", 2);
+        CharacterSheet.selectedSheet = sheets[0];
         t = new Town();
         
-        addMouseListener(new CoolMouseListener(sheets, t, this));
         addKeyListener(k);
+        addMouseListener(k2);
         setFocusable(true);
         
     }
