@@ -87,7 +87,6 @@ public class Level {
         } catch (IOException e) {
             System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
         }
-        System.out.println(difficulty);
         if(!difficulty.equals("hell")) {
             genLevel();
         } else {
@@ -170,8 +169,8 @@ public class Level {
             return true; //generate new level with floor+1
         } else if (layout[y][x] == 'u') {
             Console.clear("You retreated to the town.");
-            lt.toggleDungeonMode();
-            lt.newLevel(1);
+            lt.setMode("Town");
+            lt.switchTrack("Title");
             return true; //goto town
         } else {
             Console.addMessage("There are no stairs there!");

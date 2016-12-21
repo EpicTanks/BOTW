@@ -217,6 +217,7 @@ public class PlayerParty extends DungeonObject {
         while (true);
     }
     
+    @Override
     public void render(Graphics2D g2d, int scale, int offset) {
         super.render(g2d, scale, offset);
         

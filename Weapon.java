@@ -1,10 +1,7 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class Weapon extends Item{
   public BufferedImage img = null;
@@ -101,7 +98,7 @@ private boolean isRanged;
     else{
      isRanged = true; 
     }
-    
+    reader.close();
   }
   
   public int rollDamage(){

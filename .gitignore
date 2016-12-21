@@ -232,3 +232,7 @@ pip-log.txt
 /SpellBook.class
 /TreasureBox.class
 /Weapon.class
+/MusicPlayer.class
+/Town.class
+/LevelTest$1.class
+/LevelTestParameter.class

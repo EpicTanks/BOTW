@@ -1,10 +1,7 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class SpellBook extends Item{
   //habstract fields
@@ -66,18 +63,13 @@ public class SpellBook extends Item{
       for(int k = 0; k < c.abilities.length; k++){
         if(c.abilities[k] == name){
           System.out.println("You already know " + name);
-          break;
-        }
-        else{
-          System.out.println("You learned " + name);
-          System.out.println(name + ":" + description);
-          c.abilities[c.noOfAbils] = name;
-          c.noOfAbils+=1;
-          break;
+          return;
         }
       }
-      
-    }
+      System.out.println("You learned " + name);
+      System.out.println(name + ":" + description);
+      c.abilities[c.noOfAbils] = name;
+      c.noOfAbils+=1;
+    }    
   }
-  
 }

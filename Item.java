@@ -1,10 +1,4 @@
-import javax.imageio.*;
-import java.io.*;
 import java.awt.*;
-import javax.swing.*;
-import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public abstract class Item {
   protected Inventory location;

@@ -1,10 +1,7 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 
 public class Inventory{
   // stupid Inventory class, just an array of items, no renderino
@@ -155,11 +152,11 @@ public class Inventory{
       
       else if(x > (this.x+330) && x < (this.x+370) && y > (this.y+50) && y < (this.y+70)){
         System.out.println("IM GONNA MOVE"); 
-        if(owner.selectedSheet == owner){
+        if(CharacterSheet.selectedSheet == owner){
           System.out.println("This is your item!!!"); 
         }
         //owner.selectedSheet.collect(contents[selectedItemS1][selectedItemS2]);
-        else if(owner.selectedSheet.collect(contents[selectedItemS1][selectedItemS2]) == false){
+        else if(CharacterSheet.selectedSheet.collect(contents[selectedItemS1][selectedItemS2]) == false){
           
           System.out.println("There's no space!!!"); 
         }
