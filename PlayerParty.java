@@ -23,7 +23,7 @@ public class PlayerParty extends DungeonObject {
     public boolean takeAction(KeyEvent e) {
         switch(e.getKeyCode()) {
             case 32:
-                BestOfTheWest.c.addMessage("Waited around for a while.");
+                Console.c.addMessage("Waited around for a while.");
                 return true; //skip the turn with spacebar
             case 38:
                 return action("Up"); //move up with up arrow
@@ -40,7 +40,7 @@ public class PlayerParty extends DungeonObject {
             case 83:
                 return changeReadiness();
             default:
-                BestOfTheWest.c.addMessage("Invalid key. Press something else.");
+                Console.c.addMessage("Invalid key. Press something else.");
                 return false; //do nothing with any other keys
         }
     }
@@ -54,7 +54,7 @@ public class PlayerParty extends DungeonObject {
                 isReady = false;
                 tryShoot(direction);
             } else {
-                BestOfTheWest.c.addMessage("You fail at firing your melee weapon");
+                Console.c.addMessage("You fail at firing your melee weapon");
             }
             isReady = false;
             return true;
@@ -126,10 +126,10 @@ public class PlayerParty extends DungeonObject {
     
     private boolean changeReadiness() {
         if (!isReady) {
-            BestOfTheWest.c.addMessage("You get ready to shoot your gun.");
+            Console.c.addMessage("You get ready to shoot your gun.");
             isReady = true;
         } else {
-            BestOfTheWest.c.addMessage("You put down your gun.");
+            Console.c.addMessage("You put down your gun.");
             isReady = false;
         }
         return false;
@@ -157,12 +157,12 @@ public class PlayerParty extends DungeonObject {
     private void shootInDirection(int xmod, int ymod) {
         int range = getFirstAlive().getWeap().getRange();
         
-        BestOfTheWest.c.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
+        Console.c.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
         if (!getFirstAlive().isLoaded()) {
-            BestOfTheWest.c.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
+            Console.c.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
             return;
         } else {
-            BestOfTheWest.c.addCloseMessage("The gun fires!");
+            Console.c.addCloseMessage("The gun fires!");
         }
         for (int i = 0; i <= range; i++) {
             Object target = BestOfTheWest.getLevel().getThingAt(x + (i * xmod), y + (i * ymod));
@@ -171,12 +171,12 @@ public class PlayerParty extends DungeonObject {
                 return;
             } else if (target instanceof Character) {
                 getFirstAlive().shoot();
-                BestOfTheWest.c.addMessage("The bullet harmlessly bounced off the wall.");
+                Console.c.addMessage("The bullet harmlessly bounced off the wall.");
                 return;
             }
         }
         getFirstAlive().shoot();
-        BestOfTheWest.c.addMessage("The bullet quickly lost speed and hit the ground.");
+        Console.c.addMessage("The bullet quickly lost speed and hit the ground.");
     }
     
     //deals damage to an enemy and prints out a message
@@ -187,7 +187,7 @@ public class PlayerParty extends DungeonObject {
         } else {
             d = getFirstAlive().rollDamage();
         }
-        BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
+        Console.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
         e.takeDamage(d);
     }
     
@@ -204,7 +204,7 @@ public class PlayerParty extends DungeonObject {
         } else if (BestOfTheWest.sheets[2].isAlive()) {
             return BestOfTheWest.sheets[2];
         } else {
-            BestOfTheWest.c.addMessage("You heckin lose!");
+            Console.c.addMessage("You heckin lose!");
             stall();
             return null;
         }
