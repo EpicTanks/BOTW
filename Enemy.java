@@ -94,7 +94,7 @@ public class Enemy extends DungeonObject {
             if (isRanged > 0 && getDistanceTo(p) < 5) {
                 attack(p);
             } else {
-            	moveToward(p);
+                moveToward(p);
             }
         } else {
             moveAtRandom();
@@ -105,7 +105,7 @@ public class Enemy extends DungeonObject {
     public void takeDamage(int damage) {
         hp -= damage;
         if(hp <= 0) {
-        	BestOfTheWest.getLevel().removeObject(this);
+            BestOfTheWest.getLevel().removeObject(this);
             BestOfTheWest.c.addMessage("The " + name + " was slain.");
         }
     }
@@ -116,9 +116,9 @@ public class Enemy extends DungeonObject {
     
     private void attack(PlayerParty p) {
         if(isRanged > 0) {
-        	BestOfTheWest.c.addMessage("The " + name + " shot you!");
+            BestOfTheWest.c.addMessage("The " + name + " shot you!");
         } else {
-        	BestOfTheWest.c.addMessage("The " + name + " punched ya!");
+            BestOfTheWest.c.addMessage("The " + name + " punched ya!");
         }
         p.takeDamage(strength);
     }
@@ -169,23 +169,23 @@ public class Enemy extends DungeonObject {
             switch(r) {
                 case 1: 
                     if(BestOfTheWest.getLevel().isEmpty(x, y + 1)) {
-                    y++;
-                }
+                        y++;
+                    }
                     break;
                 case 2:
                     if(BestOfTheWest.getLevel().isEmpty(x + 1, y)) {
-                    x++;
-                }
+                        x++;
+                    }
                     break;
                 case 3:
                     if(BestOfTheWest.getLevel().isEmpty(x, y - 1)) {
-                    y--;
-                }
+                        y--;
+                    }
                     break;
                 case 4:
                     if(BestOfTheWest.getLevel().isEmpty(x - 1, y)) {
-                    x--;
-                }
+                        x--;
+                    }
                     break;
                 default:
                     break;

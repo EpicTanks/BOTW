@@ -23,7 +23,7 @@ public class PlayerParty extends DungeonObject {
     public boolean takeAction(KeyEvent e) {
         switch(e.getKeyCode()) {
             case 32:
-            	BestOfTheWest.c.addMessage("Waited around for a while.");
+                BestOfTheWest.c.addMessage("Waited around for a while.");
                 return true; //skip the turn with spacebar
             case 38:
                 return action("Up"); //move up with up arrow
@@ -36,11 +36,11 @@ public class PlayerParty extends DungeonObject {
             case 46:
                 return BestOfTheWest.getLevel().useStairs(x, y); //use stairs with .
             case 82:
-             return getFirstAlive().reload(); //reload with r
+                return getFirstAlive().reload(); //reload with r
             case 83:
                 return changeReadiness();
             default:
-            	BestOfTheWest.c.addMessage("Invalid key. Press something else.");
+                BestOfTheWest.c.addMessage("Invalid key. Press something else.");
                 return false; //do nothing with any other keys
         }
     }
@@ -54,31 +54,31 @@ public class PlayerParty extends DungeonObject {
                 isReady = false;
                 tryShoot(direction);
             } else {
-            	BestOfTheWest.c.addMessage("You fail at firing your melee weapon");
+                BestOfTheWest.c.addMessage("You fail at firing your melee weapon");
             }
             isReady = false;
             return true;
         } else {
-         switch (direction) {
-          case "Up":
-           nextTo = BestOfTheWest.getLevel().getThingAt(x, y - 1);
-           break;
-          case "Right":
-           nextTo = BestOfTheWest.getLevel().getThingAt(x + 1, y);
-           break;
-          case "Down":
-           nextTo = BestOfTheWest.getLevel().getThingAt(x, y + 1);
-           break;
-          case "Left":
-           nextTo = BestOfTheWest.getLevel().getThingAt(x - 1, y);
-           break;
-          default:
-           throw new RuntimeException("Bad direction.");
-         }
+            switch (direction) {
+                case "Up":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x, y - 1);
+                    break;
+                case "Right":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x + 1, y);
+                    break;
+                case "Down":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x, y + 1);
+                    break;
+                case "Left":
+                    nextTo = BestOfTheWest.getLevel().getThingAt(x - 1, y);
+                    break;
+                default:
+                    throw new RuntimeException("Bad direction.");
+            }
             
             if (nextTo instanceof TreasureBox) {
                 if (takeTreasure((TreasureBox)nextTo))
-                	BestOfTheWest.getLevel().removeObject((TreasureBox)nextTo);
+                    BestOfTheWest.getLevel().removeObject((TreasureBox)nextTo);
                 return true;
             } else if (nextTo instanceof Enemy) {
                 attack((Enemy)nextTo, false);
@@ -126,32 +126,32 @@ public class PlayerParty extends DungeonObject {
     
     private boolean changeReadiness() {
         if (!isReady) {
-        	BestOfTheWest.c.addMessage("You get ready to shoot your gun.");
+            BestOfTheWest.c.addMessage("You get ready to shoot your gun.");
             isReady = true;
         } else {
-        	BestOfTheWest.c.addMessage("You put down your gun.");
+            BestOfTheWest.c.addMessage("You put down your gun.");
             isReady = false;
         }
         return false;
     }
     
     private void tryShoot(String direction) {
-     switch (direction) {
-      case "Up":
-       shootInDirection(0, -1);
-       break;
-      case "Right":
-       shootInDirection(1, 0);
-       break;
-      case "Down":
-       shootInDirection(0, 1);
-       break;
-      case "Left":
-       shootInDirection(-1, 0);
-       break;
-      default:
-       throw new RuntimeException("Bad direction.");
-     }
+        switch (direction) {
+            case "Up":
+                shootInDirection(0, -1);
+                break;
+            case "Right":
+                shootInDirection(1, 0);
+                break;
+            case "Down":
+                shootInDirection(0, 1);
+                break;
+            case "Left":
+                shootInDirection(-1, 0);
+                break;
+            default:
+                throw new RuntimeException("Bad direction.");
+        }
     }
     
     private void shootInDirection(int xmod, int ymod) {
@@ -159,10 +159,10 @@ public class PlayerParty extends DungeonObject {
         
         BestOfTheWest.c.addCloseMessage(getFirstAlive().getName() + " pulls the trigger...");
         if (!getFirstAlive().isLoaded()) {
-        	BestOfTheWest.c.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
+            BestOfTheWest.c.addMessage("And nothing happens! " + getFirstAlive().getName() + " needs to reload!");
             return;
         } else {
-        	BestOfTheWest.c.addCloseMessage("The gun fires!");
+            BestOfTheWest.c.addCloseMessage("The gun fires!");
         }
         for (int i = 0; i <= range; i++) {
             Object target = BestOfTheWest.getLevel().getThingAt(x + (i * xmod), y + (i * ymod));
@@ -181,13 +181,13 @@ public class PlayerParty extends DungeonObject {
     
     //deals damage to an enemy and prints out a message
     private void attack(Enemy e, boolean ranged) {
-     int d;
-     if (ranged) {
-      d = getFirstAlive().shoot();
-     } else {
-      d = getFirstAlive().rollDamage();
-     }
-     BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
+        int d;
+        if (ranged) {
+            d = getFirstAlive().shoot();
+        } else {
+            d = getFirstAlive().rollDamage();
+        }
+        BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
         e.takeDamage(d);
     }
     
@@ -204,12 +204,12 @@ public class PlayerParty extends DungeonObject {
         } else if (BestOfTheWest.sheets[2].isAlive()) {
             return BestOfTheWest.sheets[2];
         } else {
-        	BestOfTheWest.c.addMessage("You heckin lose!");
+            BestOfTheWest.c.addMessage("You heckin lose!");
             stall();
             return null;
         }
     }
-   
+    
     //just puts the program into an infinite loop until we make an actual game over screen
     public void stall() {
         while (true);
