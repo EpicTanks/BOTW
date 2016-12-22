@@ -10,7 +10,8 @@ public class BestOfTheWest extends JPanel implements Runnable {
     public static final CharacterSheet[] sheets = new CharacterSheet[3];
     private static Level l = new Level(1);
     private static Town t = new Town();
-    private static String mode = "Town";
+    private static CharacterCreationScreen cc = new CharacterCreationScreen();
+    private static String mode = "Character Creation";
     
     private static KeyListener k = new KeyListener() {
         @Override
@@ -29,6 +30,8 @@ public class BestOfTheWest extends JPanel implements Runnable {
                     if (l.isPlayerTurn() && l.getPlayer().takeAction(e)) {
                         l.setEnemyTurn();
                     }
+                } else if (getMode().equals("Character Creation")) {
+                    cc.type((char)e.getKeyCode());
                 }
             }
         }
@@ -46,6 +49,8 @@ public class BestOfTheWest extends JPanel implements Runnable {
             }
             if (getMode().equals("Town")) {
                 t.click(e);
+            } else if (getMode().equals("Character Creation")) {
+                cc.click(e);
             }
         }
         
@@ -87,7 +92,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
                 //render title
                 break;
             case "Character Creation":
-                //render cc
+                cc.render(g2d);
                 break;
             case "Town":
                 t.render(g2d);
