@@ -1,0 +1,7 @@
+hpMod
+dmg
+range
+spdMod
+strMod
+mpCost
+bpCost
