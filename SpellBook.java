@@ -19,6 +19,7 @@ public class SpellBook extends Item{
     private String spell;
     private String colour;
     private int reqSmarts;
+    private Ability contents;
     
     public SpellBook(){ 
         int i = (int) (5*Math.random());
@@ -30,6 +31,7 @@ public class SpellBook extends Item{
         colour = spellCatalogue[i][0];
         reqSmarts = 5;
         type = "Spellbook";
+        contents = new Ability(name);
         try{
             img = ImageIO.read(new File("images/items/spellbooks/" + colour + "_book.png")); 
         }
@@ -61,14 +63,14 @@ public class SpellBook extends Item{
         }
         else{
             for(int k = 0; k < c.abilities.length; k++){
-                if(c.abilities[k] == name){
+                if(c.abilities[k] == contents){
                     System.out.println("You already know " + name);
                     return;
                 }
             }
             System.out.println("You learned " + name);
             System.out.println(name + ":" + description);
-            c.abilities[c.noOfAbils] = name;
+            c.abilities[c.noOfAbils] = contents;
             c.noOfAbils+=1;
         }    
     }
