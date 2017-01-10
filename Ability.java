@@ -34,7 +34,6 @@ public class Ability{
     }
     
     
-    hpMod = Integer.parseInt(reader.readLine());
     dmg = Integer.parseInt(reader.readLine());
     range = Integer.parseInt(reader.readLine());
     spdMod = Integer.parseInt(reader.readLine());
@@ -46,9 +45,30 @@ public class Ability{
     reader.close();
   }
   
+  
+  
   public String toString(){
    return name; 
   }
   
+  public void statsToString(){
+   BestOfTheWest.c.clear("Spell: " + name);
+   BestOfTheWest.c.addCloseMessage("");
+   if(dmg > 0){
+   BestOfTheWest.c.addCloseMessage("Damage: " + dmg);
+   BestOfTheWest.c.addCloseMessage("Range: " + range);
+   }
+   if(dmg < 0){
+    BestOfTheWest.c.addCloseMessage("Healing: " + -dmg); 
+   }
+   if(spdMod != 0){
+    BestOfTheWest.c.addCloseMessage("Speed Modifer: " + spdMod); 
+   }
+   if(strMod != 0){
+    BestOfTheWest.c.addCloseMessage("Strength Modifer: " + strMod); 
+   }
+   BestOfTheWest.c.addCloseMessage("MP Cost: " + mpCost);
+   BestOfTheWest.c.setClear();
+  }
   
 }
