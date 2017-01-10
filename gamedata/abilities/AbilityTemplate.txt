@@ -1,4 +1,3 @@
-hpMod
 dmg
 range
 spdMod
