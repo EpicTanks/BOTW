@@ -47,18 +47,17 @@ public class CharacterSheet{
         partyOrder = po;
     }
     
-    //dumbed down creator
+    //dumbed down creator for making unmade character sheets
     public CharacterSheet(String name, int po){
-        String[] races = {"Human","Elf","Orc","Halfling","Dwarf","Lizardman"};
-        race = races[(int) (Math.random()*6)];
+        race = "mystery";
         this.name = name;
         partyOrder = po;
         inv = new Inventory(this,192,partyOrder*74); 
         loadImages(name);
-        this.str = 3;
-        this.spd = 3;
-        this.spch = 3;
-        this.smrt = 3;
+        this.str = 0;
+        this.spd = 0;
+        this.spch = 0;
+        this.smrt = 0;
         this.hp = str*2;
         this.mp = smrt*2;
         this.bp = 0;
@@ -155,7 +154,8 @@ public class CharacterSheet{
         if(statVis == true){
           for(int k = 0; k < abilities.length; k++){
           if(x >= 197 && x <= 320 && y >= 7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))) && y <= ((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5)))+29){
-            BestOfTheWest.c.addMessage("You dun clicked ability " + k);
+            BestOfTheWest.c.addMessage("You have prepared " + abilities[k].toString() + ", press 'C' to cast.");
+            abilities[k].statsToString();
           }
           }
         }
@@ -215,18 +215,7 @@ public class CharacterSheet{
     }
     
     
-    public void useAbility(Ability a){
-        for(int k = 0; k < abilities.length; k++){
-            //ensure teh player has this ability
-            if (abilities[k] == a){
-                //get it ON 
-            }
-            else{
-                // newnewne 
-            }      
-        }    
-    }
-    
+   
     
     public void collect(Item i, int s1, int s2){
         inv.add(i,s1,s2); 
@@ -296,8 +285,17 @@ public class CharacterSheet{
     public String getName() {
         return name;
     }
-    
+        
     public boolean isLoaded() {
         return bp > 0;
+    }
+    
+    public void heal(int amount){
+      if(hp+amount >= str*2){
+       hp = str*2; 
+      }
+      else{
+       hp+=amount; 
+      }
     }
 }
