@@ -43,8 +43,23 @@ public class Ability{
     
     
     reader.close();
+    
+
+    
   }
   
+  public boolean getGood(){
+    if((spdMod >= 0 || strMod >= 0) && dmg <= 0){
+     return true;
+    }
+    else{
+    return false;
+    }
+  }
+  
+  public int getMPCost(){
+    return mpCost; 
+  }
   
   
   public String toString(){
@@ -52,7 +67,7 @@ public class Ability{
   }
   
   public void statsToString(){
-   BestOfTheWest.c.clear("Spell: " + name);
+   BestOfTheWest.c.addMessage("Spell: " + name);
    BestOfTheWest.c.addCloseMessage("");
    if(dmg > 0){
    BestOfTheWest.c.addCloseMessage("Damage: " + dmg);
@@ -68,7 +83,14 @@ public class Ability{
     BestOfTheWest.c.addCloseMessage("Strength Modifer: " + strMod); 
    }
    BestOfTheWest.c.addCloseMessage("MP Cost: " + mpCost);
-   BestOfTheWest.c.setClear();
+   BestOfTheWest.c.addCloseMessage("");
   }
   
+  public int getRange(){
+   return range; 
+  }
+  
+  public int getDamage(){
+  return dmg;
+  }
 }
