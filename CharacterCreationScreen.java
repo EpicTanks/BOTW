@@ -1,14 +1,31 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
 
 public class CharacterCreationScreen {
+    private BufferedImage backGround = null;
     private int step = 1;
-    private String aaa = "";
-    private static final int MESSAGE_X = 300;
-    private static final int MESSAGE_Y = 100;
+    private int createdCharacters = 0;
+    private static final int MESSAGE_X = 350;
+    private static final int MESSAGE_Y = 150;
+    private static final int LEFT_BOUND = 225;
+    private static final int BOTTOM_BOUND = 570;
     public static ArrayList<Button> buttons = new ArrayList<Button>();
     public static ArrayList<Character> typed = new ArrayList<Character>();
+    
+    private static final int NAME_SELECTION = 1;
+    private static final int RACE_SELECTION = 2;
+    private static final int CLASS_SELECTION = 3;
+    private static final String[] RACES = {"a", "b", "c", "d", "e", "f", "g", "h"};
+    private static final String[] CLASSES = {"a", "b", "c", "d", "e", "f", "g", "h"};
+    
+    private String name = "";
+    private String race = "";
+    private String clss = "";
     
     private class Button {
         private int x;
@@ -40,29 +57,83 @@ public class CharacterCreationScreen {
     }
     
     public CharacterCreationScreen() {
-        for (int i = 0; i < 4; i++) {
-            buttons.add(new Button((i * 150) + 200, MESSAGE_Y + 200, "wow" + i));
+        try {
+            backGround = ImageIO.read(new File("images/CharacterScreen1.png"));
+        } catch (IOException e) {
+            System.out.println("Whoops! Missing images/CharacterScreen1.png");
         }
     }
     
-    public CharacterSheet[] createCharacters() {
-        return new CharacterSheet[3];
+    public void saveCharacter() {
+        //BestOfTheWest.sheets[createdCharacters] = new CharacterSheet(name, race, clss);
+        createdCharacters++;
+        name = "";
+        race = "";
+        clss = "";
+        if (createdCharacters == 3) {
+            BestOfTheWest.setMode("Town");
+        }
     }
     
     public void click(MouseEvent e) {
-        step++;
-        if (step > 4)
-            BestOfTheWest.setMode("Town");
-        for (Button b: buttons) {
-            aaa = b.click(e.getX(), e.getY());
-            if (!aaa.equals("")) {
-                break;
+        if(step == RACE_SELECTION) {
+            for (Button b: buttons) {
+                race = b.click(e.getX(), e.getY());
+                if (!race.equals("")) {
+                    setStep(CLASS_SELECTION);
+                    createChoices(CLASSES);
+                    break;
+                }
+            }
+        } else if (step == CLASS_SELECTION) {
+            for (Button b: buttons) {
+                clss = b.click(e.getX(), e.getY());
+                if (!clss.equals("")) {
+                    setStep(NAME_SELECTION);
+                    saveCharacter();
+                    break;
+                }
             }
         }
     }
     
+    private void createChoices(String[] choices) {
+        for (int i = 0; i < 4; i++) {
+            buttons.add(new Button((i * 150) + 200, MESSAGE_Y + 50, choices[i]));
+        }
+        for (int i = 4; i < 8; i++) {
+            buttons.add(new Button(((i - 4) * 150) + 200, MESSAGE_Y + 150, choices[i]));
+        }
+    }
+    
     public void type(char c) {
-        typed.add(c);
+        if (step == NAME_SELECTION) {
+            switch(c) {
+                case KeyEvent.VK_ENTER:
+                    if (typed.size() > 0) {
+                        name = listToString(typed);
+                        typed = new ArrayList<Character>();
+                        setStep(RACE_SELECTION);
+                        createChoices(RACES);
+                    }
+                    break;
+                case KeyEvent.VK_BACK_SPACE:
+                    if (typed.size() > 0) {
+                        typed.remove(typed.size()-1);
+                    }
+                    break;
+                default:
+                    if((c >= 'A' && c <= 'Z') || c == ' ') {
+                        if (typed.size() < 15)
+                            typed.add(c);
+                    }
+                    break;
+            }
+        }
+    }
+    
+    private void setStep(int nextStep) {
+        step = nextStep;
     }
     
     public String listToString(ArrayList<Character> list) {
@@ -74,22 +145,20 @@ public class CharacterCreationScreen {
     }
     
     public void render(Graphics2D g2d) {
+        g2d.drawImage(backGround, 190, 0, 576, 576, null);
+        
         g2d.setColor(Color.white);
-        g2d.fillRect(192, 0, 575, 575);
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         
-        g2d.setColor(Color.black);
-        if (!aaa.equals(""))
-            g2d.drawString("You chose " + aaa, MESSAGE_X, 200);
-        
-        g2d.drawString(listToString(typed), MESSAGE_X, 400);
         switch (step) {
-            case 1:
-                g2d.drawString("Choose a name!", MESSAGE_X, MESSAGE_Y);
+            case NAME_SELECTION:
+                g2d.drawString("Type in a name! (Hit enter to submit)", MESSAGE_X, MESSAGE_Y);
+                g2d.drawString(listToString(typed), MESSAGE_X, MESSAGE_Y + 30);
                 break;
-            case 2:
+            case RACE_SELECTION:
                 g2d.drawString("Choose a race!", MESSAGE_X, MESSAGE_Y);
                 break;
-            case 3:
+            case CLASS_SELECTION:
                 g2d.drawString("Choose a class!", MESSAGE_X, MESSAGE_Y);
                 break;
             default:
@@ -100,5 +169,11 @@ public class CharacterCreationScreen {
         for(Button b: buttons) {
             b.render(g2d);
         }
+        
+        g2d.setFont(new Font("Consolas", Font.PLAIN, 12));
+        g2d.drawString("Current Character: " + (createdCharacters + 1), LEFT_BOUND, BOTTOM_BOUND - 60);
+        g2d.drawString("Name: " + name, LEFT_BOUND + 5, BOTTOM_BOUND - 45);
+        g2d.drawString("Race: " + race, LEFT_BOUND + 5, BOTTOM_BOUND - 30);
+        g2d.drawString("Class: " + clss, LEFT_BOUND + 5, BOTTOM_BOUND - 15);
     }
 }
