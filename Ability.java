@@ -42,10 +42,7 @@ public class Ability{
     bpCost = Integer.parseInt(reader.readLine());
     
     
-    reader.close();
-    
-
-    
+    reader.close();   
   }
   
   public boolean getGood(){

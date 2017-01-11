@@ -7,11 +7,13 @@ public class SpellBook extends Item{
     //habstract fields  
     public BufferedImage img = null;  
     private String[][] spellCatalogue ={  
-        {"Black","Fireball","Iceball","Ballball","Magic Bullet","Lesser Curseball","Okay Curseball","Good Curseball"},  
+        {"Black","Fireball","Iceball","Ballball"},  
         {"White","Light Heal","Heal","Circle Heal","Good Circle Heal"},        
-        {"Green","Supar Strenth","Grasbol","Supar Strenth"},  
+        {"Green","Grasbol"},  
         //Below Spells contain special effects that need extra code to be dealt with  
-        //As such, they will be added if we have time  
+        //As such, they will be added if we have time 
+      //"Magic Bullet","Lesser Curseball","Okay Curseball","Good Curseball"
+      //"Supar Strenth"
         {"Grey","Steal Blood","Steal Soul","Haste","Raise Dead","Steal Blood","Steal Soul","Haste"},  
         {"Orange","Fan The Hammer","Lever Screw","Freak Shot","Lethal Shot","Fan The Hammer","Lever Screw","Freak Shot"}     
     };  
