@@ -28,40 +28,98 @@ public class CharacterSheet{
     public static Ability selectedAbility;
     public static CharacterSheet caster;
     public String race;
+    public String clss;
     
-    public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
-        //Births a new character from the bowels of the machine god
+    public CharacterSheet(String name, String race, String clss, int po) {
         this.name = name;
-        //set stats
-        this.mp = mp;
-        //yuo dont get a gune
-        this.bp = 0;
-        //set ability scores
-        this.str = str;
-        this.spd = spd;
-        this.spch = spch;
-        this.smrt = smrt;
-        this.hp = str*2;
-        //create the player's inventory
-        inv = new Inventory(this,192,partyOrder*74);
-        //no armr to start
-        loadImages(name);
+        this.race = race;
+        this.clss = clss;
         partyOrder = po;
+        loadImages(name);
+        inv = new Inventory(this,192,partyOrder*74);
+        for(int k = 0; k < abilities.length; k++){
+            abilities[k] = null;
+        }
+        
+        this.str = 3;
+        this.spd = 3;
+        this.spch = 3;
+        this.smrt = 3;
+        
+        switch (race) {
+            case "Human":
+                str += 1;
+                spd += 1;
+                spch += 1;
+                smrt += 1;
+                break;
+            case "Elf":
+                spd += 2;
+                str -= 2;
+                break;
+            case "Dwarf":
+                str += 2;
+                spd -= 2;
+                break;
+            case "Orc":
+                str += 2;
+                smrt -= 2;
+                break;
+            case "Lizardman":
+                smrt += 2;
+                spch -= 2;
+                break;
+            case "Halfling":
+                spch += 2;
+                smrt -= 2;
+                break;
+        }
+        
+        switch (clss) {
+            case "Cowboy":
+                spd += 1;
+                weap = new Weapon("Chicken Cooper", "Pistol");
+                break;
+            case "Desperado":
+                spd += 1;
+                weap = new Weapon("Chicken Cooper", "Pistol");
+                break;
+            case "Doctor":
+                smrt += 1;
+                abilities[0] = new Ability("Light Heal");
+                break;
+            case "Brute":
+                str += 1;
+                weap = new Weapon("Knife", "Sword");
+                break;
+            case "Wizard":
+                smrt += 1;
+                weap = new Weapon("Staff", "Staff");
+                abilities[0] = new Ability("Fireball");
+                break;
+            case "Hunter":
+                str += 1;
+                weap = new Weapon("Old Musket", "Musket");
+                break;
+        }
+        this.hp = str * 2;
+        this.mp = smrt * 2;
+        maxBP();
     }
     
-    //dumbed down creator for making unmade character sheets
+    //Unknown character
     public CharacterSheet(String name, int po){
         race = "mystery";
         this.name = name;
         partyOrder = po;
         inv = new Inventory(this,192,partyOrder*74); 
         loadImages(name);
-        this.str = 3;
-        this.spd = 3;
-        this.spch = 3;
-        this.smrt = 3;
-        this.hp = str*2;
-        this.mp = smrt*2;
+        this.str = 0;
+        this.spd = 0;
+        this.spch = 0;
+        this.smrt = 0;
+        this.hp = 0;
+        this.mp = 0;
         this.bp = 0;
         for(int k = 0; k < abilities.length; k++){
             abilities[k] = null;

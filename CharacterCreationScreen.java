@@ -20,8 +20,9 @@ public class CharacterCreationScreen {
     private static final int NAME_SELECTION = 1;
     private static final int RACE_SELECTION = 2;
     private static final int CLASS_SELECTION = 3;
-    private static final String[] RACES = {"a", "b", "c", "d", "e", "f", "g", "h"};
-    private static final String[] CLASSES = {"a", "b", "c", "d", "e", "f", "g", "h"};
+    private static final int CONFIRM = 4;
+    private static final String[] RACES = {"Human", "Elf", "Dwarf", "Orc", "Lizardman", "Halfling"};
+    private static final String[] CLASSES = {"Cowboy", "Desperado", "Doctor", "Brute", "Wizard", "Hunter"};
     
     private String name = "";
     private String race = "";
@@ -51,7 +52,7 @@ public class CharacterCreationScreen {
             g2d.setColor(Color.gray);
             g2d.fillRect(x, y, 100, 50);
             
-            g2d.setColor(Color.black);
+            g2d.setColor(Color.white);
             g2d.drawString(text, x + 5, y + 30);
         }
     }
@@ -65,8 +66,7 @@ public class CharacterCreationScreen {
     }
     
     public void saveCharacter() {
-        //BestOfTheWest.sheets[createdCharacters] = new CharacterSheet(name, race, clss);
-        createdCharacters++;
+        BestOfTheWest.sheets[createdCharacters] = new CharacterSheet(name, race, clss, createdCharacters++);
         name = "";
         race = "";
         clss = "";
@@ -80,7 +80,7 @@ public class CharacterCreationScreen {
             for (Button b: buttons) {
                 race = b.click(e.getX(), e.getY());
                 if (!race.equals("")) {
-                    setStep(CLASS_SELECTION);
+                    step = CLASS_SELECTION;
                     createChoices(CLASSES);
                     break;
                 }
@@ -89,20 +89,22 @@ public class CharacterCreationScreen {
             for (Button b: buttons) {
                 clss = b.click(e.getX(), e.getY());
                 if (!clss.equals("")) {
-                    setStep(NAME_SELECTION);
-                    saveCharacter();
+                    step = CONFIRM;
                     break;
                 }
             }
+        } else if (step == CONFIRM) {
+            step = NAME_SELECTION;
+            saveCharacter();
         }
     }
     
     private void createChoices(String[] choices) {
-        for (int i = 0; i < 4; i++) {
-            buttons.add(new Button((i * 150) + 200, MESSAGE_Y + 50, choices[i]));
+        for (int i = 0; i < 3; i++) {
+            buttons.add(new Button((i * 150) + 250, MESSAGE_Y + 50, choices[i]));
         }
-        for (int i = 4; i < 8; i++) {
-            buttons.add(new Button(((i - 4) * 150) + 200, MESSAGE_Y + 150, choices[i]));
+        for (int i = 3; i < 6; i++) {
+            buttons.add(new Button(((i - 3) * 150) + 250, MESSAGE_Y + 150, choices[i]));
         }
     }
     
@@ -113,7 +115,7 @@ public class CharacterCreationScreen {
                     if (typed.size() > 0) {
                         name = listToString(typed);
                         typed = new ArrayList<Character>();
-                        setStep(RACE_SELECTION);
+                        step = RACE_SELECTION;
                         createChoices(RACES);
                     }
                     break;
@@ -130,10 +132,6 @@ public class CharacterCreationScreen {
                     break;
             }
         }
-    }
-    
-    private void setStep(int nextStep) {
-        step = nextStep;
     }
     
     public String listToString(ArrayList<Character> list) {
@@ -160,6 +158,10 @@ public class CharacterCreationScreen {
                 break;
             case CLASS_SELECTION:
                 g2d.drawString("Choose a class!", MESSAGE_X, MESSAGE_Y);
+                break;
+            case CONFIRM:
+                g2d.drawString("You created " + name + ", the " + race + " " + clss, MESSAGE_X, MESSAGE_Y);
+                g2d.drawString("Click to continue!", MESSAGE_X, MESSAGE_Y + 15);
                 break;
             default:
                 g2d.drawString("Dunzo", MESSAGE_X, MESSAGE_Y);

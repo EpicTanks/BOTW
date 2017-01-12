@@ -8,10 +8,12 @@ public class BestOfTheWest extends JPanel implements Runnable {
     public static final MusicPlayer m = new MusicPlayer();
     public static final Console c = new Console();
     public static final CharacterSheet[] sheets = new CharacterSheet[3];
+    
+    private static TitleScreen ts = new TitleScreen();
     private static Level l = new Level(1);
     private static Town t = new Town();
     private static CharacterCreationScreen cc = new CharacterCreationScreen();
-    private static String mode = "Character Creation";
+    private static String mode = "Title";
     
     private static KeyListener k = new KeyListener() {
         @Override
@@ -51,6 +53,8 @@ public class BestOfTheWest extends JPanel implements Runnable {
                 t.click(e);
             } else if (getMode().equals("Character Creation")) {
                 cc.click(e);
+            } else if (mode.equals("Title")) {
+                mode = "Character Creation";
             }
         }
         
@@ -89,7 +93,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
         
         switch (mode) {
             case "Title":
-                //render title
+                ts.render(g2d);
                 break;
             case "Character Creation":
                 cc.render(g2d);
@@ -102,11 +106,12 @@ public class BestOfTheWest extends JPanel implements Runnable {
                 break;
         }
         
-        //always draw these
-        for (CharacterSheet c : sheets) {
+        if (!mode.equals("Title")) {
+            for (CharacterSheet c : sheets) {
+                c.paint(g2d);
+            }
             c.paint(g2d);
         }
-        c.paint(g2d);
     }
     
     public static void newLevel(int floor) {
