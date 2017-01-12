@@ -26,6 +26,7 @@ public class CharacterSheet{
     public int noOfAbils = 0;
     public static CharacterSheet selectedSheet;
     public static Ability selectedAbility;
+    public static CharacterSheet caster;
     public String race;
     
     public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
@@ -84,6 +85,7 @@ public class CharacterSheet{
     
     public void heal(int mod){      
         hp += mod;
+        BestOfTheWest.c.addMessage(name + " heals for " + mod + "!");
         if(hp > str*2){
           hp = str*2;
         }
@@ -157,11 +159,12 @@ public class CharacterSheet{
         
         if(statVis == true){
           for(int k = 0; k < abilities.length; k++){
-          if(x >= 197 && x <= 320 && y >= 7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))) && y <= ((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5)))+29){
-            if(selectedSheet == this){
+          if(x >= 197 && x <= 320 && y >= 7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))) && y <= ((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5)))+29 && abilities[k] != null){
+            if(selectedSheet == this && hp > 0){
               BestOfTheWest.c.clear();
             BestOfTheWest.c.addMessage(name + " has prepared " + abilities[k].toString() + ", press 'C' to cast.");
             selectedAbility = abilities[k];
+            caster = this;
             }
             abilities[k].statsToString();
             BestOfTheWest.c.setClear();
@@ -268,8 +271,8 @@ public class CharacterSheet{
       return mp;               
     }
     
-    public void changeMP(int mod){
-      mp -= mod;
+    public void lowerMP(int amount){
+      mp -= amount;
     }
     
     public Armour getArmour(){

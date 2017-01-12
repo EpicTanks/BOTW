@@ -76,7 +76,16 @@ public class PlayerParty extends DungeonObject {
       }
       isReady = false;
       return true;
-    } else {
+    }
+    
+    else if(isCasting){    
+     tryShoot(direction);
+     isCasting = false;
+     CharacterSheet.selectedAbility = null;
+     return true;
+    }
+    
+    else {
       switch (direction) {
         case "Up":
           nextTo = BestOfTheWest.getLevel().getThingAt(x, y - 1);
@@ -158,6 +167,7 @@ public class PlayerParty extends DungeonObject {
     
     if(CharacterSheet.selectedAbility.getGood() == true && !isCasting){
       BestOfTheWest.c.addMessage(CharacterSheet.selectedSheet.getName() + " casts a HEALING spell!");
+      CharacterSheet.caster.lowerMP(CharacterSheet.selectedAbility.getMPCost());
       if(CharacterSheet.selectedAbility.getRange() == 3){
         for(int i = 0; i <= 2; i++){
           BestOfTheWest.sheets[i].heal(-CharacterSheet.selectedAbility.getDamage());
@@ -167,7 +177,7 @@ public class PlayerParty extends DungeonObject {
         CharacterSheet.selectedSheet.heal(-CharacterSheet.selectedAbility.getDamage());
       }
       CharacterSheet.selectedAbility = null;
-      CharacterSheet.selectedSheet.changeMP(CharacterSheet.selectedAbility.getMPCost());
+      //CharacterSheet.selectedSheet.changeMP(CharacterSheet.selectedAbility.getMPCost());
       return false;
     }
     
@@ -203,7 +213,8 @@ public class PlayerParty extends DungeonObject {
       }
     }
     else{
-      CharacterSheet.selectedSheet.changeMP(CharacterSheet.selectedAbility.getMPCost());
+      //CharacterSheet.selectedSheet.changeMP(CharacterSheet.selectedAbility.getMPCost());
+      CharacterSheet.caster.lowerMP(CharacterSheet.selectedAbility.getMPCost());
       switch (direction) {
         case "Up":
           castInDirection(0, -1);
