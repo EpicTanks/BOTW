@@ -1,4 +1,4 @@
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class Level {
+    private static final Color BROWN = new Color(255, 190, 100);
+    
     private int floor;
     private String theme;
     
@@ -22,8 +24,8 @@ public class Level {
     
     private boolean playerTurn = true;
     
-    private static final int SCALE = 16;
-    private static final int OFFSET = 192;
+    private static final int SCALE = 24;
+    private static final int OFFSET = 193;
     
     public Level(int floor) {
         this.floor = floor;
@@ -205,6 +207,10 @@ public class Level {
     
     //draws the world
     public void render(Graphics2D g2d) {
+        
+        //draw the background
+        g2d.setColor(BROWN);
+        g2d.fillRect(0, 0, 800, 600);
         
         //draw the walls/floor
         for (int x = 0; x < layout.length; x++) {

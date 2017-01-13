@@ -6,7 +6,7 @@ import javax.imageio.*;
 
 public class Town {
     private BufferedImage image;
-    private static final int OFFSET = 192;
+    private static final int OFFSET = 193;
     
     public Town() {
         try {
@@ -21,6 +21,6 @@ public class Town {
     }
     
     public void render(Graphics2D g2d) {
-        g2d.drawImage(image, OFFSET, 0, null);
+        g2d.drawImage(image, OFFSET, 0, 608, 600, null);
     }
 }

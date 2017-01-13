@@ -16,13 +16,19 @@ public class CharacterCreationScreen {
     private static final int BOTTOM_BOUND = 570;
     public static ArrayList<Button> buttons = new ArrayList<Button>();
     public static ArrayList<Character> typed = new ArrayList<Character>();
+    private Point p;
     
     private static final int NAME_SELECTION = 1;
     private static final int RACE_SELECTION = 2;
     private static final int CLASS_SELECTION = 3;
     private static final int CONFIRM = 4;
     private static final String[] RACES = {"Human", "Elf", "Dwarf", "Orc", "Lizardman", "Halfling"};
+    private static final String[] RACE_DESCRIPTIONS = {"+1 to all stats", "+2 speed, -2 strength", "+2 strength, -2 speed",
+                                                       "+2 strength, -2 smarts", "+2 smarts, -2 speech", "+2 speech, -2 smarts"};
     private static final String[] CLASSES = {"Cowboy", "Desperado", "Doctor", "Brute", "Wizard", "Hunter"};
+    private static final String[] CLASS_DESCRIPTIONS = {"Gets a gun, and he's fast!!!", "Gets a gun, and he's freindly!!!", 
+                                                        "Gets no gun, but he's smart!!", "Gets an ACTAUL REAL knife. He's strong too.", 
+                                                        "Spooky smart man with staff and fireball!", "Strong with musket, hunts things !!!"};
     
     private String name = "";
     private String race = "";
@@ -32,16 +38,18 @@ public class CharacterCreationScreen {
         private int x;
         private int y;
         private String text;
+        private String desc;
         
-        public Button(int x, int y, String text) {
+        public Button(int x, int y, String text, String desc) {
             this.x = x;
             this.y = y;
             this.text = text;
+            this.desc = desc;
             buttons.add(this);
         }
         
         public String click(int a, int b) {
-            if (a > x && a < x+100 && b > y && b < y + 100) {
+            if (a > x && a < x + 100 && b > y && b < y + 100) {
                 buttons.removeAll(buttons);
                 return text;
             }
@@ -54,6 +62,11 @@ public class CharacterCreationScreen {
             
             g2d.setColor(Color.white);
             g2d.drawString(text, x + 5, y + 30);
+        }
+        
+        public void drawDesc(Graphics2D g2d, int a, int b) {
+            if (a > x && a < x + 100 && b > y && b < y + 100)
+                g2d.drawString(desc, a, b);
         }
     }
     
@@ -71,6 +84,7 @@ public class CharacterCreationScreen {
         race = "";
         clss = "";
         if (createdCharacters == 3) {
+            BestOfTheWest.m.changeTrack("Title");
             BestOfTheWest.setMode("Town");
         }
     }
@@ -81,7 +95,7 @@ public class CharacterCreationScreen {
                 race = b.click(e.getX(), e.getY());
                 if (!race.equals("")) {
                     step = CLASS_SELECTION;
-                    createChoices(CLASSES);
+                    createChoices(CLASSES, CLASS_DESCRIPTIONS);
                     break;
                 }
             }
@@ -99,12 +113,12 @@ public class CharacterCreationScreen {
         }
     }
     
-    private void createChoices(String[] choices) {
+    private void createChoices(String[] choices, String[] descs) {
         for (int i = 0; i < 3; i++) {
-            buttons.add(new Button((i * 150) + 250, MESSAGE_Y + 50, choices[i]));
+            buttons.add(new Button((i * 150) + 250, MESSAGE_Y + 50, choices[i], descs[i]));
         }
         for (int i = 3; i < 6; i++) {
-            buttons.add(new Button(((i - 3) * 150) + 250, MESSAGE_Y + 150, choices[i]));
+            buttons.add(new Button(((i - 3) * 150) + 250, MESSAGE_Y + 150, choices[i], descs[i]));
         }
     }
     
@@ -116,7 +130,7 @@ public class CharacterCreationScreen {
                         name = listToString(typed);
                         typed = new ArrayList<Character>();
                         step = RACE_SELECTION;
-                        createChoices(RACES);
+                        createChoices(RACES, RACE_DESCRIPTIONS);
                     }
                     break;
                 case KeyEvent.VK_BACK_SPACE:
@@ -143,7 +157,9 @@ public class CharacterCreationScreen {
     }
     
     public void render(Graphics2D g2d) {
-        g2d.drawImage(backGround, 190, 0, 576, 576, null);
+        p = MouseInfo.getPointerInfo().getLocation();
+        
+        g2d.drawImage(backGround, 193, 0, 608, 600, null);
         
         g2d.setColor(Color.white);
         g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -177,5 +193,9 @@ public class CharacterCreationScreen {
         g2d.drawString("Name: " + name, LEFT_BOUND + 5, BOTTOM_BOUND - 45);
         g2d.drawString("Race: " + race, LEFT_BOUND + 5, BOTTOM_BOUND - 30);
         g2d.drawString("Class: " + clss, LEFT_BOUND + 5, BOTTOM_BOUND - 15);
+        
+        for(Button b: buttons) {
+            b.drawDesc(g2d, (int) p.getX(), (int) p.getY());
+        }
     }
 }
