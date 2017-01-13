@@ -77,5 +77,21 @@ public class SpellBook extends Item{
             c.abilities[c.noOfAbils] = contents;  
             c.noOfAbils+=1;  
         }      
-    }  
+    }
+    
+    
+    public void statsToString(){
+      BestOfTheWest.c.addCloseMessage("Spell: " + name);
+        BestOfTheWest.c.addCloseMessage("");
+        if(contents.getDamage() > 0){
+        BestOfTheWest.c.addCloseMessage("Damage: " + contents.getDamage());
+        }
+        if(contents.getDamage() < 0){
+        BestOfTheWest.c.addCloseMessage("Healing: " + -contents.getDamage());
+        }
+        if(!contents.getGood()){
+          BestOfTheWest.c.addCloseMessage("Range: " + contents.getRange());
+        }
+        BestOfTheWest.c.addCloseMessage("MP Cost: " + contents.getMPCost());
+    }
 }  
