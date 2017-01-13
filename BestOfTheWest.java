@@ -54,6 +54,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
             } else if (getMode().equals("Character Creation")) {
                 cc.click(e);
             } else if (mode.equals("Title")) {
+                m.changeTrack("charCreation");
                 mode = "Character Creation";
             }
         }
@@ -130,7 +131,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
     public void run() {
         JFrame frame = new JFrame("Best Of The West");
         frame.add(this);
-        frame.setSize(1000, 800);
+        frame.setSize(816, 639); //this is stupid, but it fits the title picture
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
