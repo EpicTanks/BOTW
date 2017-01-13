@@ -67,7 +67,7 @@ public class SpellBook extends Item{
         }  
         else{  
             for(int k = 0; k < c.abilities.length; k++){  
-                if(c.abilities[k] == contents){  
+                if(c.abilities[k].toString() == name){  
                     System.out.println("You already know " + name);  
                     return;  
                 }  
