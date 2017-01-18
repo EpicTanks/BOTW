@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.image.*;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import javax.imageio.*;
 

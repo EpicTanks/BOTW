@@ -316,7 +316,18 @@ public class CharacterSheet {
 
 	public void setArmour(Armour a, int eType) {
 		if (eType == 0) {
+			//remove old bonuses
+			str -= armr.getStrMod();
+			smrt -= armr.getSmrtMod();
+			spd -= armr.getSpdMod();
+			spch -= armr.getSpchMod();
+			
+			//set armour
 			armr = a;
+			str += a.getStrMod();
+			smrt += a.getSmrtMod();
+			spd += a.getSpdMod();
+			spch += a.getSpchMod();
 		} else {
 			hat = a;
 		}

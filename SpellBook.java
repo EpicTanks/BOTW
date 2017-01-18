@@ -19,9 +19,7 @@ public class SpellBook extends Item {
 					"Freak Shot" } };
 
 	// spellbook specific fields
-	private String spell;
 	private String colour;
-	private int reqSmarts;
 	private Ability contents;
 
 	public SpellBook() {
@@ -30,9 +28,7 @@ public class SpellBook extends Item {
 		name = spellCatalogue[i][j];
 		description = "Wowee! What a classy book!";
 		price = 6;
-		spell = spellCatalogue[i][j];
 		colour = spellCatalogue[i][0];
-		reqSmarts = 5;
 		type = "Spellbook";
 		contents = new Ability(name);
 		try {

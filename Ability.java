@@ -1,5 +1,4 @@
 import java.io.*;
-import java.awt.*;
 
 public class Ability {
 	private String name;

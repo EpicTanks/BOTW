@@ -137,4 +137,20 @@ public class Armour extends Item {
 	public int getSlot() {
 		return slot;
 	}
+
+	public int getStrMod() {
+		return strMod;
+	}
+	
+	public int getSmrtMod() {
+		return smrtMod;
+	}
+	
+	public int getSpdMod() {
+		return spdMod;
+	}
+	
+	public int getSpchMod() {
+		return spchMod;
+	}
 }
