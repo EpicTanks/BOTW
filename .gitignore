@@ -238,3 +238,7 @@ pip-log.txt
 /LevelTestParameter.class
 /BestOfTheWest$1.class
 /BestOfTheWest$2.class
+/Ability.class
+/CharacterCreationScreen$Button.class
+/CharacterCreationScreen.class
+/TitleScreen.class
