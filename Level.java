@@ -32,27 +32,14 @@ public class Level {
 		Random r = new Random();
 		String difficulty;
 
-		switch (floor) {
-		case 1:
-		case 2:
-		case 3:
+		if (floor < 4) {
 			difficulty = "easy";
-			break;
-		case 4:
-		case 5:
-		case 6:
+		} else if (floor < 7) {
 			difficulty = "average";
-			break;
-		case 7:
-		case 8:
-		case 9:
+		} else if (floor < 10) {
 			difficulty = "hard";
-			break;
-		case 10:
+		} else {
 			difficulty = "hell";
-			break;
-		default:
-			difficulty = "easy";
 		}
 
 		if (difficulty.equals("easy")) {

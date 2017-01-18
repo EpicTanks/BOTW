@@ -28,7 +28,7 @@ public class Level {
     public Level(int floor) {
         this.floor = floor;
         Random r = new Random();
-        String difficulty;
+        //String difficulty;
         
         if (floor < 4) {
         	difficulty = "easy";
