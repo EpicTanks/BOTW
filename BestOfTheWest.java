@@ -74,9 +74,9 @@ public class BestOfTheWest extends JPanel implements Runnable {
 	};
 
 	public BestOfTheWest() {
-		sheets[0] = new CharacterSheet("Bob", 0);
-		sheets[1] = new CharacterSheet("Bill", 1);
-		sheets[2] = new CharacterSheet("Jim", 2);
+		for (int i = 0; i < 3; i++) {
+			sheets[i] = new CharacterSheet(i);
+		}
 		CharacterSheet.selectedSheet = sheets[0];
 		t = new Town();
 

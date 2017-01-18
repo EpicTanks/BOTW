@@ -108,9 +108,9 @@ public class CharacterSheet {
 	}
 
 	// Unknown character
-	public CharacterSheet(String name, int po) {
+	public CharacterSheet(int po) {
 		race = "mystery";
-		this.name = name;
+		name = "";
 		partyOrder = po;
 		inv = new Inventory(this, 192, partyOrder * 74);
 		loadImages(name);
@@ -233,18 +233,20 @@ public class CharacterSheet {
 	}
 
 	public void statsToString() {
-		BestOfTheWest.c.clear(name + ", The Adventurer");
-		BestOfTheWest.c.addCloseMessage("Strength: " + str);
-		BestOfTheWest.c.addCloseMessage("Speed: " + spd);
-		BestOfTheWest.c.addCloseMessage("Smarts: " + smrt);
-		BestOfTheWest.c.addCloseMessage("Speech: " + spch);
-		BestOfTheWest.c.addCloseMessage("");
-		weap.statsToString();
-		BestOfTheWest.c.addCloseMessage("");
-		armr.statsToString();
-		BestOfTheWest.c.addCloseMessage("");
-		hat.statsToString();
-		BestOfTheWest.c.setClear();
+		if (name != "") {
+			BestOfTheWest.c.clear(name + ", the " + race + " " + clss);
+			BestOfTheWest.c.addCloseMessage("Strength: " + str);
+			BestOfTheWest.c.addCloseMessage("Speed: " + spd);
+			BestOfTheWest.c.addCloseMessage("Smarts: " + smrt);
+			BestOfTheWest.c.addCloseMessage("Speech: " + spch);
+			BestOfTheWest.c.addCloseMessage("");
+			weap.statsToString();
+			BestOfTheWest.c.addCloseMessage("");
+			armr.statsToString();
+			BestOfTheWest.c.addCloseMessage("");
+			hat.statsToString();
+			BestOfTheWest.c.setClear();
+		}
 	}
 
 	public void paint(Graphics2D g2d) {

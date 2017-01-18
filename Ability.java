@@ -3,13 +3,11 @@ import java.awt.*;
 
 public class Ability {
 	private String name;
-	private int hpMod;
 	private int dmg = 2;
 	private int range = 3;
 	private int spdMod;
 	private int strMod;
 	private int mpCost = 1;
-	private int bpCost = 0;
 
 	public Ability(String s) {
 		name = s;
@@ -36,7 +34,6 @@ public class Ability {
 		spdMod = Integer.parseInt(reader.readLine());
 		strMod = Integer.parseInt(reader.readLine());
 		mpCost = Integer.parseInt(reader.readLine());
-		bpCost = Integer.parseInt(reader.readLine());
 
 		reader.close();
 	}
