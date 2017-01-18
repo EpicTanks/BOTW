@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class Level {
-    private static final Color BROWN = new Color(255, 190, 100);
+    private static final Color BROWN = new Color(124, 84, 53);
     
     private int floor;
     private String theme;
@@ -24,7 +24,7 @@ public class Level {
     
     private boolean playerTurn = true;
     
-    private static final int SCALE = 24;
+    private static final int SCALE = 16;
     private static final int OFFSET = 193;
     
     public Level(int floor) {

@@ -66,10 +66,12 @@ public class SpellBook extends Item{
             System.out.println("You can't learn any more abilities!");  
         }  
         else{  
-            for(int k = 0; k < c.abilities.length; k++){  
-                if(c.abilities[k] == contents){  
+            for(int k = 0; k < c.abilities.length; k++){
+              if(c.abilities[k]!=null){
+                if(c.abilities[k].toString() == name){  
                     System.out.println("You already know " + name);  
                     return;  
+                }
                 }  
             }  
             System.out.println("You learned " + name);  
@@ -77,5 +79,21 @@ public class SpellBook extends Item{
             c.abilities[c.noOfAbils] = contents;  
             c.noOfAbils+=1;  
         }      
-    }  
+    }
+    
+    
+    public void statsToString(){
+      BestOfTheWest.c.addCloseMessage("Spell: " + name);
+        BestOfTheWest.c.addCloseMessage("");
+        if(contents.getDamage() > 0){
+        BestOfTheWest.c.addCloseMessage("Damage: " + contents.getDamage());
+        }
+        if(contents.getDamage() < 0){
+        BestOfTheWest.c.addCloseMessage("Healing: " + -contents.getDamage());
+        }
+        if(!contents.getGood()){
+          BestOfTheWest.c.addCloseMessage("Range: " + contents.getRange());
+        }
+        BestOfTheWest.c.addCloseMessage("MP Cost: " + contents.getMPCost());
+    }
 }  

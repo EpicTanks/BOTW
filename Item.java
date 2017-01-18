@@ -17,6 +17,8 @@ public abstract class Item {
         return name; 
     }
     
+    public abstract void statsToString();
+    
     public static Item getItem() {
         switch((int) (Math.random() * 3) + 1) {
             case 1:
