@@ -1,0 +1,11 @@
+import java.awt.*;
+
+public class CharacterCreationScreen {
+    public CharacterSheet[] createCharacters() {
+        return new CharacterSheet[3];
+    }
+    
+    public void render(Graphics2D g2d) {
+        
+    }
+}

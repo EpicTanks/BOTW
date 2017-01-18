@@ -1,0 +1,9 @@
+dmg
+range
+spdMod
+strMod
+mpCost
+bpCost
+
+//Range on good spells is the number of party members it affects
+//A good spell has 0 Damage, and a positive value in either spdMod or strMod

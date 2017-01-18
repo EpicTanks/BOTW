@@ -19,51 +19,110 @@ public class CharacterSheet{
     public BufferedImage portrait = null;
     public BufferedImage bg = null;
     public BufferedImage abilBG = null;
-    public String[] abilities = new String[5];
+    public Ability[] abilities = new Ability[5];
     private boolean invVis;
     private boolean statVis;
     public Weapon weap = new Weapon("Fists","Fist");
     public int noOfAbils = 0;
     public static CharacterSheet selectedSheet;
+    public static Ability selectedAbility;
+    public static CharacterSheet caster;
     public String race;
+    public String clss;
     
-    public CharacterSheet(String name, int mp, int str, int spd, int smrt, int spch, int po, String ab1, String ab2){
-        //Births a new character from the bowels of the machine god
+    public CharacterSheet(String name, String race, String clss, int po) {
         this.name = name;
-        //set stats
-        this.mp = mp;
-        //yuo dont get a gune
-        this.bp = 0;
-        //set ability scores
-        this.str = str;
-        this.spd = spd;
-        this.spch = spch;
-        this.smrt = smrt;
-        this.hp = str*2;
-        //create the player's inventory
+        this.race = race;
+        this.clss = clss;
+        partyOrder = po;
+        loadImages(name);
         inv = new Inventory(this,192,partyOrder*74);
-        //no armr to start
-        loadImages(name);
-        partyOrder = po;
-    }
-    
-    //dumbed down creator
-    public CharacterSheet(String name, int po){
-        String[] races = {"Human","Elf","Orc","Halfling","Dwarf","Lizardman"};
-        race = races[(int) (Math.random()*6)];
-        this.name = name;
-        partyOrder = po;
-        inv = new Inventory(this,192,partyOrder*74); 
-        loadImages(name);
+        for(int k = 0; k < abilities.length; k++){
+            abilities[k] = null;
+        }
+        
         this.str = 3;
         this.spd = 3;
         this.spch = 3;
         this.smrt = 3;
-        this.hp = str*2;
-        this.mp = smrt*2;
+        
+        switch (race) {
+            case "Human":
+                str += 1;
+                spd += 1;
+                spch += 1;
+                smrt += 1;
+                break;
+            case "Elf":
+                spd += 2;
+                str -= 2;
+                break;
+            case "Dwarf":
+                str += 2;
+                spd -= 2;
+                break;
+            case "Orc":
+                str += 2;
+                smrt -= 2;
+                break;
+            case "Lizardman":
+                smrt += 2;
+                spch -= 2;
+                break;
+            case "Halfling":
+                spch += 2;
+                smrt -= 2;
+                break;
+        }
+        
+        switch (clss) {
+            case "Cowboy":
+                spd += 1;
+                weap = new Weapon("Chicken Cooper", "Pistol");
+                break;
+            case "Desperado":
+                spch += 1;
+                weap = new Weapon("Chicken Cooper", "Pistol");
+                break;
+            case "Doctor":
+                smrt += 1;
+                abilities[0] = new Ability("Light Heal");
+                break;
+            case "Brute":
+                str += 1;
+                weap = new Weapon("Knife", "Sword");
+                break;
+            case "Wizard":
+                smrt += 1;
+                weap = new Weapon("Staff", "Staff");
+                abilities[0] = new Ability("Fireball");
+                break;
+            case "Hunter":
+                str += 1;
+                weap = new Weapon("Old Musket", "Musket");
+                break;
+        }
+        this.hp = str * 2;
+        this.mp = smrt * 2;
+        maxBP();
+    }
+    
+    //Unknown character
+    public CharacterSheet(String name, int po){
+        race = "mystery";
+        this.name = name;
+        partyOrder = po;
+        inv = new Inventory(this,192,partyOrder*74); 
+        loadImages(name);
+        this.str = 0;
+        this.spd = 0;
+        this.spch = 0;
+        this.smrt = 0;
+        this.hp = 0;
+        this.mp = 0;
         this.bp = 0;
         for(int k = 0; k < abilities.length; k++){
-            abilities[k] = ("");
+            abilities[k] = null;
         }
     }
     
@@ -82,8 +141,12 @@ public class CharacterSheet{
         return weap;
     }
     
-    public void changeHP(int mod){
+    public void heal(int mod){      
         hp += mod;
+        BestOfTheWest.c.addMessage(name + " heals for " + mod + "!");
+        if(hp > str*2){
+          hp = str*2;
+        }
     }
     
     public int shoot(){
@@ -113,7 +176,7 @@ public class CharacterSheet{
     }
     
     public void click(int x, int y){
-        //System.out.println("x,y: " + x + "," + y);
+      //BestOfTheWest.c.addMessage("x,y: " + x + "," + y);
         // System.out.println("top(y must b lesr): " + ( (partyOrder*75)+5) + ". bottom(y must be bigr):" + ((partyOrder*75)+40));
         
         if(x > 75 && x < 105 &&  (y < (partyOrder*75)+5  || y > (partyOrder*75)+70)){
@@ -152,7 +215,21 @@ public class CharacterSheet{
             inv.click(x,y); 
         }
         
-        
+        if(statVis == true){
+          for(int k = 0; k < abilities.length; k++){
+          if(x >= 197 && x <= 320 && y >= 7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))) && y <= ((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5)))+29 && abilities[k] != null){
+            if(selectedSheet == this && hp > 0){
+              BestOfTheWest.c.clear();
+            BestOfTheWest.c.addMessage(name + " has prepared " + abilities[k].toString() + ", press 'C' to cast.");
+            selectedAbility = abilities[k];
+            caster = this;
+            }
+            abilities[k].statsToString();
+            BestOfTheWest.c.setClear();
+          }
+          }
+        }
+     
     }
     
     
@@ -193,26 +270,22 @@ public class CharacterSheet{
             g2d.drawImage(abilBG, 192, partyOrder*74,null);
             g2d.setFont(new Font("Consolas",Font.PLAIN,15));
             g2d.setColor(Color.white);
+            
             for(int k = 0; k < abilities.length; k++){
-                g2d.drawString(abilities[k], 200, ((partyOrder*74)+20)+((25*k))+(k*2));
+              //g2d.drawRect(197,7+((partyOrder*70)+(partyOrder*5)+((k*22)+(k*5))),320-192,22);
+              if(abilities[k] == null){
+                
+              }
+              else{
+                g2d.drawString(abilities[k].toString(), 200, ((partyOrder*74)+20)+((25*k))+(k*2));
+              }
             }
         }
         
     }
     
     
-    public void useAbility(String a){
-        for(int k = 0; k < abilities.length; k++){
-            //ensure teh player has this ability
-            if (abilities[k] == a){
-                //get it ON 
-            }
-            else{
-                // newnewne 
-            }      
-        }    
-    }
-    
+   
     
     public void collect(Item i, int s1, int s2){
         inv.add(i,s1,s2); 
@@ -252,6 +325,13 @@ public class CharacterSheet{
         }
     }
     
+    public int getMP(){
+      return mp;               
+    }
+    
+    public void lowerMP(int amount){
+      mp -= amount;
+    }
     
     public Armour getArmour(){
         return armr; 
@@ -282,7 +362,7 @@ public class CharacterSheet{
     public String getName() {
         return name;
     }
-    
+        
     public boolean isLoaded() {
         return bp > 0;
     }

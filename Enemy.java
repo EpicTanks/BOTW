@@ -124,7 +124,7 @@ public class Enemy extends DungeonObject {
     }
     
     private void moveToward(PlayerParty p) {
-        if(speed > 0 && name != "grayooze") {
+        if(speed > 0 && name != "Gray Ooze") {
             int ul = shortestPath(SIGHT_RANGE, x, y - 1);
             int dl = shortestPath(SIGHT_RANGE, x, y + 1);
             int ll = shortestPath(SIGHT_RANGE, x - 1, y);

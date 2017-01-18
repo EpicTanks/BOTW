@@ -4,23 +4,18 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import javax.imageio.*;
 
-public class Town {
+class TitleScreen {
     private BufferedImage image;
-    private static final int OFFSET = 193;
     
-    public Town() {
+    public TitleScreen() {
         try {
-            image = ImageIO.read(new File("images/townmenu.png"));
+            image = ImageIO.read(new File("images/title.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
     
-    public void click(MouseEvent e) {
-        BestOfTheWest.c.addMessage("Click!");
-    }
-    
     public void render(Graphics2D g2d) {
-        g2d.drawImage(image, OFFSET, 0, 608, 600, null);
+        g2d.drawImage(image, 0, 0, null);
     }
 }
