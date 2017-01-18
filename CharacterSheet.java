@@ -81,7 +81,7 @@ public class CharacterSheet{
                 weap = new Weapon("Chicken Cooper", "Pistol");
                 break;
             case "Desperado":
-                spd += 1;
+                spch += 1;
                 weap = new Weapon("Chicken Cooper", "Pistol");
                 break;
             case "Doctor":
