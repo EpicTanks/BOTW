@@ -30,24 +30,14 @@ public class Level {
 	public Level(int floor) {
 		this.floor = floor;
 		Random r = new Random();
-		String difficulty;
+		//String difficulty;
 
 		if (floor < 4) {
-			difficulty = "easy";
-		} else if (floor < 7) {
-			difficulty = "average";
-		} else if (floor < 10) {
-			difficulty = "hard";
-		} else {
-			difficulty = "hell";
-		}
-
-		if (difficulty.equals("easy")) {
 			switch (r.nextInt(1)) {
 			default:
 				theme = "ruins";
 			}
-		} else if (difficulty.equals("average")) {
+		} else if (floor < 7) {
 			switch (r.nextInt(2)) {
 			case 1:
 				theme = "canyon";
@@ -58,13 +48,14 @@ public class Level {
 			default:
 				theme = "ruins";
 			}
-		} else if (difficulty.equals("hard")) {
+		} else if (floor < 10) {
 			switch (r.nextInt(1)) {
 			default:
 				theme = "ruins";
 			}
 		} else {
 			theme = "dragonhell";
+			genLevel();
 		}
 
 		// try to load the images based on the theme
@@ -77,15 +68,6 @@ public class Level {
 			stairDown = ImageIO.read(new File("images/tiles/Stairs.png"));
 		} catch (IOException e) {
 			System.out.println("Whoops! Missing an image in art/tiles/" + theme + "/");
-		}
-		if (!difficulty.equals("hell")) {
-			genLevel();
-		} else {
-			try {
-				loadLevel("gamedata/rooms/boss.txt");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 
 		// create enemies and treasure boxes
