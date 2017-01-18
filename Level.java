@@ -6,15 +6,23 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class Level {
-	private static final Color BROWN = new Color(124, 84, 53);
-
+	
+	//Constants
+	private static final Color EDGE_COLOUR = new Color(124, 84, 53);
+	private static final int SCALE = 16;
+	private static final int OFFSET = 193;
+	
+	//General info
 	private int floor;
 	private String theme;
-
+	
+	//Level Contents
 	private char[][] layout = new char[36][36];
 	private ArrayList<DungeonObject> objectList = new ArrayList<DungeonObject>();
 	private PlayerParty player;
-
+	private boolean playerTurn = true;
+	
+	//Images
 	private BufferedImage floorImage = null;
 	private BufferedImage wallImage = null;
 	private BufferedImage wall2Image = null;
@@ -22,41 +30,47 @@ public class Level {
 	private BufferedImage stairUp = null;
 	private BufferedImage stairDown = null;
 
-	private boolean playerTurn = true;
-
-	private static final int SCALE = 16;
-	private static final int OFFSET = 193;
-
+	//Constructor
 	public Level(int floor) {
 		this.floor = floor;
 		Random r = new Random();
 		//String difficulty;
 
 		if (floor < 4) {
-			switch (r.nextInt(1)) {
-			default:
+			switch (r.nextInt(2)) { //50% bandit, 50% ruins
+			case 1:
 				theme = "ruins";
+				break;
+			case 2:
+				theme = "bandit";
+				break;
 			}
 		} else if (floor < 7) {
-			switch (r.nextInt(2)) {
+			switch (r.nextInt(4)) { //50% mines, 25% canyon, 25% ruins
 			case 1:
 				theme = "canyon";
 				break;
 			case 2:
+			case 3:
 				theme = "mines";
 				break;
-			default:
+			case 4:
 				theme = "ruins";
+				break;
 			}
 		} else if (floor < 10) {
-			switch (r.nextInt(1)) {
-			default:
-				theme = "ruins";
+			switch (r.nextInt(2)) { //50% haunted, 50% canyon
+			case 1:
+				theme = "haunted";
+				break;
+			case 2:
+				theme = "canyon";
+				break;
 			}
 		} else {
 			theme = "dragonhell";
-			genLevel();
 		}
+		genLevel();
 
 		// try to load the images based on the theme
 		try {
@@ -179,7 +193,7 @@ public class Level {
 	public void render(Graphics2D g2d) {
 
 		// draw the background
-		g2d.setColor(BROWN);
+		g2d.setColor(EDGE_COLOUR);
 		g2d.fillRect(0, 0, 800, 600);
 
 		// draw the walls/floor
