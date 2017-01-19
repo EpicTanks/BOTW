@@ -12,7 +12,7 @@ public class Weapon extends Item{
         {"Axe","Axe","Battleaxe"},
         {"Staff","Staff","Ritual Staff"},
         {"Sword","Sword","War Sabre","Shank","Knife"},
-        {"Special","B.B. Boy","Rail-Spike","Club", "Arclight","The Good Boy Gun","Flamethrower"}
+        {"Special","B.B. Boy","Rail-Spike","Club", "Arclight","Flamethrower"}
     }; 
     
     
@@ -21,7 +21,7 @@ public class Weapon extends Item{
     private int dmghi = 1;
     private int clip = 1;
     private int range = 1;
-    private int price = 1;
+    //private int price = 1;
     
     public Weapon(){
         type = "Weapon";
@@ -31,6 +31,7 @@ public class Weapon extends Item{
         name = weaponCatalogue[i][j];
         description = "Yeehaw! What a VERY WELL MADE weaponry device!";
         wType = weaponCatalogue[i][0];
+        price = (j+3)*4;
         
 //Code stolen direct from jake
         try {
@@ -88,7 +89,8 @@ public class Weapon extends Item{
         dmghi = Integer.parseInt(reader.readLine());
         clip = Integer.parseInt(reader.readLine());
         range = Integer.parseInt(reader.readLine());
-        price = Integer.parseInt(reader.readLine());
+        //price = Integer.parseInt(reader.readLine());
+   
         
         if(clip == 0){
             isRanged = false; 

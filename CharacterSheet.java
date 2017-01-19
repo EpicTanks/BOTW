@@ -88,6 +88,7 @@ public class CharacterSheet{
       case "Doctor":
         smrt += 1;
         abilities[0] = new Ability("Light Heal");
+        noOfAbils++;
         break;
       case "Brute":
         str += 1;
@@ -97,6 +98,7 @@ public class CharacterSheet{
         smrt += 1;
         weap = new Weapon("Staff", "Staff");
         abilities[0] = new Ability("Fireball");
+        noOfAbils++;
         break;
       case "Hunter":
         str += 1;
@@ -146,8 +148,8 @@ public class CharacterSheet{
   public void heal(int mod){      
     hp += mod;
     
-    if(hp > str*2){
-      hp = str*2;
+    if(hp > str*5){
+      hp = str*5;
       BestOfTheWest.c.addMessage(name + " heals all their wounds!");
     }
     else
@@ -282,9 +284,9 @@ public class CharacterSheet{
     
     g2d.drawImage(bg, 0, partyOrder*74,null);
     if(isAlive()) {
-    	g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
+     g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
     } else {
-    	g2d.drawImage(dead, 5, (partyOrder*74)+5, 64, 64, null);
+     g2d.drawImage(dead, 5, (partyOrder*74)+5, 64, 64, null);
     }
     if(selectedSheet == this){
       g2d.setColor(Color.yellow);
@@ -351,23 +353,23 @@ public class CharacterSheet{
   }  
   
   public void setArmour(Armour a, int eType) {
-		if (eType == 0) {
-			//remove old bonuses
-			str -= armr.getStrMod();
-			smrt -= armr.getSmrtMod();
-			spd -= armr.getSpdMod();
-			spch -= armr.getSpchMod();
-			
-			//set armour
-			armr = a;
-			str += a.getStrMod();
-			smrt += a.getSmrtMod();
-			spd += a.getSpdMod();
-			spch += a.getSpchMod();
-		} else {
-			hat = a;
-		}
-	}
+  if (eType == 0) {
+   //remove old bonuses
+   str -= armr.getStrMod();
+   smrt -= armr.getSmrtMod();
+   spd -= armr.getSpdMod();
+   spch -= armr.getSpchMod();
+   
+   //set armour
+   armr = a;
+   str += a.getStrMod();
+   smrt += a.getSmrtMod();
+   spd += a.getSpdMod();
+   spch += a.getSpchMod();
+  } else {
+   hat = a;
+  }
+ }
   
   public int getMP(){
     return mp;               
@@ -415,7 +417,7 @@ public class CharacterSheet{
     return bp > 0;
   }
 
-  	public int getSpd() {
-		return spd;
-	}
+   public int getSpd() {
+  return spd;
+ }
 }
