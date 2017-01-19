@@ -3,9 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class BestOfTheWest extends JPanel implements Runnable {
-	private static final long serialVersionUID = 1L; // eclipse says we need
-														// this
-
+	private static final long serialVersionUID = 1L; // eclipse says we need this
 	public static final MusicPlayer m = new MusicPlayer();
 	public static final Console c = new Console();
 	public static final CharacterSheet[] sheets = new CharacterSheet[3];
@@ -15,6 +13,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
 	private static Town t = new Town();
 	private static CharacterCreationScreen cc = new CharacterCreationScreen();
 	private static String mode = "Title";
+	public static int partyMoney = 0;
 
 	private static KeyListener k = new KeyListener() {
 		@Override

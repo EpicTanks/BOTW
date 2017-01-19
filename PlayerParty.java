@@ -38,10 +38,8 @@ public class PlayerParty extends DungeonObject {
 		case 39:
 			return action("Right"); // move right with right arrow
 		case 46:
-			return BestOfTheWest.getLevel().useStairs(x, y); // use stairs with
-																// .
+			return BestOfTheWest.getLevel().useStairs(x, y); // use stairs with .
 		case 67:
-
 			if (CharacterSheet.selectedAbility != null) {
 				if (CharacterSheet.selectedAbility.getMPCost() > CharacterSheet.selectedSheet.getMP()) {
 					BestOfTheWest.c.addMessage("You've not enough mana!");
@@ -283,7 +281,6 @@ public class PlayerParty extends DungeonObject {
 		} else {
 			d = getFirstAlive().rollDamage();
 		}
-		BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
 		e.takeDamage(d);
 	}
 

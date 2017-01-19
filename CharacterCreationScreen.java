@@ -80,13 +80,15 @@ public class CharacterCreationScreen {
 	}
 
 	public void saveCharacter() {
-		BestOfTheWest.sheets[createdCharacters] = new CharacterSheet(name, race, clss, createdCharacters++);
+		BestOfTheWest.sheets[createdCharacters] = new CharacterSheet(name, race, clss, createdCharacters);
+		CharacterSheet.selectedSheet = BestOfTheWest.sheets[createdCharacters++];
 		name = "";
 		race = "";
 		clss = "";
 		if (createdCharacters == 3) {
 			BestOfTheWest.m.changeTrack("Title");
 			BestOfTheWest.setMode("Town");
+			CharacterSheet.selectedSheet = BestOfTheWest.sheets[0];
 		}
 	}
 
