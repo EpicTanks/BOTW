@@ -9,13 +9,12 @@ public class Enemy extends DungeonObject {
 	private String name = "";
 	static String temp = "";
 	private static final String[][] possibleNames = {
-			{ "bandit", "Rat", "Ranger Rat", "Giant Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit",
-					"Giblo" },
-			{ "haunted", "Rat", "Ranger Rat", "Giant Rat", "Ghostly Bandit" },
+			{ "bandit", "Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit"},
+			{ "haunted", "Rat", "Ranger Rat", "Giant Rat", "Ghostly Bandit", "Giblo"},
 			{ "mines", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Cave Ogre", "Kobold", "Gray Ooze" },
 			{ "canyon", "Rat", "Ranger Rat", "Giant Rat", "Dwarf Bandit", "Gray Ooze", "Wild Bear", "Ruin Raider",
 					"Ratssassin" },
-			{ "ruins", "Rat", "Ranger Rat", "Giant Rat", "Kobold", "Wild Bear", "Hedgehog", "Giant Hedgehog",
+			{ "ruins", "Ranger Rat", "Giant Rat", "Kobold", "Wild Bear", "Hedgehog", "Giant Hedgehog",
 					"Ruin Raider", "Elder Elf" },
 			{ "dragonhell", "Rat", "Ranger Rat", "Giant Rat", "Dragon God" },
 			{ "nega", "Rat", "Ranger Rat", "Giant Rat", "Super Bandit" } };
@@ -31,7 +30,7 @@ public class Enemy extends DungeonObject {
 
 	// Constructor
 	public Enemy(int x, int y, Level l, String theme) {
-		super(x, y, "images/sprites/enemies/" + (temp = findName(theme)) + ".png");
+		super(x, y, "images/sprites/enemies/" + (temp = findName(theme, l.getFloor())) + ".png");
 		name = temp;
 		try {
 			setData();
@@ -42,11 +41,11 @@ public class Enemy extends DungeonObject {
 	}
 
 	// Returns a name based on the provided theme.
-	public static String findName(String theme) {
+	public static String findName(String theme, int floor) {
 		Random r = new Random();
 		for (int i = 0; i < possibleNames.length; i++) {
 			if (possibleNames[i][0].equals(theme)) {
-				return possibleNames[i][r.nextInt(possibleNames.length-1)+1];
+				return possibleNames[i][r.nextInt(Math.min(possibleNames[i].length-1, floor + 2))+1];
 			}
 		}
 		return "error";
@@ -166,7 +165,7 @@ public class Enemy extends DungeonObject {
 
 	// move in a random direction (idling)
 	private void moveAtRandom() {
-		if (speed > 0 && name != "grayooze") {
+		if (speed > 0 && name != "Gray Ooze") {
 			int r = (int) (Math.random() * 4) + 1;
 
 			switch (r) {

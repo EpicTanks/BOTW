@@ -70,6 +70,7 @@ public class Level {
 		} else {
 			theme = "dragonhell";
 		}
+		System.out.println(theme);
 		genLevel();
 
 		// try to load the images based on the theme
