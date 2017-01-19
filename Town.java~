@@ -5,22 +5,108 @@ import java.io.*;
 import javax.imageio.*;
 
 public class Town {
-    private BufferedImage image;
-    private static final int OFFSET = 192;
-    
-    public Town() {
-        try {
-            image = ImageIO.read(new File("images/townmenu.png"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+  private BufferedImage image;
+  private BufferedImage poster;
+  private BufferedImage sleep;
+  private BufferedImage learn;
+  private BufferedImage shopBoxes;
+  private static final int OFFSET = 192;
+  private static int posterx=(OFFSET+300);
+  private static int postery=320;
+  private static int sleepx=(OFFSET+45);
+  private static int sleepy=440;
+  private static int learny=60;
+  private static int shopx=(OFFSET+10);
+  private static int shopy=60;
+  private Item a,b;
+  
+  public Town() {
+    try {
+      image = ImageIO.read(new File("images/townmenu.png"));
+      poster= ImageIO.read(new File("images/WantedPoster.png"));
+      sleep = ImageIO.read(new File("images/SleepButton.png"));
+      learn = ImageIO.read(new File("images/LearningEmporium.png"));
+      shopBoxes=ImageIO.read(new File("images/ShopBoxes.png"));
+    } catch(IOException e) {
+      e.printStackTrace();
     }
-    
-    public void click(MouseEvent e) {
-    	BestOfTheWest.c.addMessage("Click!");
+  }
+  
+  public void click(MouseEvent e) {
+    int x=e.getX();
+    int y=e.getY();
+    if (((x>posterx)&&(x<posterx+260))&&((y>postery)&&(y<postery+260)))
+    {
+      BestOfTheWest.setMode("Dungeon");
+      BestOfTheWest.c.addMessage("You take the wanted poster and make way to the dungeon");
+      BestOfTheWest.m.changeTrack("Travel");
     }
-    
-    public void render(Graphics2D g2d) {
-        g2d.drawImage(image, OFFSET, 0, null);
+    else if (((x>sleepx)&&(x<sleepx+210))&&((y>sleepy)&&(y<sleepy+75)))
+    {
+      BestOfTheWest.c.addMessage("Your party rests at the inn, cleansing the body and mind.");
+      BestOfTheWest.sheets[0].heal(1000);
+      BestOfTheWest.sheets[1].heal(1000);
+      BestOfTheWest.sheets[2].heal(1000);
+      BestOfTheWest.sheets[0].restoreMP();
+      BestOfTheWest.sheets[1].restoreMP();
+      BestOfTheWest.sheets[2].restoreMP();
     }
+    else if(((x>posterx)&&(x<posterx+116))&&((y>learny)&&(y<learny+83)))//Prices are augmented by half of the speech stat of character who is learning
+      
+    {
+      if (BestOfTheWest.partyMoney>50/(CharacterSheet.selectedSheet.getSpch()*.5)){
+        BestOfTheWest.partyMoney-=50/(CharacterSheet.selectedSheet.getSpch()*.5);
+        CharacterSheet.selectedSheet.augmentStat("a");
+        BestOfTheWest.c.addMessage(CharacterSheet.selectedSheet.getName()+ " took a course in Combat Training!");
+      }
+      else
+        BestOfTheWest.c.addMessage("You dont have enough Money");
+      
+    }
+    else if(((x>posterx+121)&&(x<posterx+237))&&((y>learny)&&(y<learny+83)))
+    {
+      if (BestOfTheWest.partyMoney>50/(CharacterSheet.selectedSheet.getSpch()*.5)){
+        BestOfTheWest.partyMoney-=50/(CharacterSheet.selectedSheet.getSpch()*.5);
+        CharacterSheet.selectedSheet.augmentStat("b");
+        BestOfTheWest.c.addMessage(CharacterSheet.selectedSheet.getName()+ " learned Proper Running Technique!");
+      }
+      else
+        BestOfTheWest.c.addMessage("You dont have enough Money");
+    }
+    else if(((x>posterx)&&(x<posterx+116))&&((y>learny+88)&&(y<learny+171)))
+    {
+      if (BestOfTheWest.partyMoney>50/(CharacterSheet.selectedSheet.getSpch()*.5)){
+        BestOfTheWest.partyMoney-=50/(CharacterSheet.selectedSheet.getSpch()*.5);
+        CharacterSheet.selectedSheet.augmentStat("c");
+        BestOfTheWest.c.addMessage(CharacterSheet.selectedSheet.getName()+ " read a book. ON THEIR OWN!");
+      }
+      else
+        BestOfTheWest.c.addMessage("You dont have enough Money");
+    }
+    else if(((x>posterx+121)&&(x<posterx+237))&&((y>learny)&&(y<learny+83)))
+    {
+      if (BestOfTheWest.partyMoney>50/(CharacterSheet.selectedSheet.getSpch()*.5))
+      {
+        BestOfTheWest.partyMoney-=50/(CharacterSheet.selectedSheet.getSpch()*.5);
+        CharacterSheet.selectedSheet.augmentStat("d");
+        BestOfTheWest.c.addMessage(CharacterSheet.selectedSheet.getName()+ " gave a speech in the mirror!");
+      }
+      else
+        BestOfTheWest.c.addMessage("You dont have enough Money");
+    }
+    else
+      BestOfTheWest.c.addMessage("Clicked Nothing");
+  }
+  public void chooseitems(){
+    a=a.getItem();
+    b=b.getItem();
+  }
+  
+  public void render(Graphics2D g2d) {
+    g2d.drawImage(image, OFFSET, 0, null);
+    g2d.drawImage(poster, posterx, postery, null);
+    g2d.drawImage(sleep, sleepx, sleepy, null);
+    g2d.drawImage(learn, posterx, learny, null);
+    g2d.drawImage(shopBoxes,shopx,shopy,null);
+  }
 }

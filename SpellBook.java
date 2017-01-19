@@ -5,7 +5,6 @@ import java.awt.image.*;
 
 public class SpellBook extends Item{  
     //habstract fields  
-    public BufferedImage img = null;  
     private String[][] spellCatalogue ={  
         {"Black","Fireball","Iceball","Ballball"},  
         {"White","Light Heal","Heal","Circle Heal","Good Circle Heal"},        
