@@ -141,20 +141,14 @@ public class PlayerParty extends DungeonObject {
   
   //Tries to pick up a treasure. Returns false if there is no room in the whole party.
   private boolean takeTreasure(TreasureBox t) {
-    if(t.contents() != null) {
-        if (BestOfTheWest.sheets[0].collect(t.contents())) {
-          return true;
-        } else if (BestOfTheWest.sheets[1].collect(t.contents())) {
-          return true;
-        } else if (BestOfTheWest.sheets[2].collect(t.contents())) {
-          return true;
-        }
-        return false;
-      } else {
-        BestOfTheWest.partyMoney += t.getMoney();
-        BestOfTheWest.c.addMessage("The Party found "+t.getMoney()+" Dollar(s).");
-        return true;
-      }
+    if (BestOfTheWest.sheets[0].collect(t.contents())) {
+      return true;
+    } else if (BestOfTheWest.sheets[1].collect(t.contents())) {
+      return true;
+    } else if (BestOfTheWest.sheets[2].collect(t.contents())) {
+      return true;
+    }
+    return false;
   }
   
   private boolean changeReadiness() {

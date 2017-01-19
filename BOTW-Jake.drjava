@@ -1,75 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<drjava version="drjava-20140826-r5761">
+<drjava version="drjava-20160913-225446">
   <project autorefresh="false" main="BestOfTheWest" root="" work="">
     <createjar file=""/>
     <source>
-      <file active="true" name="BestOfTheWest.java" package="" timestamp="21-Dec-2016 11:07:35">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file active="true" name="Town.java" package="" timestamp="18-Jan-2017 20:48:49">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Inventory.java" package="" timestamp="21-Dec-2016 09:53:01">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="BestOfTheWest.java" package="" timestamp="17-Jan-2017 20:57:44">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="DungeonObject.java" package="" timestamp="21-Dec-2016 09:53:01">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Inventory.java" package="" timestamp="17-Jan-2017 20:31:48">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="RandomLevel.java" package="" timestamp="21-Dec-2016 09:53:02">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="DungeonObject.java" package="" timestamp="17-Jan-2017 20:31:48">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="TreasureBox.java" package="" timestamp="21-Dec-2016 09:53:03">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="RandomLevel.java" package="" timestamp="17-Jan-2017 20:31:49">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="CharacterSheet.java" package="" timestamp="21-Dec-2016 09:53:00">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="TreasureBox.java" package="" timestamp="17-Jan-2017 20:31:55">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Console.java" package="" timestamp="21-Dec-2016 09:53:00">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="CharacterSheet.java" package="" timestamp="17-Jan-2017 20:57:10">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Item.java" package="" timestamp="21-Dec-2016 09:53:01">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Console.java" package="" timestamp="17-Jan-2017 20:31:48">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="MusicPlayer.java" package="" timestamp="21-Dec-2016 09:52:37">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="MusicPlayer.java" package="" timestamp="17-Jan-2017 21:13:08">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="PlayerParty.java" package="" timestamp="21-Dec-2016 09:53:02">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="PlayerParty.java" package="" timestamp="17-Jan-2017 20:31:49">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="SpellBook.java" package="" timestamp="21-Dec-2016 09:53:02">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Enemy.java" package="" timestamp="17-Jan-2017 20:31:48">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Town.java" package="" timestamp="21-Dec-2016 09:53:02">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="CharacterCreationScreen.java" package="" timestamp="17-Jan-2017 20:31:47">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Weapon.java" package="" timestamp="21-Dec-2016 09:53:03">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="TitleScreen.java" package="" timestamp="17-Jan-2017 20:31:52">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Armour.java" package="" timestamp="21-Dec-2016 09:53:00">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Ability.java" package="" timestamp="17-Jan-2017 20:31:47">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Enemy.java" package="" timestamp="21-Dec-2016 09:53:01">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Level.java" package="" timestamp="17-Jan-2017 21:03:16">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="Level.java" package="" timestamp="21-Dec-2016 09:53:01">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="Armour.java" package="" timestamp="18-Jan-2017 10:48:50">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
-      <file name="CharacterCreationScreen.java" package="" timestamp="21-Dec-2016 11:06:37">
-        <select from="1371" to="1371"/>
-        <scroll column="565" row="0"/>
+      <file name="SpellBook.java" package="" timestamp="18-Jan-2017 10:50:14">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
+      </file>
+      <file name="Weapon.java" package="" timestamp="18-Jan-2017 10:50:14">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
+      </file>
+      <file name="Item.java" package="" timestamp="18-Jan-2017 20:36:10">
+        <select from="4797" to="4797"/>
+        <scroll column="1857" row="0"/>
       </file>
     </source>
     <included/>

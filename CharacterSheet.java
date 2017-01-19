@@ -177,6 +177,25 @@ public class CharacterSheet{
     
   }
   
+  public void augmentStat(String a)
+  {
+    switch(a)
+    {
+    case "a":
+      this.str++;
+      break;
+    case "b":
+      this.spd++;
+      break;
+      case "c":
+      this.smrt++;
+      break;
+      case "d":
+      this.spch++;
+      break;
+    }
+  }
+  
   public void maxBP(){
     bp = weap.getClip(); 
   }
@@ -364,6 +383,10 @@ public class CharacterSheet{
     if(hp < 0) {
       hp = 0;
     }
+  }
+  public int getSpch()
+  {
+    return spch;
   }
   
   public String getName() {

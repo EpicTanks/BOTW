@@ -14,7 +14,7 @@ public class MusicPlayer extends Thread {
         try {
             as = new AudioStream(new FileInputStream(q + ".wav"));
         } catch (Exception e) {
-            System.out.println("Music Man is messing up!");
+            System.out.println("errors");
         }
         AudioPlayer.player.start(as);
         try {

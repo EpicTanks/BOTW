@@ -7,6 +7,7 @@ import java.awt.image.*;
 public class Armour extends Item{
     
     //fields
+    public BufferedImage img = null;
     private String equipType;
     private int protection = 3;
     private int strMod;
@@ -45,8 +46,7 @@ public class Armour extends Item{
                 img = ImageIO.read(new File("images/items/armour/" + equipType + ".png")); 
             }
         }
-        catch(IOException e){ 
-            System.out.println("HECK YOU ARMOR IMAGE");
+        catch(IOException e){     
         }
         
         if(i <= 4){

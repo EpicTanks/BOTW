@@ -24,7 +24,7 @@ public class Level {
     
     private boolean playerTurn = true;
     
-    private static final int SCALE = 24;
+    private static final int SCALE = 16;
     private static final int OFFSET = 193;
     
     public Level(int floor) {
