@@ -141,8 +141,11 @@ public class CharacterCreationScreen {
 				break;
 			default:
 				if ((c >= 'A' && c <= 'Z') || c == ' ') {
-					if (typed.size() < 15)
+					if (typed.size() == 0) {
 						typed.add(c);
+					} else if (typed.size() < 8) {
+						typed.add(Character.toLowerCase(c));
+					}
 				}
 				break;
 			}

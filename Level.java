@@ -38,32 +38,32 @@ public class Level {
 
 		if (floor < 4) {
 			switch (r.nextInt(2)) { //50% bandit, 50% ruins
-			case 1:
+			case 0:
 				theme = "ruins";
 				break;
-			case 2:
+			case 1:
 				theme = "bandit";
 				break;
 			}
 		} else if (floor < 7) {
 			switch (r.nextInt(4)) { //50% mines, 25% canyon, 25% ruins
-			case 1:
+			case 0:
 				theme = "canyon";
 				break;
+			case 1:
 			case 2:
-			case 3:
 				theme = "mines";
 				break;
-			case 4:
+			case 3:
 				theme = "ruins";
 				break;
 			}
 		} else if (floor < 10) {
 			switch (r.nextInt(2)) { //50% haunted, 50% canyon
-			case 1:
+			case 0:
 				theme = "haunted";
 				break;
-			case 2:
+			case 1:
 				theme = "canyon";
 				break;
 			}

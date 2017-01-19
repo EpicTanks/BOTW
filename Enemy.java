@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Random;
 
 public class Enemy extends DungeonObject {
 	// constants
@@ -42,9 +43,10 @@ public class Enemy extends DungeonObject {
 
 	// Returns a name based on the provided theme.
 	public static String findName(String theme) {
+		Random r = new Random();
 		for (int i = 0; i < possibleNames.length; i++) {
 			if (possibleNames[i][0].equals(theme)) {
-				return possibleNames[i][(int) (Math.random() * possibleNames[i].length - 1) + 1];
+				return possibleNames[i][r.nextInt(possibleNames.length-1)+1];
 			}
 		}
 		return "error";
