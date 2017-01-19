@@ -289,11 +289,15 @@ public class PlayerParty extends DungeonObject {
 		} else {
 			d = getFirstAlive().rollDamage();
 		}
+<<<<<<< HEAD
 		if (r.nextInt(100) > Math.min(50 + (3 * getFirstAlive().getSpd()), 95)) {
 			BestOfTheWest.c.addMessage("The attack barely missed!");
 		} else {
 			e.takeDamage(d);
 		}
+=======
+		e.takeDamage(d);
+>>>>>>> origin/master
 	}
 
 	// deals damage to the first party member that is alive

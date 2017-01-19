@@ -36,7 +36,11 @@ public class Town {
     public void click(MouseEvent e) {
         int x=e.getX();
         int y=e.getY();
+<<<<<<< HEAD
         int speechChange=Math.max((CharacterSheet.selectedSheet.getSpch()/2), 1);
+=======
+        int speechChange=(CharacterSheet.selectedSheet.getSpch()/2);
+>>>>>>> origin/master
         if (((x>posterx)&&(x<posterx+260))&&((y>postery)&&(y<postery+260)))
         {
             BestOfTheWest.setMode("Dungeon");
@@ -64,7 +68,11 @@ public class Town {
                 
             }
             else
+<<<<<<< HEAD
             	BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + 50/speechChange);
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+>>>>>>> origin/master
             
         }
         else if(((x>posterx+121)&&(x<posterx+237))&&((y>learny)&&(y<learny+83)))
@@ -77,7 +85,11 @@ public class Town {
                 
             }
             else
+<<<<<<< HEAD
             	BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + 50/speechChange);
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+>>>>>>> origin/master
         }
         else if(((x>posterx)&&(x<posterx+116))&&((y>learny+88)&&(y<learny+171)))
         {
@@ -88,7 +100,11 @@ public class Town {
                 BestOfTheWest.c.addMessage("The Party Paid $"+ 50/speechChange);
             }
             else
+<<<<<<< HEAD
             	BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + 50/speechChange);
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+>>>>>>> origin/master
         }
         else if(((x>posterx+121)&&(x<posterx+237))&&((y>learny+88)&&(y<learny+171)))
         {
@@ -101,7 +117,11 @@ public class Town {
                 
             }
             else
+<<<<<<< HEAD
                 BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + 50/speechChange);
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+>>>>>>> origin/master
         }
         else if(((x>shopx+3)&&(x<shopx+67))&&((y>shopy+2)&&(y<shopy+66)))
         {
@@ -125,7 +145,11 @@ public class Town {
                 chooseItems();
             }
             else
+<<<<<<< HEAD
                 BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + a.getPrice()/speechChange);
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+>>>>>>> origin/master
         }
         else if(((x>shopx+156)&&(x<shopx+242))&&((y>shopy+106)&&(y<shopy+139)))
         {
@@ -140,8 +164,15 @@ public class Town {
                 chooseItems();
             }
             else
+<<<<<<< HEAD
                 BestOfTheWest.c.addMessage("You dont have enough Money. You need $" + b.getPrice()/speechChange);
         }
+=======
+                BestOfTheWest.c.addMessage("You dont have enough Money");
+        }
+        else
+            BestOfTheWest.c.addMessage("Clicked Nothing");
+>>>>>>> origin/master
     }
     public void chooseItems(){
         a=Item.getItem();

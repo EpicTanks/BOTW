@@ -19,7 +19,10 @@ public class CharacterSheet{
   public BufferedImage portrait = null;
   public BufferedImage bg = null;
   public BufferedImage abilBG = null;
+<<<<<<< HEAD
   public BufferedImage dead = null;
+=======
+>>>>>>> origin/master
   public Ability[] abilities = new Ability[5];
   private boolean invVis;
   private boolean statVis;
@@ -103,7 +106,11 @@ public class CharacterSheet{
         weap = new Weapon("Old Musket", "Musket");
         break;
     }
+<<<<<<< HEAD
     this.hp = str * 5;
+=======
+    this.hp = str * 2;
+>>>>>>> origin/master
     this.mp = smrt * 2;
     maxBP();
   }
@@ -132,7 +139,10 @@ public class CharacterSheet{
       portrait = ImageIO.read(new File("images/portraits/colour"+((int)(Math.random()*2)+1)+"/" + race + "_male.png")); 
       bg = ImageIO.read(new File("images/cSheet.png"));
       abilBG = ImageIO.read(new File("images/cMenu.png"));
+<<<<<<< HEAD
       dead = ImageIO.read(new File("images/portraits/death.png"));
+=======
+>>>>>>> origin/master
     }
     catch(IOException e){     
     } 
@@ -261,7 +271,11 @@ public class CharacterSheet{
   
   
   public void statsToString(){
+<<<<<<< HEAD
     BestOfTheWest.c.clear(name + ", " + race + " " + clss);
+=======
+    BestOfTheWest.c.clear(name + ", The Adventurer");
+>>>>>>> origin/master
     BestOfTheWest.c.addCloseMessage("Strength: " + str);
     BestOfTheWest.c.addCloseMessage("Speed: " + spd);
     BestOfTheWest.c.addCloseMessage("Smarts: " + smrt);
@@ -279,11 +293,15 @@ public class CharacterSheet{
   public void paint(Graphics2D g2d){
     
     g2d.drawImage(bg, 0, partyOrder*74,null);
+<<<<<<< HEAD
     if(isAlive()) {
     	g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
     } else {
     	g2d.drawImage(dead, 5, (partyOrder*74)+5, 64, 64, null);
     }
+=======
+    g2d.drawImage(portrait, 5, (partyOrder*74)+5, 64, 64, null);
+>>>>>>> origin/master
     if(selectedSheet == this){
       g2d.setColor(Color.yellow);
       g2d.drawRect(5,(partyOrder*74)+5,64,64);
@@ -412,8 +430,11 @@ public class CharacterSheet{
   public boolean isLoaded() {
     return bp > 0;
   }
+<<<<<<< HEAD
 
   	public int getSpd() {
 		return spd;
 	}
+=======
+>>>>>>> origin/master
 }

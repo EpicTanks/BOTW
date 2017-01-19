@@ -78,6 +78,11 @@ public class Level {
 				System.out.println("Missing boss.txt");
 			}
 		}
+<<<<<<< HEAD
+=======
+		System.out.println(theme);
+		genLevel();
+>>>>>>> origin/master
 
 		// try to load the images based on the theme
 		try {
