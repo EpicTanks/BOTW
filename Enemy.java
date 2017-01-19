@@ -106,6 +106,7 @@ public class Enemy extends DungeonObject {
 	// the level.
 	public void takeDamage(int damage) {
 		hp -= damage;
+		BestOfTheWest.c.addMessage("The " + name + " took " + damage + " damage!");
 		if (hp <= 0) {
 			BestOfTheWest.getLevel().removeObject(this);
 			BestOfTheWest.c.addMessage("The " + name + " was slain.");
