@@ -5,6 +5,7 @@ import java.io.*;
 import javax.imageio.*;
 
 public class Town {
+<<<<<<< HEAD
     private BufferedImage image;
     private BufferedImage poster;
     private BufferedImage sleep;
@@ -162,4 +163,24 @@ public class Town {
         g2d.drawString((a.getName()+" $"+a.getPrice()),shopx+78,shopy+20);
         g2d.drawString((b.getName()+" $"+b.getPrice()),shopx+78,shopy+90);
     }
+=======
+	private BufferedImage image;
+	private static final int OFFSET = 193;
+
+	public Town() {
+		try {
+			image = ImageIO.read(new File("images/townmenu.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void click(MouseEvent e) {
+		BestOfTheWest.c.addMessage("Click!");
+	}
+
+	public void render(Graphics2D g2d) {
+		g2d.drawImage(image, OFFSET, 0, 608, 600, null);
+	}
+>>>>>>> origin/master
 }
