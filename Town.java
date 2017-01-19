@@ -113,6 +113,7 @@ public class Town {
         }
         else if(((x>shopx+156)&&(x<shopx+242))&&((y>shopy+33)&&(y<shopy+66)))
         {
+        	System.out.println(speechChange);
             if((a.getPrice()/speechChange)<BestOfTheWest.partyMoney)
             {
                 BestOfTheWest.partyMoney-=(a.getPrice()/speechChange);

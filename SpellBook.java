@@ -1,11 +1,9 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import java.awt.image.*;
 
 public class SpellBook extends Item {
 	// habstract fields
-	public BufferedImage img = null;
 	private String[][] spellCatalogue = { { "Black", "Fireball", "Iceball", "Ballball" },
 			{ "White", "Light Heal", "Heal", "Circle Heal", "Good Circle Heal" }, { "Green", "Grasbol" },
 			// Below Spells contain special effects that need extra code to be

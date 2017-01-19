@@ -1,12 +1,10 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import java.awt.image.*;
 
 public class Armour extends Item {
 
 	// fields
-	public BufferedImage img = null;
 	private String equipType;
 	private int protection = 3;
 	private int strMod;

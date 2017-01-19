@@ -1,7 +1,6 @@
 import javax.imageio.*;
 import java.io.*;
 import java.awt.*;
-import java.awt.image.*;
 
 public class Weapon extends Item{
     private String wType;
