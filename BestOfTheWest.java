@@ -15,11 +15,7 @@ public class BestOfTheWest extends JPanel implements Runnable {
 	private static Town t = new Town();
 	private static CharacterCreationScreen cc = new CharacterCreationScreen();
 	private static String mode = "Title";
-<<<<<<< HEAD
 	public static int partyMoney = 20;
-=======
-	public static int partyMoney = 0;
->>>>>>> origin/master
 
 	private static KeyListener k = new KeyListener() {
 		@Override
