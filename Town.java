@@ -3,7 +3,7 @@ import java.awt.image.*;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import javax.imageio.*;
-
+//a
 public class Town {
     private BufferedImage image;
     private BufferedImage poster;
