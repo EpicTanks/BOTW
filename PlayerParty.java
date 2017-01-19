@@ -3,6 +3,7 @@ import java.awt.image.*;
 import java.awt.*;
 import javax.imageio.*;
 import java.io.*;
+import java.util.Random;
 
 public class PlayerParty extends DungeonObject {
 	private boolean isReady = false;
@@ -140,12 +141,18 @@ public class PlayerParty extends DungeonObject {
 	// Tries to pick up a treasure. Returns false if there is no room in the
 	// whole party.
 	private boolean takeTreasure(TreasureBox t) {
-		if (BestOfTheWest.sheets[0].collect(t.contents())) {
+		if (t.getMoney() > 0) {
+			BestOfTheWest.partyMoney += t.getMoney();
+			BestOfTheWest.c.addMessage("You got $" + t.getMoney() + "!");
 			return true;
-		} else if (BestOfTheWest.sheets[1].collect(t.contents())) {
-			return true;
-		} else if (BestOfTheWest.sheets[2].collect(t.contents())) {
-			return true;
+		} else {
+			if (BestOfTheWest.sheets[0].collect(t.contents())) {
+				return true;
+			} else if (BestOfTheWest.sheets[1].collect(t.contents())) {
+				return true;
+			} else if (BestOfTheWest.sheets[2].collect(t.contents())) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -275,13 +282,18 @@ public class PlayerParty extends DungeonObject {
 
 	// deals damage to an enemy and prints out a message
 	private void attack(Enemy e, boolean ranged) {
+		Random r = new Random();
 		int d;
 		if (ranged) {
 			d = getFirstAlive().shoot();
 		} else {
 			d = getFirstAlive().rollDamage();
 		}
-		e.takeDamage(d);
+		if (r.nextInt(100) > Math.min(50 + (3 * getFirstAlive().getSpd()), 95)) {
+			BestOfTheWest.c.addMessage("The attack barely missed!");
+		} else {
+			e.takeDamage(d);
+		}
 	}
 
 	// deals damage to the first party member that is alive
@@ -298,16 +310,13 @@ public class PlayerParty extends DungeonObject {
 			return BestOfTheWest.sheets[2];
 		} else {
 			BestOfTheWest.c.addMessage("You heckin lose!");
-			stall();
-			return null;
+			endGame();
+			return BestOfTheWest.sheets[0];
 		}
 	}
 
-	// just puts the program into an infinite loop until we make an actual game
-	// over screen
-	public void stall() {
-		while (true)
-			;
+	public void endGame() {
+		BestOfTheWest.setMode("Game Over");
 	}
 
 	@Override

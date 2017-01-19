@@ -6,7 +6,7 @@ public class Enemy extends DungeonObject {
 	private static final int SIGHT_RANGE = 8;
 
 	// naming variables
-	private String name = "";
+	protected String name = "";
 	static String temp = "";
 	private static final String[][] possibleNames = {
 			{ "bandit", "Rat", "Bandit", "Kool Bandit", "Ghostly Bandit", "Dwarf Bandit"},
@@ -16,12 +16,12 @@ public class Enemy extends DungeonObject {
 					"Ratssassin" },
 			{ "ruins", "Ranger Rat", "Giant Rat", "Kobold", "Wild Bear", "Hedgehog", "Giant Hedgehog",
 					"Ruin Raider", "Elder Elf" },
-			{ "dragonhell", "Rat", "Ranger Rat", "Giant Rat", "Dragon God" },
+			{ "dragonhell", "Rat", "Ranger Rat", "Giant Rat"},
 			{ "nega", "Rat", "Ranger Rat", "Giant Rat", "Super Bandit" } };
 
 	// Stats (default is 1 for everything)
 	private int maxhp = 1;
-	private int hp = 1;
+	protected int hp = 1;
 	private int strength = 1;
 	private int speed = 1;
 
@@ -52,7 +52,7 @@ public class Enemy extends DungeonObject {
 	}
 
 	// Sets this enemies stats and loads its picture.
-	private void setData() throws IOException {
+	protected void setData() throws IOException {
 
 		// load file
 		BufferedReader reader = null;
@@ -67,7 +67,7 @@ public class Enemy extends DungeonObject {
 		// set stats
 		strength = Integer.parseInt(reader.readLine());
 		speed = Integer.parseInt(reader.readLine());
-		maxhp = strength * 2;
+		maxhp = strength * 5;
 		hp = maxhp;
 
 		// set ranged status
@@ -118,12 +118,17 @@ public class Enemy extends DungeonObject {
 	}
 
 	private void attack(PlayerParty p) {
+		Random r = new Random();
 		if (isRanged > 0) {
-			BestOfTheWest.c.addMessage("The " + name + " shot you!");
+			BestOfTheWest.c.addCloseMessage("The " + name + " shot you!");
 		} else {
-			BestOfTheWest.c.addMessage("The " + name + " punched ya!");
+			BestOfTheWest.c.addCloseMessage("The " + name + " punched ya!");
 		}
-		p.takeDamage(strength);
+		if (r.nextInt(100) < Math.max(80 - (3 * p.getFirstAlive().getSpd()), 5)) {
+			p.takeDamage(strength);
+		} else {
+			BestOfTheWest.c.addMessage("The attack barely missed!");
+		}
 	}
 
 	private void moveToward(PlayerParty p) {

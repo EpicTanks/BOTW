@@ -14,7 +14,7 @@ public abstract class DungeonObject {
 		setImage(imgPath);
 	}
 
-	public void setImage(String path) {
+	protected void setImage(String path) {
 		try {
 			sprite = ImageIO.read(new File(path));
 		} catch (IOException e) {

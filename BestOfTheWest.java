@@ -9,11 +9,13 @@ public class BestOfTheWest extends JPanel implements Runnable {
 	public static final CharacterSheet[] sheets = new CharacterSheet[3];
 
 	private static TitleScreen ts = new TitleScreen();
+	private static CreditScreen cs = new CreditScreen();
+	private static GameOverScreen gos = new GameOverScreen();
 	private static Level l = new Level(1);
 	private static Town t = new Town();
 	private static CharacterCreationScreen cc = new CharacterCreationScreen();
 	private static String mode = "Title";
-	public static int partyMoney = 0;
+	public static int partyMoney = 20;
 
 	private static KeyListener k = new KeyListener() {
 		@Override
@@ -104,6 +106,12 @@ public class BestOfTheWest extends JPanel implements Runnable {
 			break;
 		case "Dungeon":
 			l.render(g2d);
+			break;
+		case "Game Over":
+			gos.render(g2d);
+			break;
+		case "Credits":
+			cs.render(g2d);
 			break;
 		}
 

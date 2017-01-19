@@ -62,9 +62,9 @@ class RandomLevel {
 		if (floor < 2) {
 			numberOfEnemies = 8;
 		} else {
-			numberOfEnemies = 8 + (int) Math.round((floor - 1) * (1.8 + (floor / 10.0)));
+			numberOfEnemies = 8 + (int) Math.round((floor - 1) * 1.8);
 		}
-		numberOfTreasures = (int) Math.round(numberOfEnemies * 1.7);
+		numberOfTreasures = (int) Math.round(numberOfEnemies * 0.8);
 
 		for (int i = 0; i < numberOfEnemies; i++) {
 			int room = r.nextInt(9);

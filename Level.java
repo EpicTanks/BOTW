@@ -45,6 +45,7 @@ public class Level {
 				theme = "bandit";
 				break;
 			}
+			genLevel();
 		} else if (floor < 7) {
 			switch (r.nextInt(4)) { //50% mines, 25% canyon, 25% ruins
 			case 0:
@@ -58,6 +59,7 @@ public class Level {
 				theme = "ruins";
 				break;
 			}
+			genLevel();
 		} else if (floor < 10) {
 			switch (r.nextInt(2)) { //50% haunted, 50% canyon
 			case 0:
@@ -67,11 +69,15 @@ public class Level {
 				theme = "canyon";
 				break;
 			}
+			genLevel();
 		} else {
 			theme = "dragonhell";
+			try {
+				loadLevel("boss.txt");
+			} catch (IOException e) {
+				System.out.println("Missing boss.txt");
+			}
 		}
-		System.out.println(theme);
-		genLevel();
 
 		// try to load the images based on the theme
 		try {
@@ -97,6 +103,9 @@ public class Level {
 					objectList.add(new TreasureBox(x, y, this)); // create a
 																	// treasure
 					layout[y][x] = '.'; // place a floor under the treasure
+				}
+				if (layout[y][x] == 'b') {
+					objectList.add(new Boss(x, y, this));
 				}
 			}
 		}
