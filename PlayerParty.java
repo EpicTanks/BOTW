@@ -48,7 +48,6 @@ public class PlayerParty extends DungeonObject {
 					return changeCasting();
 				}
 			} else {
-
 				return false;
 			}
 		case 82:
@@ -281,7 +280,6 @@ public class PlayerParty extends DungeonObject {
 		} else {
 			d = getFirstAlive().rollDamage();
 		}
-		BestOfTheWest.c.addMessage("Dealt " + d + " damage to the " + e.getName() + ".");
 		e.takeDamage(d);
 	}
 
